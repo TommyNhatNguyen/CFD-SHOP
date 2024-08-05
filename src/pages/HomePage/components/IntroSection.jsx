@@ -1,9 +1,13 @@
-import { Empty } from "antd";
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { owlCarousels } from "../../../utils/owlCarousels";
 import PATHS from "../../../constants/paths";
+import { Link } from "react-router-dom";
 import Button from "../../../components/Button";
-const IntroSection = ({ category, loading }) => {
+
+const IntroSection = ({ introProducts }) => {
+  useEffect(() => {
+    owlCarousels();
+  }, []);
   return (
     <div className="intro-section pt-3 pb-3 mb-2">
       <div className="container">
@@ -43,7 +47,7 @@ const IntroSection = ({ category, loading }) => {
                         $247 <sup>.99</sup>
                       </span>
                     </div>
-                    <Button link={PATHS.PRODUCT.DETAIL} variant="round">
+                    <Button variant="round" link={PATHS.PRODUCT.INDEX}>
                       <span>Click Here</span>
                       <i className="icon-long-arrow-right" />
                     </Button>
@@ -52,7 +56,7 @@ const IntroSection = ({ category, loading }) => {
                 <div className="intro-slide">
                   <figure className="slide-image">
                     <img
-                      src="assets/images/demos/demo-3/slider/slide-2.jpg"
+                      src="/assets/images/demos/demo-3/slider/slide-2.jpg"
                       alt="Image Desc"
                     />
                   </figure>
@@ -70,7 +74,7 @@ const IntroSection = ({ category, loading }) => {
                         $29 <sup>.99</sup>
                       </span>
                     </div>
-                    <Button link={PATHS.PRODUCT.DETAIL} variant="round">
+                    <Button variant="round" link={PATHS.PRODUCT.INDEX}>
                       <span>Click Here</span>
                       <i className="icon-long-arrow-right" />
                     </Button>
@@ -82,49 +86,36 @@ const IntroSection = ({ category, loading }) => {
           </div>
           <div className="col-lg-4">
             <div className="intro-banners">
-              {!loading && category?.length === 0 ? (
-                <Empty description="Images not found" />
-              ) : (
-                category?.map((item, index) => {
-                  return (
-                    <div
-                      key={item?.id || index}
-                      className={`banner ${
-                        index === category?.length - 1
-                          ? "mb-0"
-                          : "mb-lg-1 mb-xl-2"
-                      }`}
-                    >
-                      <Link
-                        to={PATHS.PRODUCT.INDEX}
-                        state={{ category: item?.category || "" }}
-                      >
-                        <img src={item?.image || ""} alt="Banner" />
+              {introProducts?.map((product, index) => {
+                const { images, name, slug } = product;
+                const productPath = PATHS.PRODUCT.INDEX + `/${slug || ""}`;
+                return (
+                  <div
+                    key={product?.id || index}
+                    className="banner mb-lg-1 mb-xl-2"
+                  >
+                    <Link to={productPath}>
+                      <img
+                        src={images?.[0] || ""}
+                        alt="Banner"
+                        style={{
+                          height: 119,
+                          objectFit: "contain",
+                          objectPosition: "center right",
+                        }}
+                      />
+                    </Link>
+                    <div className="banner-content">
+                      <h3 className="banner-title" style={{ maxWidth: 180 }}>
+                        <Link to={productPath}>{name || ""}</Link>
+                      </h3>
+                      <Link to={productPath} className="banner-link">
+                        Shop Now <i className="icon-long-arrow-right" />
                       </Link>
-                      <div className="banner-content">
-                        <h3
-                          className="banner-title"
-                          style={{ maxWidth: "180px" }}
-                        >
-                          <Link
-                            to={PATHS.PRODUCT.INDEX}
-                            state={{ category: item?.category || "" }}
-                          >
-                            {item?.name || ""}
-                          </Link>
-                        </h3>
-                        <Link
-                          to={PATHS.PRODUCT.INDEX}
-                          state={{ category: item?.category || "" }}
-                          className="banner-link"
-                        >
-                          Shop Now <i className="icon-long-arrow-right" />
-                        </Link>
-                      </div>
                     </div>
-                  );
-                })
-              )}
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>

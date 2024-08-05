@@ -60,11 +60,7 @@ const Modal = () => {
                           active: modal === MODAL.login,
                         })}
                         id="signin-tab"
-                        // data-toggle="tab"
                         href="#signin"
-                        // role="tab"
-                        // aria-controls="signin"
-                        // aria-selected="true"
                         data-modal={MODAL.login}
                         onClick={_onHandleShowModal}
                       >
@@ -77,11 +73,7 @@ const Modal = () => {
                           active: modal === MODAL.register,
                         })}
                         id="register-tab"
-                        // data-toggle="tab"
                         href="#register"
-                        // role="tab"
-                        // aria-controls="register"
-                        // aria-selected="false"
                         data-modal={MODAL.register}
                         onClick={_onHandleShowModal}
                       >

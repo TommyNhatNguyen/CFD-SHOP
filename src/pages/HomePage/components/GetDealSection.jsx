@@ -1,6 +1,19 @@
 import React from "react";
+import { useForm } from "react-hook-form";
+import { MESSAGE } from "../../../constants/message";
+import { REGEX } from "../../../utils/regex";
+import { message } from "antd";
 
-const SubscribeSection = () => {
+const GetDealSection = ({ handleSubscribeDeal }) => {
+  const {
+    reset,
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ email: "" });
+  const _onHandleSubscribeDeal = (value) => {
+    handleSubscribeDeal?.(value, reset);
+  };
   return (
     <div className="container">
       <div
@@ -70,14 +83,19 @@ const SubscribeSection = () => {
                   receive <span className="text-primary">$20 coupon</span> for
                   first shopping
                 </p>
-                <form action="#">
+                <form onSubmit={handleSubmit(_onHandleSubscribeDeal)}>
                   <div className="input-group">
                     <input
                       type="email"
                       className="form-control"
                       placeholder="Enter your Email Address"
-                      aria-label="Email Adress"
-                      required
+                      {...register("email", {
+                        required: MESSAGE.required,
+                        pattern: {
+                          value: REGEX.email,
+                          message: MESSAGE.email,
+                        },
+                      })}
                     />
                     <div className="input-group-append">
                       <button
@@ -89,8 +107,8 @@ const SubscribeSection = () => {
                     </div>
                   </div>
                 </form>
-                <p className="form-error text-left">
-                  Please fill in this field
+                <p className="form-error text-left" style={{ minHeight: 23 }}>
+                  {errors?.email?.message || ""}
                 </p>
               </div>
             </div>
@@ -101,4 +119,4 @@ const SubscribeSection = () => {
   );
 };
 
-export default SubscribeSection;
+export default GetDealSection;

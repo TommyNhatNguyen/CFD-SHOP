@@ -1,3 +1,3 @@
-export const TOKEN = {
+export const STORAGE = {
   token: "token",
 };

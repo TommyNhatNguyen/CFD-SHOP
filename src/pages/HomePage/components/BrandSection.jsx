@@ -1,12 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { owlCarousels } from "../../../utils/owlCarousels";
 
 const BrandSection = ({ brands }) => {
+  useEffect(() => {
+    owlCarousels;
+  }, [brands]);
   return (
     <div className="container">
-      <div
-        className="owl-carousel mt-5 mb-5 owl-simple"
-        data-toggle="owl"
-        data-owl-options='{
+      {brands?.length > 0 && (
+        <div
+          className="owl-carousel mt-5 mb-5 owl-simple"
+          data-toggle="owl"
+          data-owl-options='{
                                                   "nav": false, 
                                                   "dots": false,
                                                   "margin": 30,
@@ -29,16 +34,16 @@ const BrandSection = ({ brands }) => {
                                                       }
                                                   }
                                               }'
-      >
-        {brands?.length > 0 &&
-          brands?.map((item, index) => {
+        >
+          {brands?.map((brand, index) => {
             return (
-              <a key={item?.id || index} href="#" className="brand">
-                <img src={item} alt="Brand Name" />
+              <a key={brand || index} href="#" className="brand">
+                <img src={brand || ""} alt="Brand Name" />
               </a>
             );
           })}
-      </div>
+        </div>
+      )}
     </div>
   );
 };

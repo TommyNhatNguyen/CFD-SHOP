@@ -1,7 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { authService } from "../services/authService";
 import { tokenMethod } from "../utils/tokenMethod";
-import { TOKEN } from "../constants/token";
 import { message } from "antd";
 
 const AuthContext = createContext({});

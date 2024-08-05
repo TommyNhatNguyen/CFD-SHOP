@@ -1,46 +1,17 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import PATHS from "../../../constants/paths";
+import { formatCurrency } from "../../../utils/format";
 import ProductItem from "../../../components/ProductItem";
 import Button from "../../../components/Button";
+import moment from "moment";
+import CountDown from "../../../components/CountDown";
 
-const DealSection = ({ dealsProduct }) => {
-  useEffect(() => {
-    if ($.fn.countdown) {
-      $(".deal-countdown").each(function () {
-        var $this = $(this),
-          untilDate = $this.data("until"),
-          compact = $this.data("compact");
-
-        $this.countdown({
-          until: untilDate, // this is relative date +10h +5m vs..
-          format: "HMS",
-          padZeroes: true,
-          labels: [
-            "years",
-            "months",
-            "weeks",
-            "days",
-            "hours",
-            "minutes",
-            "seconds",
-          ],
-          labels1: [
-            "year",
-            "month",
-            "week",
-            "day",
-            "hour",
-            "minutes",
-            "second",
-          ],
-        });
-      });
-
-      // Pause
-      // $('.deal-countdown').countdown('pause');
-    }
-  }, []);
+const DealSection = ({ dealProducts }) => {
+  const dealOfTheDayProduct = dealProducts?.[0] || {};
+  const targetTime = moment()
+    .add(1, "day")
+    .set({ hour: 17, minute: 0, second: 0, millisecond: 0 });
   return (
     <div className="bg-light deal-container pt-7 pb-7 mb-5">
       <div className="container">
@@ -53,54 +24,72 @@ const DealSection = ({ dealsProduct }) => {
             <div
               className="deal"
               style={{
-                backgroundImage:
-                  'url("/assets/images/demos/demo-3/deal/bg-1.jpg")',
+                backgroundImage: `url(${
+                  dealOfTheDayProduct?.images?.[0] || ""
+                })`,
+                backgroundPosition: "center",
+                backgroundSize: "contain",
               }}
             >
               <div className="deal-top">
                 <h2>Deal of the Day.</h2>
-                <h4>Limited quantities.</h4>
+                <h4>Limited quantities. </h4>
               </div>
               <div className="deal-content">
                 <h3 className="product-title">
-                  <Link to={PATHS.PRODUCT.INDEX}>
-                    Home Smart Speaker with Google Assistant
+                  <Link
+                    to={`${PATHS.PRODUCT.INDEX}/${
+                      dealOfTheDayProduct?.slug || ""
+                    }`}
+                  >
+                    {dealOfTheDayProduct?.name || ""}
                   </Link>
                 </h3>
                 <div className="product-price">
-                  <span className="new-price">$129.00</span>
-                  <span className="old-price">Was $150.99</span>
+                  <span className="new-price">
+                    {formatCurrency(
+                      dealOfTheDayProduct?.price -
+                        dealOfTheDayProduct?.discount || 0
+                    )}
+                  </span>
+                  <span className="old-price">
+                    Was {formatCurrency(dealOfTheDayProduct?.price || 0)}
+                  </span>
                 </div>
-                <Link to={PATHS.PRODUCT.INDEX} className="btn btn-link">
+                <Link
+                  to={`${PATHS.PRODUCT.INDEX}/${
+                    dealOfTheDayProduct?.slug || ""
+                  }`}
+                  className="btn btn-link"
+                >
                   <span>Shop Now</span>
                   <i className="icon-long-arrow-right" />
                 </Link>
               </div>
               <div className="deal-bottom">
-                <div className="deal-countdown" data-until="+10h" />
+                {targetTime && <CountDown targetTime={targetTime} />}
               </div>
             </div>
           </div>
           <div className="col-lg-6">
             <div className="products">
               <div className="row">
-                {dealsProduct?.length > 0 &&
-                  dealsProduct?.map((item, index) => {
-                    return (
-                      <div key={item?.id || index} className="col-6">
-                        <ProductItem {...item} />
-                      </div>
-                    );
-                  })}
+                {dealProducts?.slice(1, 3)?.map((product, index) => {
+                  return (
+                    <div key={product?.id || index} className="col-6">
+                      <ProductItem {...product} />
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </div>
         </div>
         <div className="more-container text-center mt-3 mb-0">
           <Button
-            link={PATHS.PRODUCT.INDEX}
             variant="outline-dark"
             className="btn-more"
+            link={PATHS.PRODUCT.INDEX}
           >
             <span>Shop more</span>
             <i className="icon-long-arrow-right" />

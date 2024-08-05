@@ -4,28 +4,64 @@ import PATHS from "../../constants/paths";
 import { formatCurrency } from "../../utils/format";
 import { reviewService } from "../../services/reviewService";
 import useQuery from "../../hooks/useQuery";
+import styled from "styled-components";
+import { Empty } from "antd";
 
-const ProductItem = ({ slug, images, price, rating, id }) => {
+const ImageWrapper = styled.div`
+  width: 100%;
+  height: 315px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #c1c1c1;
+`;
+
+const ProductItem = ({
+  slug,
+  images,
+  price,
+  rating,
+  id,
+  name,
+  onSale,
+  discount,
+}) => {
+  // const { data: reviewData } = useQuery(() =>
+  //   reviewService.getReviewById(`/${id}`)
+  // );
+  // const numReviews = reviewData?.length || 0;
   const [mainImage, hoverImage, ...rest] = images;
   const priceFormated = formatCurrency(price) || 0;
-  const { data: reviewData } = useQuery(() =>
-    reviewService.getReviewById(`/${id}`)
-  );
-  const numReviews = reviewData?.length || 0;
+  const isOnSale = (discount || 0) > 0;
+  const productPath = `${PATHS.PRODUCT.INDEX}/${slug || ""}`;
+  const _onAddToCart = (e) => {
+    e?.preventDefault();
+  };
   return (
     <div className="product product-2">
       <figure className="product-media">
-        <Link to={`${PATHS.PRODUCT.INDEX}/${slug || ""}`}>
-          <img
-            src={mainImage || ""}
-            alt="Product image"
-            className="product-image"
-          />
-          <img
-            src={hoverImage || ""}
-            alt="Product image"
-            className="product-image-hover"
-          />
+        {isOnSale && (
+          <span className="product-label label-circle label-sale">Sale</span>
+        )}
+        <Link to={productPath}>
+          {images?.length > 0 ? (
+            <>
+              <img
+                src={mainImage || ""}
+                alt="Product image"
+                className="product-image"
+              />
+              <img
+                src={hoverImage || ""}
+                alt="Product image"
+                className="product-image-hover"
+              />
+            </>
+          ) : (
+            <ImageWrapper>
+              <Empty description="" image={Empty.PRESENTED_IMAGE_SIMPLE} />
+            </ImageWrapper>
+          )}
         </Link>
         <div className="product-action-vertical">
           <a href="#" className="btn-product-icon btn-wishlist btn-expandable">
@@ -33,18 +69,32 @@ const ProductItem = ({ slug, images, price, rating, id }) => {
           </a>
         </div>
         <div className="product-action product-action-dark">
-          <a href="#" className="btn-product btn-cart" title="Add to cart">
+          <a
+            href="#"
+            className="btn-product btn-cart"
+            title="Add to cart"
+            onClick={_onAddToCart}
+          >
             <span>add to cart</span>
           </a>
         </div>
       </figure>
       <div className="product-body">
         <h3 className="product-title">
-          <Link to={`${PATHS.PRODUCT.INDEX}/${slug || ""}`}>
-            GoPro - HERO7 Black HD Waterproof Action
-          </Link>
+          <Link to={productPath}>{name || ""}</Link>
         </h3>
-        <div className="product-price"> {priceFormated} </div>
+        <div className="product-price">
+          {isOnSale ? (
+            <>
+              <span className="new-price">
+                {formatCurrency(price - discount)}
+              </span>
+              <span className="old-price">Was {formatCurrency(price)}</span>
+            </>
+          ) : (
+            <>{priceFormated}</>
+          )}
+        </div>
         <div className="ratings-container">
           <div className="ratings">
             <div
@@ -52,7 +102,7 @@ const ProductItem = ({ slug, images, price, rating, id }) => {
               style={{ width: `${(rating * 100) / 5}%` }}
             />
           </div>
-          <span className="ratings-text">( {numReviews} Reviews )</span>
+          <span className="ratings-text">( {rating} Reviews )</span>
         </div>
       </div>
     </div>

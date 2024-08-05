@@ -1,78 +1,88 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { owlCarousels } from "../../../utils/owlCarousels";
 import classNames from "classnames";
 import ProductItem from "../../../components/ProductItem";
-
-const FeaturedSection = ({
-  categories,
-  featureProducts,
-  selectedCategorySlug,
-  handleSelectCategory,
+const TABS = {
+  featured: "Featured",
+  on_sale: "On Sale",
+  top_rated: "Top Rated",
+};
+const HotProductSection = ({
+  featuredProducts,
+  onSaleProducts,
+  topRatedProducts,
 }) => {
-  const _onSelectCategoryTab = (e, category) => {
+  const [selectedTab, setSelectedTab] = useState(TABS.featured);
+  const _onTabChange = (e, tab) => {
     e.preventDefault();
-    e.stopPropagation;
-    handleSelectCategory("");
+    e.stopPropagation();
+    setSelectedTab("");
     setTimeout(() => {
-      handleSelectCategory(category);
+      setSelectedTab(tab);
     }, 200);
   };
+  const _getSelectedProducts = (tab) => {
+    switch (tab) {
+      case TABS.featured:
+        return featuredProducts;
+
+      case TABS.on_sale:
+        return onSaleProducts;
+
+      case TABS.top_rated:
+        return topRatedProducts;
+
+      default:
+        return [];
+    }
+  };
+  const renderProducts = _getSelectedProducts(selectedTab);
   useEffect(() => {
     owlCarousels();
-  }, [selectedCategorySlug, categories, featureProducts]);
+  }, [featuredProducts, onSaleProducts, topRatedProducts, selectedTab]);
   return (
-    <div className="container top" style={{ height: 565 }}>
-      <div className="heading heading-flex mb-3">
-        <div className="heading-left">
-          <h2 className="title">Featured Products</h2>
-        </div>
-        <div className="heading-right">
-          <ul
-            className="nav nav-pills nav-border-anim justify-content-center"
-            role="tablist"
-          >
-            {categories?.length > 0 &&
-              categories?.map((item, index) => {
-                return (
-                  <li key={item?.id || index} className="nav-item">
-                    <a
-                      href="#"
-                      className={classNames("nav-link", {
-                        active: item?.slug === selectedCategorySlug,
-                      })}
-                      onClick={(e) => _onSelectCategoryTab(e, item?.slug)}
-                    >
-                      {item?.name || ""}
-                    </a>
-                  </li>
-                );
-              })}
-          </ul>
-        </div>
-      </div>
-      <div className="tab-content tab-content-carousel just-action-icons-sm">
+    <div className="container featured" style={{ height: 550 }}>
+      <ul
+        className="nav nav-pills nav-border-anim nav-big justify-content-center mb-3"
+        role="tablist"
+      >
+        {Object.values(TABS).map((tab, index) => {
+          return (
+            <li key={tab || index} className="nav-item">
+              <a
+                className={classNames("nav-link", {
+                  active: selectedTab === tab,
+                })}
+                onClick={(e) => _onTabChange(e, tab)}
+                href="#"
+              >
+                {tab}
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+      <div className="tab-content tab-content-carousel">
         <div
           className={classNames("tab-pane p-0 fade", {
-            "show active": featureProducts?.length > 0,
+            "show active": renderProducts?.length > 0,
           })}
-          id="top-all-tab"
           role="tabpanel"
-          aria-labelledby="top-all-link"
         >
-          {featureProducts?.length > 0 && (
+          {renderProducts?.length > 0 && (
             <div
               className="owl-carousel owl-full carousel-equal-height carousel-with-shadow"
               data-toggle="owl"
               data-owl-options='{
                                                       "nav": true, 
-                                                      "dots": false,
+                                                      "dots": true,
                                                       "margin": 20,
                                                       "loop": false,
                                                       "responsive": {
                                                           "0": {
                                                               "items":2
                                                           },
-                                                          "480": {
+                                                          "600": {
                                                               "items":2
                                                           },
                                                           "992": {
@@ -84,7 +94,7 @@ const FeaturedSection = ({
                                                       }
                                                   }'
             >
-              {featureProducts?.map((product, index) => {
+              {renderProducts?.map((product, index) => {
                 return <ProductItem key={product?.id || index} {...product} />;
               })}
             </div>
@@ -95,4 +105,4 @@ const FeaturedSection = ({
   );
 };
 
-export default FeaturedSection;
+export default HotProductSection;

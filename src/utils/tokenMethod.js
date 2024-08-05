@@ -1,16 +1,16 @@
 import Cookies from "js-cookie";
-import { TOKEN } from "../constants/token";
+import { STORAGE } from "../constants/token";
 
 export const tokenMethod = {
   get() {
-    if (!!Cookies.get(TOKEN.token)) {
-      return JSON.parse(Cookies.get(TOKEN.token));
+    if (!!Cookies.get(STORAGE.token)) {
+      return JSON.parse(Cookies.get(STORAGE.token));
     }
   },
   set(token) {
-    Cookies.set(TOKEN.token, JSON.stringify(token));
+    Cookies.set(STORAGE.token, JSON.stringify(token));
   },
   delete() {
-    Cookies.remove(TOKEN.token);
+    Cookies.remove(STORAGE.token);
   },
 };
