@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { pageService } from "../services/pageService";
-import { productService } from "../services/productService";
-import useQuery from "./useQuery";
-import useMutation from "./useMutation";
-import { subscribeService } from "../services/subscribeService";
+import { pageService } from "../../services/pageService";
+import { productService } from "../../services/productService";
+import useQuery from "../../hooks/useQuery";
+import useMutation from "../../hooks/useMutation";
+import { subscribeService } from "../../services/subscribeService";
 import { message } from "antd";
-import { GENERAL_MESSAGE, HOME_MESSAGE } from "../constants/message";
+import { GENERAL_MESSAGE, HOME_MESSAGE } from "../../constants/message";
 
 function useHomePage() {
   const { data: productsData } = useQuery(productService.getProduct);

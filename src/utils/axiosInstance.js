@@ -16,3 +16,14 @@ axiosInstance.interceptors.request.use(
     return Promise.reject(error);
   }
 );
+
+axiosInstance.interceptors.response.use(
+  function (config) {
+    return config;
+  },
+  function (error) {
+    if (error.response.status === 403) {
+      return Promise.reject(error?.response?.data?.message);
+    }
+  }
+);

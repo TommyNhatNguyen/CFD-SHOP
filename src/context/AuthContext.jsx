@@ -43,7 +43,7 @@ export const AuthContextProvider = ({ children }) => {
       messageApi.error("Login Unsucceessful");
       handleLogOut();
     } finally {
-      callback();
+      callback?.();
     }
   };
   const handleRegister = async (data, callback) => {
@@ -61,6 +61,7 @@ export const AuthContextProvider = ({ children }) => {
         }
       }
     } catch (error) {
+      messageApi.error(error);
       console.log("Register error", error);
     } finally {
       callback();
@@ -74,6 +75,7 @@ export const AuthContextProvider = ({ children }) => {
       }
     } catch (error) {
       console.log("Profile error", error);
+      handleLogOut();
     }
   }
   function handleLogOut() {

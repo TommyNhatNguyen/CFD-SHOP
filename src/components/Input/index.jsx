@@ -1,25 +1,37 @@
 import React from "react";
 
-const Input = ({ label, required, error, inputGroup, onClick, ...props }) => {
+const Input = ({
+  label,
+  required,
+  error,
+  inputGroup,
+  renderInput,
+  className,
+  register,
+  ...props
+}) => {
   if (inputGroup) {
     return inputGroup?.({ ...props, error });
-  } else {
-    return (
-      <div className="form-group">
-        {label && (
-          <label htmlFor="singin-email">
-            {label} {required && "*"}
-          </label>
-        )}
+  }
+  return (
+    <div className={`form-group ${className}`}>
+      {label && (
+        <label>
+          {label} {required && "*"}
+        </label>
+      )}
+      {!!renderInput ? (
+        renderInput?.({ ...props, error })
+      ) : (
         <input
-          className={`form-control ${error ? "input-error" : ""}`}
-          required={!!required}
+          className={`form-control ${error ? "input-error" : ""} `}
+          {...register}
           {...props}
         />
-        {error && <p className="form-error">{error}</p>}
-      </div>
-    );
-  }
+      )}
+      {error && <p className="form-error">{error}</p>}
+    </div>
+  );
 };
 
 export default Input;

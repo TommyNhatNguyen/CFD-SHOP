@@ -1,16 +1,23 @@
-import React from "react";
+import React, { forwardRef } from "react";
 
-const CheckBox = ({ label, name, required, children, ...props }) => {
+const CheckBox = ({ label, required, children, ...props }, ref) => {
   return (
     <div className="custom-control custom-checkbox">
       <input
+        ref={ref}
         type="checkbox"
         className="custom-control-input"
-        id={name}
+        name={props?.name}
+        id={props?.name}
         {...props}
       />
       {label && (
-        <label className="custom-control-label" htmlFor={name}>
+        <label
+          className="custom-control-label"
+          id={props?.name || props?.id}
+          name={props?.name}
+          htmlFor={props?.name}
+        >
           {label}
           {children} {required && "*"}
         </label>
@@ -19,4 +26,4 @@ const CheckBox = ({ label, name, required, children, ...props }) => {
   );
 };
 
-export default CheckBox;
+export default forwardRef(CheckBox);

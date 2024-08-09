@@ -1,4 +1,3 @@
-import useHomePage from "../../hooks/useHomePage";
 import BrandSection from "./components/BrandSection";
 import DealSection from "./components/DealSection";
 import FeaturedSection from "./components/FeaturedSection";
@@ -6,6 +5,7 @@ import GetDealSection from "./components/GetDealSection";
 import HotProductSection from "./components/HotProductSection";
 import IntroSection from "./components/IntroSection";
 import ServiceSection from "./components/ServiceSection";
+import useHomePage from "./useHomePage";
 
 const HomePage = () => {
   const {

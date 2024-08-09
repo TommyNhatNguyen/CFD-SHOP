@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MODAL, MODAL_FORM } from "../../../constants/modal";
 import Input from "../../Input";
 import { REGEX } from "../../../utils/regex";
@@ -8,68 +8,40 @@ import { Link } from "react-router-dom";
 import PATHS from "../../../constants/paths";
 import { useAuthContext } from "../../../context/AuthContext";
 import classNames from "classnames";
+import { useForm } from "react-hook-form";
+import useDebounce from "../../../hooks/useDebounce";
+import { MESSAGE } from "../../../constants/message";
+import InputUseForm from "../../InputUseForm";
+import ComponentLoading from "../../ComponentLoading";
 
 const RegisterForm = ({ modal }) => {
   const { handleRegister, messageApi } = useAuthContext();
-  const [form, setForm] = useState({
-    email: "",
-    password: "",
-    isAgree: false,
-  });
-  const [error, setError] = useState();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const [loading, setLoading] = useState();
-  const register = (registerField) => {
-    return {
-      name: registerField,
-      error: error?.[registerField],
-      value: form?.[registerField],
-      onChange: (e) => {
-        let formValue;
-        if (registerField === MODAL_FORM.REGISTER.isAgree) {
-          formValue = e.target.checked;
-        } else {
-          formValue = e.target.value;
-        }
-        setForm((prev) => {
-          return { ...prev, [registerField]: formValue };
-        });
-      },
-    };
-  };
-  const _onSubmitForm = (e) => {
-    e.preventDefault();
-    // --- Handle Error
-    const errorObject = {};
-    if (!!!form?.email) {
-      errorObject.email = "Please fill in this field";
-    } else if (!!!REGEX.isEmail(form?.email)) {
-      errorObject.email = "Enter a valid email";
+  useEffect(() => {
+    if (errors?.isAgree) {
+      messageApi.warning("Please agree with our policy to continue");
     }
-    if (!!!form?.password) {
-      errorObject.password = "Please fill in this field";
-    } else if (!!!(form?.password?.length > 6)) {
-      errorObject.password = "Password length must be more than 6 characters";
-    }
-    if (!!!form?.isAgree) {
-      errorObject.isAgree = "Agree to the privacy policy to proceed";
-      // Call message API
-      messageApi.warning("Agree to the privacy policy to proceed");
-    }
-    // --- Handle Submit
-    if (Object.keys(errorObject).length > 0) {
-      // Error
-      setError(errorObject);
-    } else {
-      // Success
-      setError({});
+  }, [errors?.isAgree]);
+  const _onHandleSubmit = (data) => {
+    if (data && !loading) {
       setLoading(true);
-      handleRegister(form, () => {
-        setTimeout(() => {
-          setLoading(false);
-        }, 300);
-      });
+      try {
+        handleRegister(data, () => {
+          setTimeout(() => {
+            setLoading(false);
+          }, 300);
+        });
+      } catch (error) {
+        console.log("error", error);
+      }
     }
   };
+  const renderLoading = useDebounce(loading, 300);
   return (
     <div
       className={classNames("tab-pane fade active", {
@@ -80,27 +52,36 @@ const RegisterForm = ({ modal }) => {
       aria-labelledby="register-tab"
       style={{ position: "relative" }}
     >
-      {loading && <ComponentLoading />}
-      <form action="#">
-        <Input
+      {renderLoading && <ComponentLoading />}
+      <form onSubmit={handleSubmit(_onHandleSubmit)}>
+        <InputUseForm
           label="Your email address"
           required
-          {...register(MODAL_FORM.REGISTER.email)}
+          {...register("email", {
+            required: MESSAGE.required,
+            pattern: { value: REGEX.email, message: MESSAGE.email },
+          })}
+          error={errors?.email?.message}
         />
-        <Input
+        <InputUseForm
           label="Password"
           required
-          {...register(MODAL_FORM.REGISTER.password)}
+          {...register("password", {
+            required: MESSAGE.required,
+          })}
+          error={errors?.password?.message}
         />
         <div className="form-footer">
-          <Button type="submit" onClick={_onSubmitForm}>
+          <Button type="submit">
             <span>SIGN UP</span>
             <i className="icon-long-arrow-right" />
           </Button>
           <CheckBox
             label="I agree to the&nbsp;"
             required
-            {...register(MODAL_FORM.REGISTER.isAgree)}
+            {...register("isAgree", {
+              required: MESSAGE.required,
+            })}
           >
             <Link to={PATHS.PRIVACY}>privacy policy</Link>
           </CheckBox>

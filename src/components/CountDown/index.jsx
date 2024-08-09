@@ -23,19 +23,19 @@ const CountDown = ({ targetTime }) => {
     return () => clearInterval(intervalId);
   }, [targetTime]);
   return (
-    <div class="deal-countdown is-countdown" data-until="+10h">
-      <span class="countdown-row countdown-show3">
-        <span class="countdown-section">
-          <span class="countdown-amount">{renderTime?.hours || 0}</span>
-          <span class="countdown-period">hours</span>
+    <div className="deal-countdown is-countdown" data-until="+10h">
+      <span className="countdown-row countdown-show3">
+        <span className="countdown-section">
+          <span className="countdown-amount">{renderTime?.hours || 0}</span>
+          <span className="countdown-period">hours</span>
         </span>
-        <span class="countdown-section">
-          <span class="countdown-amount">{renderTime?.minutes || 0}</span>
-          <span class="countdown-period">minutes</span>
+        <span className="countdown-section">
+          <span className="countdown-amount">{renderTime?.minutes || 0}</span>
+          <span className="countdown-period">minutes</span>
         </span>
-        <span class="countdown-section">
-          <span class="countdown-amount">{renderTime?.seconds || 0}</span>
-          <span class="countdown-period">seconds</span>
+        <span className="countdown-section">
+          <span className="countdown-amount">{renderTime?.seconds || 0}</span>
+          <span className="countdown-period">seconds</span>
         </span>
       </span>
     </div>

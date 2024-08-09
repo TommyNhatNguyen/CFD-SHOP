@@ -1,24 +1,17 @@
 import React from "react";
 import useQuery from "../../hooks/useQuery";
 import { pageService } from "../../services/pageService";
-import ComponentLoading from "../../components/ComponentLoading";
-import useDebounce from "../../hooks/useDebounce";
-import PageLoading from "../../components/PageLoading";
-import BreadCrumbs from "../../components/BreadCrumbs";
-import { useLocation } from "react-router-dom";
+import BreadCrumb from "../../components/BreadCrumb";
 
 const AboutPage = () => {
-  const { data: aboutPageData, loading: aboutPageLoading } = useQuery(() =>
+  const { data: aboutPageData } = useQuery(() =>
     pageService.getPagesByName("/about us")
   );
   const aboutPage = aboutPageData?.data || {};
-  if (aboutPageLoading) {
-    return <PageLoading />;
-  }
 
   return (
     <main className="main" style={{ position: "relative" }}>
-      <BreadCrumbs />
+      <BreadCrumb />
       <div className="container">
         <div
           className="page-header page-header-big text-center"

@@ -1,68 +1,39 @@
 import React, { useState } from "react";
-import { MODAL, MODAL_FORM } from "../../../constants/modal";
 import Input from "../../Input";
 import Button from "../../Button";
 import CheckBox from "../../CheckBox";
-import { REGEX } from "../../../utils/regex";
 import { useAuthContext } from "../../../context/AuthContext";
 import ComponentLoading from "../../ComponentLoading";
 import classNames from "classnames";
+import useDebounce from "../../../hooks/useDebounce";
+import { useForm } from "react-hook-form";
+import { MESSAGE } from "../../../constants/message";
+import { REGEX } from "../../../utils/regex";
+import InputUseForm from "../../InputUseForm";
 
 const LoginForm = ({ modal }) => {
   const { handleLogin } = useAuthContext();
-  const [form, setForm] = useState({
-    email: "",
-    password: "",
-    isRemember: false,
-  });
-  const [error, setError] = useState();
-  const [loading, setLoading] = useState();
-  const register = (registerField) => {
-    return {
-      name: registerField,
-      error: error?.[registerField],
-      value: form?.[registerField],
-      onChange: (e) => {
-        let formValue;
-        if (registerField === MODAL_FORM.LOGIN.isRemember) {
-          formValue = e.target.checked;
-        } else {
-          formValue = e.target.value;
-        }
-        setForm((prev) => {
-          return { ...prev, [registerField]: formValue };
-        });
-      },
-    };
-  };
-  const _onSubmitForm = (e) => {
-    e.preventDefault();
-    // --- Handle Error
-    const errorObject = {};
-    if (!!!form?.email) {
-      errorObject.email = "Please fill in this field";
-    } else if (!!!REGEX.isEmail(form?.email)) {
-      errorObject.email = "Enter a valid email";
-    }
-    if (!!!form?.password) {
-      errorObject.password = "Please fill in this field";
-    }
-    // --- Handle Submit
-    if (Object.keys(errorObject).length > 0) {
-      // Error
-      setError(errorObject);
-    } else {
-      // Success
-      setError({});
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const [loading, setLoading] = useState(false);
+  const _onSubmitForm = (data) => {
+    if (data && !loading) {
       setLoading(true);
-      handleLogin(form, () => {
-        setTimeout(() => {
-          setLoading(false);
-        }, 300);
-      });
+      try {
+        handleLogin(data, () => {
+          setTimeout(() => {
+            setLoading(false);
+          }, 300);
+        });
+      } catch (error) {
+        console.log("error", error);
+      }
     }
   };
-
+  const renderLoading = useDebounce(loading, 300);
   return (
     <div
       className={classNames("tab-pane fade active", {
@@ -74,27 +45,35 @@ const LoginForm = ({ modal }) => {
       style={{ position: "relative" }}
     >
       {loading && <ComponentLoading />}
-      <form action="#">
-        <Input
+      <form
+        onSubmit={handleSubmit(_onSubmitForm)}
+        style={{ position: "relative" }}
+      >
+        {renderLoading && <ComponentLoading />}
+        <InputUseForm
           label="Username or email address"
           required
-          {...register(MODAL_FORM.LOGIN.email)}
+          {...register("email", {
+            required: MESSAGE.required,
+            pattern: { value: REGEX.email, message: MESSAGE.email },
+          })}
+          error={errors?.email?.message || ""}
         />
-        <Input
+        <InputUseForm
           label="Password"
+          type="password"
           required
-          {...register(MODAL_FORM.LOGIN.password)}
+          {...register("password", { required: MESSAGE.required })}
+          error={errors?.password?.message || ""}
         />
+
         {/* End .form-group */}
         <div className="form-footer">
-          <Button type="submit" onClick={_onSubmitForm}>
+          <Button type="submit">
             <span>LOG IN</span>
             <i className="icon-long-arrow-right" />
           </Button>
-          <CheckBox
-            label="Remember Me"
-            {...register(MODAL_FORM.LOGIN.isRemember)}
-          />
+          <CheckBox label="Remember Me" {...register("isRemember")} />
           {/* End .custom-checkbox */}
           <a href="#" className="forgot-link">
             Forgot Your Password?

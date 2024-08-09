@@ -10,11 +10,11 @@ function useMutation(promise) {
       const res = await promise(payload);
       if (res?.data?.data) {
         setData(res?.data?.data);
-        options?.onSuccess();
+        options?.onSuccess?.();
       }
     } catch (error) {
+      options?.onFail?.();
       setError(error);
-      options?.onFail();
     } finally {
       setLoading(false);
     }
