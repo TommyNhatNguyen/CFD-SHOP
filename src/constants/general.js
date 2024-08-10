@@ -30,3 +30,14 @@ export const SORT_OPTIONS = {
     queryObject: { orderBy: "rating", order: "-1" },
   },
 };
+
+export const DETAIL_TABS = [
+  { id: "description", name: "Description" },
+  { id: "shippingReturn", name: "Shipping Returns" },
+  {
+    id: "review",
+    name(totalReview) {
+      return `Reviews (${totalReview})`;
+    },
+  },
+];

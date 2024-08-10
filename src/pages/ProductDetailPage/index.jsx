@@ -1,45 +1,30 @@
-import React, { useEffect } from "react";
+import React from "react";
+import BreadCrumb from "../../components/BreadCrumb";
+import PATHS from "../../constants/paths";
 import ProductTop from "./components/ProductTop";
 import ProductTab from "./components/ProductTab";
-import useMutation from "../../hooks/useMutation";
-import { productService } from "../../services/productService";
-import { useParams } from "react-router-dom";
-import { reviewService } from "../../services/reviewService";
-import BreadCrumb from "../../components/BreadCrumb";
+import useProductDetailPage from "./useProductDetailPage";
 
 const ProductDetailPage = () => {
-  const { productSlug } = useParams();
-  /** Product Top */
-  const {
-    data: productDetailData,
-    loading: productDetailLoading,
-    execute: getProductDetail,
-  } = useMutation(productService.getProductBySlug);
-  useEffect(() => {
-    getProductDetail(`/${productSlug}`);
-  }, [productSlug]);
-  const productDetail = productDetailData || {};
-  // --- End
-  /** Product Tab */
-  const {
-    data: reviewData,
-    loading: reviewLoading,
-    execute: getReview,
-  } = useMutation(reviewService.getReviewById);
-  useEffect(() => {
-    if (!!productDetail?.id) {
-      getReview(`/${productDetail?.id}`);
-    }
-  }, [productSlug, productDetailData]);
-  const reviews = reviewData || [];
-  // --- End
+  const { productTopProps, productTabProps } = useProductDetailPage();
+  const title = productTopProps?.productDetail?.title || "";
   return (
     <main className="main">
-      <BreadCrumb />
+      <nav aria-label="breadcrumb" className="breadcrumb-nav border-0 mb-0">
+        <div className="container d-flex align-items-center">
+          <ol className="breadcrumb">
+            <BreadCrumb.Item link={PATHS.HOME}>Home</BreadCrumb.Item>
+            <BreadCrumb.Item link={PATHS.PRODUCT.INDEX}>
+              Product
+            </BreadCrumb.Item>
+            <BreadCrumb.Item isActive>{title}</BreadCrumb.Item>
+          </ol>
+        </div>
+      </nav>
       <div className="page-content">
         <div className="container">
-          <ProductTop productDetail={productDetail} />
-          <ProductTab reviews={reviews} {...productDetail} />
+          <ProductTop {...productTopProps} />
+          <ProductTab {...productTabProps} />
         </div>
       </div>
     </main>

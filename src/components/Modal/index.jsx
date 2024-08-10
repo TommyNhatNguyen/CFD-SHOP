@@ -5,22 +5,38 @@ import styled from "styled-components";
 import { useAuthContext } from "../../context/AuthContext";
 import { MODAL } from "../../constants/modal";
 import classNames from "classnames";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  handleCloseModal,
+  handleShowModal,
+} from "../../store/reducer/authReducer";
 
 const AuthModalContainer = styled.div`
   display: block;
   pointer-events: ${(props) => (props.$isShow ? "all" : "none")};
+  z-index: 10000;
+  .modal-dialog {
+    z-index: 10000;
+  }
+  .modal-backdrop {
+    z-index: 0;
+  }
 `;
 
 const Modal = () => {
-  const { modal, handleShowModal, handleCloseModal } = useAuthContext();
-  const isShowModal = !!modal;
+  // const { modal, handleShowModal, handleCloseModal } = useAuthContext();
+  const { showModal } = useSelector((state) => state.auth);
+  const isShowModal = !!showModal;
+  const dispatch = useDispatch();
   const _onHandleShowModal = (e) => {
     e.preventDefault();
-    handleShowModal(e.target.dataset.modal);
+    dispatch(handleShowModal(e.target.dataset.modal));
+    // handleShowModal(e.target.dataset.modal);
   };
   const _onHandleCloseModal = (e) => {
     e.preventDefault();
-    handleCloseModal();
+    dispatch(handleCloseModal());
+    // handleCloseModal();
   };
   return (
     <AuthModalContainer
@@ -31,7 +47,7 @@ const Modal = () => {
       tabIndex={-1}
       role="dialog"
       aria-hidden="true"
-      $isShow={!!modal}
+      $isShow={!!showModal}
     >
       <div className="modal-dialog modal-dialog-centered" role="document">
         <div className="modal-content">
@@ -47,7 +63,7 @@ const Modal = () => {
                 <i className="icon-close" />
               </span>
             </button>
-            {modal && (
+            {showModal && (
               <div className="form-box">
                 <div className="form-tab">
                   <ul
@@ -57,7 +73,7 @@ const Modal = () => {
                     <li className="nav-item">
                       <a
                         className={classNames("nav-link", {
-                          active: modal === MODAL.login,
+                          active: showModal === MODAL.login,
                         })}
                         id="signin-tab"
                         href="#signin"
@@ -70,7 +86,7 @@ const Modal = () => {
                     <li className="nav-item">
                       <a
                         className={classNames("nav-link", {
-                          active: modal === MODAL.register,
+                          active: showModal === MODAL.register,
                         })}
                         id="register-tab"
                         href="#register"
@@ -82,8 +98,12 @@ const Modal = () => {
                     </li>
                   </ul>
                   <div className="tab-content" id="tab-content-5">
-                    {modal === MODAL.login && <LoginForm modal={modal} />}
-                    {modal === MODAL.register && <RegisterForm modal={modal} />}
+                    {showModal === MODAL.login && (
+                      <LoginForm modal={showModal} />
+                    )}
+                    {showModal === MODAL.register && (
+                      <RegisterForm modal={showModal} />
+                    )}
                   </div>
                   {/* End .tab-content */}
                 </div>
@@ -98,6 +118,12 @@ const Modal = () => {
         {/* End .modal-content */}
       </div>
       {/* End .modal-dialog */}
+      <div
+        className={classNames("modal-backdrop fade", {
+          show: !!showModal,
+        })}
+        onClick={_onHandleCloseModal}
+      ></div>
     </AuthModalContainer>
   );
 };

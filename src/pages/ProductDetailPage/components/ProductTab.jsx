@@ -1,120 +1,99 @@
+import React from "react";
+import { DETAIL_TABS } from "../../../constants/general";
 import classNames from "classnames";
-import moment from "moment";
-import React, { useState } from "react";
-const TABS = [
-  { name: "Description", id: "description" },
-  { name: "Shipping & Returns", id: "shipping" },
-  { name: (totalReviews) => `Reviews (${totalReviews})`, id: "reviews" },
-];
-const ProductTab = ({ reviews, description, shippingReturn }) => {
-  const totalReviews = reviews?.length;
-  const [selectedTab, setSelectedTab] = useState(TABS[0].id);
-  const _onSelectedTab = (e, tab) => {
-    e.preventDefault();
-    setSelectedTab(tab);
+import ReviewItem from "../../../components/ReviewItem";
+
+const ProductTab = ({
+  totalReview,
+  reviews,
+  loading,
+  shippingReturn,
+  description,
+  selectedTab,
+  handleSelectTab,
+}) => {
+  const _onSelectTab = (tab) => {
+    handleSelectTab(tab);
   };
   return (
     <div className="product-details-tab">
       <ul className="nav nav-pills justify-content-center" role="tablist">
-        {TABS?.map((item, index) => {
+        {DETAIL_TABS?.map((tab, index) => {
           return (
-            <li key={item?.id || index} className="nav-item">
+            <li key={tab.id || index} className="nav-item">
               <a
+                href="#"
                 className={classNames("nav-link", {
-                  active: selectedTab === item?.id,
+                  active: tab.id === selectedTab,
                 })}
-                href="#product-desc-tab"
-                onClick={(e) => _onSelectedTab(e, item?.id)}
+                onClick={() => _onSelectTab(tab.id)}
               >
-                {typeof item?.name === "function"
-                  ? item?.name?.(totalReviews) || ""
-                  : item?.name || ""}
+                {typeof tab.name === "function"
+                  ? tab.name(totalReview)
+                  : tab.name}
               </a>
             </li>
           );
         })}
       </ul>
       <div className="tab-content">
-        <div
-          className={classNames("tab-pane fade", {
-            "show active": selectedTab === TABS[0].id,
-          })}
-          id="product-desc-tab"
-        >
-          <div
-            className="product-desc-content"
-            dangerouslySetInnerHTML={{ __html: description || "" }}
-          ></div>
-        </div>
-        <div
-          className={classNames("tab-pane fade", {
-            "show active": selectedTab === TABS[1].id,
-          })}
-          id="product-shipping-tab"
-        >
-          <div
-            className="product-desc-content"
-            dangerouslySetInnerHTML={{ __html: shippingReturn || "" }}
-          ></div>
-        </div>
-        <div
-          className={classNames("tab-pane fade", {
-            "show active": selectedTab === TABS[2].id,
-          })}
-          id="product-review-tab"
-        >
-          <div className="reviews">
-            <h3>Reviews ({totalReviews || 0})</h3>
-            {reviews?.map((review, index) => {
-              const { name, description, id, rate, title, createdAt } = review;
-              const now = moment();
-
-              const reviewDate = moment
-                .duration(now.diff(new Date(createdAt)))
-                .days();
-              return (
-                <div key={id || index} className="review">
-                  <div className="row no-gutters">
-                    <div className="col-auto">
-                      <h4>
-                        <a href="#">{name || "User"}</a>
-                      </h4>
-                      <div className="ratings-container">
-                        <div className="ratings">
-                          <div
-                            className="ratings-val"
-                            style={{ width: `${(rate * 100) / 5}%` }}
-                          />
-                        </div>
-                      </div>
-                      <span className="review-date">
-                        {reviewDate || 0} days ago
-                      </span>
-                    </div>
-                    <div className="col">
-                      <h4 style={{ height: 20 }}>{title || ""}</h4>
-                      <div
-                        className="review-content"
-                        dangerouslySetInnerHTML={{ __html: description }}
-                        style={{ height: 24 }}
-                      ></div>
-                      <div className="review-action">
-                        <a href="#">
-                          <i className="icon-thumbs-up" />
-                          Helpful (2)
-                        </a>
-                        <a href="#">
-                          <i className="icon-thumbs-down" />
-                          Unhelpful (0)
-                        </a>
-                      </div>
-                    </div>
-                  </div>
+        {DETAIL_TABS.map((tab, index) => {
+          if (tab.id === "review") {
+            return (
+              <div
+                key={tab.id || index}
+                className={classNames("tab-pane fade", {
+                  "show active": selectedTab === tab.id,
+                })}
+                id="product-review-tab"
+                role="tabpanel"
+                aria-labelledby="product-review-link"
+              >
+                {totalReview === 0 ? (
+                  <h3
+                    style={{
+                      fontWeight: 400,
+                      fontSize: "1.6rem",
+                      letterSpacing: "-0.01em",
+                      marginBottom: "1.8rem",
+                    }}
+                  >
+                    No reviews
+                  </h3>
+                ) : (
+                  reviews?.map((review, index) => {
+                    return <ReviewItem key={review?.id || index} {...review} />;
+                  })
+                )}
+              </div>
+            );
+          } else {
+            return (
+              <div
+                key={tab.id || index}
+                className={classNames("tab-pane fade", {
+                  "show active": selectedTab === tab.id,
+                })}
+                id="product-desc-tab"
+                role="tabpanel"
+                aria-labelledby="product-desc-link"
+              >
+                <div className="product-desc-content">
+                  {tab.id === "description" && (
+                    <div
+                      dangerouslySetInnerHTML={{ __html: description }}
+                    ></div>
+                  )}
+                  {tab.id === "shippingReturn" && (
+                    <div
+                      dangerouslySetInnerHTML={{ __html: shippingReturn }}
+                    ></div>
+                  )}
                 </div>
-              );
-            })}
-          </div>
-        </div>
+              </div>
+            );
+          }
+        })}
       </div>
     </div>
   );

@@ -106,7 +106,28 @@ function useProductPage() {
       }, 500);
     }
   };
+  const queryObjectCopy = { ...queryObject };
+  if (queryObjectCopy["page"]) {
+    delete queryObjectCopy["page"];
+  }
+  if (queryObjectCopy["limit"]) {
+    delete queryObjectCopy["limit"];
+  }
+  if (queryObjectCopy["category"]) {
+    delete queryObjectCopy["category"];
+  }
+
+  const { data: productsAllData, execute: getProductsAll } = useMutation(
+    (query) => productService.getProduct(query)
+  );
+  useEffect(() => {
+    getProductsAll(
+      `?${new URLSearchParams(queryString.stringify(queryObjectCopy))}`
+    );
+  }, [search]);
+  // const allProductsFiltered =
   const filterProps = {
+    productsAllFiltered: productsAllData?.products || [],
     categories: categories || [],
     isLoading: categoriesLoading,
     isError: categoriesError,

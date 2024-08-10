@@ -3,17 +3,25 @@ import { useAuthContext } from "../../../../context/AuthContext";
 import { MODAL } from "../../../../constants/modal";
 import { Link } from "react-router-dom";
 import PATHS from "../../../../constants/paths";
-
+import { useDispatch } from "react-redux";
+import {
+  handleLogout,
+  handleShowModal,
+} from "../../../../store/reducer/authReducer";
 const HeaderTop = () => {
-  const { handleShowModal, profile, handleLogOut } = useAuthContext();
+  // const { handleShowModal, profile, handleLogOut } = useAuthContext();
+  const { profile } = useAuthContext();
+  const dispatch = useDispatch();
   const _onShowModal = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    handleShowModal(e.target.id);
+    dispatch(handleShowModal(MODAL.login));
+    // handleShowModal(e.target.id);
   };
   const _onSignOut = (e) => {
     e.preventDefault();
-    handleLogOut();
+    dispatch(handleLogout());
+    // handleLogOut();
   };
   return (
     <div className="header-top">

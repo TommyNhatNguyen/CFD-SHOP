@@ -1,30 +1,69 @@
+import { Empty, Skeleton } from "antd";
 import React, { useEffect, useState } from "react";
-import { formatCurrency } from "../../../utils/format";
-import styled from "styled-components";
+import { FullSizeSkeleton } from "../../../components/StyledComponents";
 import classNames from "classnames";
+import { formatCurrency } from "../../../utils/format";
 import { Link } from "react-router-dom";
 import PATHS from "../../../constants/paths";
+import ShareLink from "../../../components/ShareLink";
+import {
+  FacebookShareButton,
+  InstapaperShareButton,
+  PinterestShareButton,
+  TwitterShareButton,
+} from "react-share";
+import ColorSelect from "../../../components/ColorSelect";
+import QuantitySelect from "../../../components/QuantitySelect";
 
-const ProductNavDotWrapper = styled.div`
-  background: ${(props) => props?.$backgroundColor};
-`;
-
-const ProductTop = ({ productDetail }) => {
+const ProductTop = ({
+  totalReview,
+  productDetail,
+  loading,
+  handleAddToCart,
+  handleAddWishList,
+  colorRef,
+  quantityRef,
+}) => {
+  const url = window.location.href;
+  const { images, title, rating, price, description, stock, color, category } =
+    productDetail || {};
+  const [mainImage, ...otherImages] = images || [];
+  const formatedPrice = formatCurrency(price || 0);
+  const _onAddToCart = (e) => {
+    e.preventDefault();
+    handleAddToCart();
+  };
+  const _onAddWishList = (e) => {
+    e.preventDefault();
+    handleAddWishList();
+  };
+  if (loading) {
+    return (
+      <div className="product-details-top" style={{ height: 615 }}>
+        <div className="row">
+          <div className="col-md-6">
+            <FullSizeSkeleton>
+              <Skeleton.Image active />
+            </FullSizeSkeleton>
+          </div>
+          <div className="col-md-6">
+            <Skeleton.Input active block />
+            <br />
+            <br />
+            <Skeleton.Input active block />
+            <br />
+            <br />
+            <Skeleton.Input active />
+            <br />
+            <br />
+            <Skeleton.Button active />
+          </div>
+        </div>
+      </div>
+    );
+  }
   useEffect(() => {
-    function quantityInputs() {
-      if ($.fn.inputSpinner) {
-        $("input[type='number']").inputSpinner({
-          decrementButton: '<i class="icon-minus"></i>',
-          incrementButton: '<i class="icon-plus"></i>',
-          groupClass: "input-spinner",
-          buttonsClass: "btn-spinner",
-          buttonsWidth: "26px",
-        });
-      }
-    }
-    quantityInputs();
-
-    if ($.fn.elevateZoom) {
+    if ($.fn.elevateZoom && images?.length > 0) {
       $("#product-zoom").elevateZoom({
         gallery: "product-zoom-gallery",
         galleryActiveClass: "active",
@@ -66,20 +105,8 @@ const ProductTop = ({ productDetail }) => {
         }
       });
     }
-  }, []);
-  const [selectedColor, setSelectedColor] = useState("");
-  const { name, rating, price, description, color, category, images } =
-    productDetail || {};
-  const _onSelectColor = (e, color) => {
-    e.preventDefault();
-    setSelectedColor(color);
-  };
-  const _onAddToCart = (e) => {
-    e.preventDefault();
-  };
-  const _onAddToWishList = (e) => {
-    e.preventDefault();
-  };
+    return () => $(".zoomContainer").remove();
+  }, [images]);
   return (
     <div className="product-details-top">
       <div className="row">
@@ -87,68 +114,45 @@ const ProductTop = ({ productDetail }) => {
           <div className="product-gallery product-gallery-vertical">
             <div className="row">
               <figure className="product-main-image">
-                <img
-                  id="product-zoom"
-                  src="/assets/images/products/single/1.jpg"
-                  data-zoom-image="/assets/images/products/single/1-big.jpg"
-                  alt="product image"
-                />
+                {!!images?.length ? (
+                  <img
+                    id="product-zoom"
+                    src={mainImage || ""}
+                    data-zoom-image={mainImage || ""}
+                    alt="product image"
+                  />
+                ) : (
+                  <Empty />
+                )}
+
                 <div id="btn-product-gallery" className="btn-product-gallery">
                   <i className="icon-arrows" />
                 </div>
               </figure>
               <div id="product-zoom-gallery" className="product-image-gallery">
-                <a
-                  className="product-gallery-item active"
-                  href="#"
-                  data-image="/assets/images/products/single/1.jpg"
-                  data-zoom-image="/assets/images/products/single/1-big.jpg"
-                >
-                  <img
-                    src="/assets/images/products/single/1-small.jpg"
-                    alt="Dark yellow lace"
-                  />
-                </a>
-                <a
-                  className="product-gallery-item"
-                  href="#"
-                  data-image="/assets/images/products/single/2-big.jpg"
-                  data-zoom-image="/assets/images/products/single/2-big.jpg"
-                >
-                  <img
-                    src="/assets/images/products/single/2-small.jpg"
-                    alt="Dark yellow lace"
-                  />
-                </a>
-                <a
-                  className="product-gallery-item"
-                  href="#"
-                  data-image="/assets/images/products/single/3-big.jpg"
-                  data-zoom-image="/assets/images/products/single/3-big.jpg"
-                >
-                  <img
-                    src="/assets/images/products/single/3-small.jpg"
-                    alt="Dark yellow lace"
-                  />
-                </a>
-                <a
-                  className="product-gallery-item"
-                  href="#"
-                  data-image="/assets/images/products/single/4-big.jpg"
-                  data-zoom-image="/assets/images/products/single/4-big.jpg"
-                >
-                  <img
-                    src="/assets/images/products/single/4-small.jpg"
-                    alt="Dark yellow lace"
-                  />
-                </a>
+                {!!images?.length &&
+                  otherImages?.map((img, index) => {
+                    return (
+                      <a
+                        href="#"
+                        key={img || index}
+                        className={classNames("product-gallery-item", {
+                          active: index === 0,
+                        })}
+                        data-image={img || ""}
+                        data-zoom-image={img || ""}
+                      >
+                        <img src={img || ""} alt="Dark yellow lace" />
+                      </a>
+                    );
+                  })}
               </div>
             </div>
           </div>
         </div>
         <div className="col-md-6">
           <div className="product-details">
-            <h1 className="product-title">{name}</h1>
+            <h1 className="product-title">{title || ""}</h1>
             <div className="ratings-container">
               <div className="ratings">
                 <div
@@ -161,63 +165,38 @@ const ProductTop = ({ productDetail }) => {
                 href="#product-review-link"
                 id="review-link"
               >
-                ( {rating} Reviews )
+                ( {totalReview} Reviews )
               </a>
             </div>
-            <div className="product-price"> {formatCurrency(price || 0)} </div>
+            <div className="product-price"> {formatedPrice} </div>
             <div
               className="product-content"
-              dangerouslySetInnerHTML={{ __html: description }}
+              dangerouslySetInnerHTML={{ __html: description || "" }}
             ></div>
             <div className="details-filter-row details-row-size">
               <label>Color:</label>
               <div className="product-nav product-nav-dots">
-                {color?.map((item, index) => {
-                  return (
-                    <ProductNavDotWrapper
-                      key={item || index}
-                      className={classNames("product-nav-item", {
-                        active: selectedColor === item,
-                      })}
-                      onClick={(e) => _onSelectColor(e, item)}
-                      $backgroundColor={item || "#FFFFF"}
-                    >
-                      <span className="sr-only">Color name</span>
-                    </ProductNavDotWrapper>
-                  );
-                })}
+                <ColorSelect colors={color} ref={colorRef} />
               </div>
             </div>
             <div className="details-filter-row details-row-size">
               <label htmlFor="qty">Qty:</label>
-              <div className="product-details-quantity">
-                <input
-                  type="number"
-                  id="qty"
-                  className="form-control"
-                  defaultValue={1}
-                  min={1}
-                  max={10}
-                  step={1}
-                  data-decimals={0}
-                  required
-                />
-              </div>
+              <QuantitySelect max={stock} ref={quantityRef} />
             </div>
             <div className="product-details-action">
               <a
-                onClick={_onAddToCart}
                 href="#"
                 className="btn-product btn-cart"
+                onClick={(e) => _onAddToCart(e)}
               >
                 <span>add to cart</span>
               </a>
               <div className="details-action-wrapper">
                 <a
-                  onClick={_onAddToWishList}
                   href="#"
                   className="btn-product btn-wishlist"
                   title="Wishlist"
+                  onClick={(e) => _onAddWishList(e)}
                 >
                   <span>Add to Wishlist</span>
                 </a>
@@ -226,42 +205,34 @@ const ProductTop = ({ productDetail }) => {
             <div className="product-details-footer">
               <div className="product-cat">
                 <span>Category:</span>
-                {<Link to={PATHS.PRODUCT.INDEX}>{category?.name}</Link>}
+                <Link
+                  to={`${PATHS.PRODUCT.INDEX}/?category=${category?.id || ""}`}
+                >
+                  {category?.name || ""}
+                </Link>
               </div>
               <div className="social-icons social-icons-sm">
                 <span className="social-label">Share:</span>
-                <a
-                  href="#"
-                  className="social-icon"
-                  title="Facebook"
-                  target="_blank"
-                >
-                  <i className="icon-facebook-f" />
-                </a>
-                <a
-                  href="#"
-                  className="social-icon"
-                  title="Twitter"
-                  target="_blank"
-                >
-                  <i className="icon-twitter" />
-                </a>
-                <a
-                  href="#"
-                  className="social-icon"
-                  title="Instagram"
-                  target="_blank"
-                >
-                  <i className="icon-instagram" />
-                </a>
-                <a
-                  href="#"
-                  className="social-icon"
-                  title="Pinterest"
-                  target="_blank"
-                >
-                  <i className="icon-pinterest" />
-                </a>
+                <ShareLink title="Facebook">
+                  <FacebookShareButton url={url}>
+                    <i className="icon-facebook-f" />
+                  </FacebookShareButton>
+                </ShareLink>
+                <ShareLink title="Twitter">
+                  <TwitterShareButton url={url}>
+                    <i className="icon-twitter" />
+                  </TwitterShareButton>
+                </ShareLink>
+                <ShareLink title="Instagram">
+                  <InstapaperShareButton url={url}>
+                    <i className="icon-instagram" />
+                  </InstapaperShareButton>
+                </ShareLink>
+                <ShareLink title="Pinterest">
+                  <PinterestShareButton url={url} media={url}>
+                    <i className="icon-pinterest" />
+                  </PinterestShareButton>
+                </ShareLink>
               </div>
             </div>
           </div>

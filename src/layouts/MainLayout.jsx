@@ -27,7 +27,6 @@ const MainLayout = () => {
             <MobileMenuOverlay />
             <MobileMenuContainer />
             <Modal />
-            <ModalBackDrop />
           </>,
           document.body
         )}

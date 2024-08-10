@@ -7,3 +7,15 @@ export const MenuStyled = styled.ul`
     }
   }
 `;
+
+export const FullSizeSkeleton = styled.div`
+  height: 100%;
+  .ant-skeleton {
+    height: 100%;
+    width: 100%;
+    .ant-skeleton-image {
+      height: 100%;
+      width: 100%;
+    }
+  }
+`;

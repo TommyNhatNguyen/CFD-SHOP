@@ -5,7 +5,6 @@ import ProductToolBox from "./components/ProductToolBox";
 import ProductList from "./components/ProductList";
 import ProductFilter from "./components/ProductFilter";
 import PATHS from "../../constants/paths";
-import { useLocation } from "react-router-dom";
 import useProductPage from "./useProductPage";
 
 const ProductPage = () => {

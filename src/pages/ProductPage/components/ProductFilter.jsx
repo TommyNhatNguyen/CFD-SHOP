@@ -1,7 +1,10 @@
 import React, { useEffect } from "react";
 import CheckBox from "../../../components/CheckBox";
+import useQuery from "../../../hooks/useQuery";
+import { productService } from "../../../services/productService";
 
 const ProductFilter = ({
+  productsAllFiltered,
   categories,
   currentPriceRange,
   activeCategory,
@@ -85,6 +88,13 @@ const ProductFilter = ({
                           _onFilterChange(category?.id, value.target.checked);
                         }}
                       />
+                      <span className="item-count">
+                        {
+                          productsAllFiltered?.filter(
+                            (product) => product?.category?.id === category?.id
+                          )?.length
+                        }
+                      </span>
                     </div>
                   );
                 })}
