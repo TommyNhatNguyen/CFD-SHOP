@@ -14,9 +14,9 @@ import {
 const AuthModalContainer = styled.div`
   display: block;
   pointer-events: ${(props) => (props.$isShow ? "all" : "none")};
-  z-index: 10000;
+  z-index: 2;
   .modal-dialog {
-    z-index: 10000;
+    z-index: 2;
   }
   .modal-backdrop {
     z-index: 0;
@@ -24,19 +24,16 @@ const AuthModalContainer = styled.div`
 `;
 
 const Modal = () => {
-  // const { modal, handleShowModal, handleCloseModal } = useAuthContext();
   const { showModal } = useSelector((state) => state.auth);
   const isShowModal = !!showModal;
   const dispatch = useDispatch();
   const _onHandleShowModal = (e) => {
     e.preventDefault();
     dispatch(handleShowModal(e.target.dataset.modal));
-    // handleShowModal(e.target.dataset.modal);
   };
   const _onHandleCloseModal = (e) => {
     e.preventDefault();
     dispatch(handleCloseModal());
-    // handleCloseModal();
   };
   return (
     <AuthModalContainer

@@ -15,22 +15,22 @@ import ScrollTop from "../components/ScrollTop";
 const MainLayout = () => {
   return (
     <MainContextProvider>
-      <AuthContextProvider>
-        <div className="page-wrapper">
-          <Header />
-          <Outlet />
-          <Footer />
-        </div>
-        {createPortal(
-          <>
-            <ScrollTop />
-            <MobileMenuOverlay />
-            <MobileMenuContainer />
-            <Modal />
-          </>,
-          document.body
-        )}
-      </AuthContextProvider>
+      {/* <AuthContextProvider> */}
+      <div className="page-wrapper">
+        <Header />
+        <Outlet />
+        <Footer />
+      </div>
+      {createPortal(
+        <>
+          <ScrollTop />
+          <MobileMenuOverlay />
+          <MobileMenuContainer />
+          <Modal />
+        </>,
+        document.body
+      )}
+      {/* </AuthContextProvider> */}
     </MainContextProvider>
   );
 };

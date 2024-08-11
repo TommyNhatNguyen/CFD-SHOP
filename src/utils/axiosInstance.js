@@ -25,5 +25,6 @@ axiosInstance.interceptors.response.use(
     if (error.response.status === 403) {
       return Promise.reject(error?.response?.data?.message);
     }
+    return Promise.reject(error);
   }
 );

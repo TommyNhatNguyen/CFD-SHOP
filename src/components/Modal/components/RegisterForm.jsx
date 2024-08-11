@@ -13,35 +13,34 @@ import useDebounce from "../../../hooks/useDebounce";
 import { MESSAGE } from "../../../constants/message";
 import InputUseForm from "../../InputUseForm";
 import ComponentLoading from "../../ComponentLoading";
-
+import { message } from "antd";
+import { useDispatch, useSelector } from "react-redux";
+import { handleRegister } from "../../../store/reducer/authReducer";
 const RegisterForm = ({ modal }) => {
-  const { handleRegister, messageApi } = useAuthContext();
+  // const { handleRegister, messageApi } = useAuthContext();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const [loading, setLoading] = useState();
+  const { loading } = useSelector((state) => state.auth);
   useEffect(() => {
     if (errors?.isAgree) {
-      messageApi.warning("Please agree with our policy to continue");
+      message.warning("Please agree with our policy to continue");
     }
   }, [errors?.isAgree]);
-  const _onHandleSubmit = (data) => {
-    if (data && !loading) {
-      setLoading(true);
+  const dispatch = useDispatch();
+  const _onHandleSubmit = async (data) => {
+    if (data && !loading.register) {
       try {
-        handleRegister(data, () => {
-          setTimeout(() => {
-            setLoading(false);
-          }, 300);
-        });
+        const res = await dispatch(handleRegister(data)).unwrap();
+        console.log("res", res);
       } catch (error) {
-        console.log("error", error);
+        console.log(error);
       }
     }
   };
-  const renderLoading = useDebounce(loading, 300);
+  const renderLoading = useDebounce(loading.register, 2000);
   return (
     <div
       className={classNames("tab-pane fade active", {

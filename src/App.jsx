@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import MainLayout from "./layouts/MainLayout";
 import AboutPage from "./pages/AboutPage";
 import BlogDetailPage from "./pages/BlogDetailPage";
@@ -20,8 +20,22 @@ import ShippingPage from "./pages/ShippingPage";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import PATHS from "./constants/paths";
 import PrivacyRoute from "./components/PrivacyRoute";
-
+import "./assets/styles.css";
+import { useDispatch } from "react-redux";
+import { tokenMethod } from "./utils/tokenMethod";
+import { handleGetProfile } from "./store/reducer/authReducer";
+import { message } from "antd";
 const App = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    message.config({
+      top: 80,
+      duration: 3,
+    });
+    if (tokenMethod.get()) {
+      dispatch(handleGetProfile());
+    }
+  }, []);
   return (
     <BrowserRouter>
       <Routes>

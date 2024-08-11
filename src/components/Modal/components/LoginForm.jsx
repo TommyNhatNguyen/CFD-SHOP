@@ -10,30 +10,31 @@ import { useForm } from "react-hook-form";
 import { MESSAGE } from "../../../constants/message";
 import { REGEX } from "../../../utils/regex";
 import InputUseForm from "../../InputUseForm";
+import { useDispatch, useSelector } from "react-redux";
+import { handleLogin } from "../../../store/reducer/authReducer";
 
 const LoginForm = ({ modal }) => {
-  const { handleLogin } = useAuthContext();
+  const dispatch = useDispatch();
+  // const { handleLogin, handleCloseModal } = useAuthContext();
+  const { loading } = useSelector((state) => state.auth);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const [loading, setLoading] = useState(false);
-  const _onSubmitForm = (data) => {
-    if (data && !loading) {
-      setLoading(true);
+
+  const _onSubmitForm = async (data) => {
+    if (data && !loading.login) {
       try {
-        handleLogin(data, () => {
-          setTimeout(() => {
-            setLoading(false);
-          }, 300);
-        });
+        const res = await dispatch(handleLogin(data)).unwrap();
+        console.log("res", res);
       } catch (error) {
         console.log("error", error);
       }
     }
   };
-  const renderLoading = useDebounce(loading, 300);
+
+  const renderLoading = useDebounce(loading.login, 300);
   return (
     <div
       className={classNames("tab-pane fade active", {
@@ -44,12 +45,8 @@ const LoginForm = ({ modal }) => {
       aria-labelledby="signin-tab"
       style={{ position: "relative" }}
     >
-      {loading && <ComponentLoading />}
-      <form
-        onSubmit={handleSubmit(_onSubmitForm)}
-        style={{ position: "relative" }}
-      >
-        {renderLoading && <ComponentLoading />}
+      {renderLoading && <ComponentLoading />}
+      <form onSubmit={handleSubmit(_onSubmitForm)}>
         <InputUseForm
           label="Username or email address"
           required
