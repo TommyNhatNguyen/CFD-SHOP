@@ -13,11 +13,17 @@ const Button = ({
     case "primary":
       variantClass = "btn btn-outline-primary-2";
       break;
+    case "primmary2":
+      variantClass = "btn btn-primary";
+      break;
     case "round":
       variantClass = "btn btn-primary btn-round";
       break;
     case "outline-dark":
       variantClass = "btn btn-outline-dark-2 btn-round";
+      break;
+    case "outline-primary":
+      variantClass = "btn btn-outline-primary-2";
       break;
     default:
       variantClass = "btn btn-outline-primary-2";

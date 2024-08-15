@@ -14,9 +14,9 @@ import {
 const AuthModalContainer = styled.div`
   display: block;
   pointer-events: ${(props) => (props.$isShow ? "all" : "none")};
-  z-index: 2;
+  z-index: 1000;
   .modal-dialog {
-    z-index: 2;
+    z-index: 1000;
   }
   .modal-backdrop {
     z-index: 0;
@@ -43,7 +43,6 @@ const Modal = () => {
       id="signin-modal"
       tabIndex={-1}
       role="dialog"
-      aria-hidden="true"
       $isShow={!!showModal}
     >
       <div className="modal-dialog modal-dialog-centered" role="document">
@@ -53,10 +52,9 @@ const Modal = () => {
               type="button"
               className="close"
               data-dismiss="modal"
-              aria-label="Close"
               onClick={_onHandleCloseModal}
             >
-              <span aria-hidden="true">
+              <span>
                 <i className="icon-close" />
               </span>
             </button>

@@ -27,6 +27,7 @@ const ProductTop = ({
   const url = window.location.href;
   const { images, title, rating, price, description, stock, color, category } =
     productDetail || {};
+  const isOutOfStock = stock <= 0;
   const [mainImage, ...otherImages] = images || [];
   const formatedPrice = formatCurrency(price || 0);
   const _onAddToCart = (e) => {
@@ -181,15 +182,23 @@ const ProductTop = ({
             </div>
             <div className="details-filter-row details-row-size">
               <label htmlFor="qty">Qty:</label>
-              <QuantitySelect max={stock} ref={quantityRef} />
+              <QuantitySelect
+                max={stock}
+                ref={quantityRef}
+                disabled={isOutOfStock}
+              />
             </div>
             <div className="product-details-action">
               <a
                 href="#"
                 className="btn-product btn-cart"
                 onClick={(e) => _onAddToCart(e)}
+                style={{
+                  pointerEvents: isOutOfStock ? "none" : "all",
+                  backgroundColor: isOutOfStock ? "rgba(0,0,0, 0.1)" : "",
+                }}
               >
-                <span>add to cart</span>
+                <span>{isOutOfStock ? "Out of stock" : "add to cart"} </span>
               </a>
               <div className="details-action-wrapper">
                 <a

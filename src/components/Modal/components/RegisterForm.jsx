@@ -23,24 +23,28 @@ const RegisterForm = ({ modal }) => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const { loading } = useSelector((state) => state.auth);
+  // const { loading } = useSelector((state) => state.auth);
   useEffect(() => {
     if (errors?.isAgree) {
       message.warning("Please agree with our policy to continue");
     }
   }, [errors?.isAgree]);
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const _onHandleSubmit = async (data) => {
-    if (data && !loading.register) {
+    setLoading(true);
+    if (data && !loading) {
       try {
         const res = await dispatch(handleRegister(data)).unwrap();
         console.log("res", res);
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoading(false);
       }
     }
   };
-  const renderLoading = useDebounce(loading.register, 2000);
+  // const renderLoading = useDebounce(loading.register, 2000);
   return (
     <div
       className={classNames("tab-pane fade active", {
@@ -51,7 +55,7 @@ const RegisterForm = ({ modal }) => {
       aria-labelledby="register-tab"
       style={{ position: "relative" }}
     >
-      {renderLoading && <ComponentLoading />}
+      {loading && <ComponentLoading />}
       <form onSubmit={handleSubmit(_onHandleSubmit)}>
         <InputUseForm
           label="Your email address"

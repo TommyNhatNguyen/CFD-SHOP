@@ -1,6 +1,7 @@
 import axios from "axios";
 import { tokenMethod } from "./tokenMethod";
 import { ENV } from "../constants/environments";
+import { authService } from "../services/authService";
 
 export const axiosInstance = axios.create({
   baseURL: ENV.BASE_URL,
@@ -21,8 +22,28 @@ axiosInstance.interceptors.response.use(
   function (config) {
     return config;
   },
-  function (error) {
-    if (error.response.status === 403) {
+  async function (error) {
+    const originalRequest = error.config;
+    if (
+      (error.response?.status === 403 || error.response?.status === 401) &&
+      !!!originalRequest._retry
+    ) {
+      originalRequest._retry = true;
+      try {
+        const res = await authService.refreshToken({
+          refreshToken: tokenMethod.get()?.refreshToken,
+        });
+        const { token: accessToken, refreshToken } = res.data.data || {};
+        tokenMethod.set({
+          accessToken,
+          refreshToken,
+        });
+        originalRequest.headers.Authorization = `Bearer ${accessToken}`;
+        return axiosInstance(originalRequest);
+      } catch (error) {
+        console.log("error", error);
+        tokenMethod.delete();
+      }
       return Promise.reject(error?.response?.data?.message);
     }
     return Promise.reject(error);

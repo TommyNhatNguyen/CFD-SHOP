@@ -2,6 +2,8 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { tokenMethod } from "../../utils/tokenMethod";
 import { message } from "antd";
 import { authService } from "../../services/authService";
+import { handleGetCart } from "./cartReducer";
+import { useDispatch, useSelector } from "react-redux";
 
 const initialState = {
   showModal: "",
@@ -12,6 +14,7 @@ const initialState = {
     getProfile: false,
   },
 };
+
 export const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -37,6 +40,7 @@ export const authSlice = createSlice({
     builder
       .addCase(handleRegister.fulfilled, (state) => {
         state.loading.register = false;
+        document.body.classList.remove("modal-open");
       })
       .addCase(handleRegister.pending, (state) => {
         state.loading.register = true;
@@ -48,6 +52,7 @@ export const authSlice = createSlice({
       .addCase(handleLogin.fulfilled, (state) => {
         state.loading.login = false;
         state.showModal = "";
+        document.body.classList.remove("modal-open");
       })
       .addCase(handleLogin.pending, (state) => {
         state.loading.login = true;
@@ -86,6 +91,7 @@ export const handleLogin = createAsyncThunk(
         const { token: accessToken, refreshToken } = res.data.data || {};
         tokenMethod.set({ accessToken, refreshToken });
         dispatch(handleGetProfile());
+        dispatch(handleGetCart());
         message.success("Login Successful");
         return res?.data?.data;
       }

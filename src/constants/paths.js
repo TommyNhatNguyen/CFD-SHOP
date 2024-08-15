@@ -3,7 +3,7 @@ const BLOG = "/blog";
 const CART = "/cart";
 const CHECKOUT = "/checkout";
 const CONTACT = "/contact-us";
-const DASHBOARD = "dashboard";
+const DASHBOARD = "/dashboard";
 const FAQ = "/faq";
 const PAYMENT = "/payment";
 const PRIVACY = "/privacy";
@@ -21,7 +21,7 @@ const PATHS = {
   CART: CART,
   CHECKOUT: {
     INDEX: CHECKOUT,
-    SUCCESS: CHECKOUT + "-success",
+    SUCCESS: CHECKOUT + "-success" + "/:orderSlug",
   },
   CONTACT: CONTACT,
   DASHBOARD: DASHBOARD,

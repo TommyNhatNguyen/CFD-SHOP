@@ -16,25 +16,25 @@ import { handleLogin } from "../../../store/reducer/authReducer";
 const LoginForm = ({ modal }) => {
   const dispatch = useDispatch();
   // const { handleLogin, handleCloseModal } = useAuthContext();
-  const { loading } = useSelector((state) => state.auth);
+  // const { loading } = useSelector((state) => state.auth);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-
+  const [loading, setLoading] = useState(false);
   const _onSubmitForm = async (data) => {
-    if (data && !loading.login) {
+    setLoading(true);
+    if (data && !loading) {
       try {
-        const res = await dispatch(handleLogin(data)).unwrap();
-        console.log("res", res);
+        const res = await dispatch(handleLogin(data));
       } catch (error) {
         console.log("error", error);
+      } finally {
+        setLoading(false);
       }
     }
   };
-
-  const renderLoading = useDebounce(loading.login, 300);
   return (
     <div
       className={classNames("tab-pane fade active", {
@@ -45,7 +45,7 @@ const LoginForm = ({ modal }) => {
       aria-labelledby="signin-tab"
       style={{ position: "relative" }}
     >
-      {renderLoading && <ComponentLoading />}
+      {loading && <ComponentLoading />}
       <form onSubmit={handleSubmit(_onSubmitForm)}>
         <InputUseForm
           label="Username or email address"

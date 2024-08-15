@@ -27,12 +27,16 @@ function useProductPage() {
   } = useQuery(productService.getProductCategories);
   const categories = categoriesData?.products || [];
   useEffect(() => {
-    fetchProducts(search);
+    if (search) {
+      fetchProducts(search);
+    }
   }, [search]);
+
   const productListProps = {
     isLoading: productsLoading,
     isError: productsError,
     products,
+    isSearch: !!search,
   };
 
   const updateQueryString = (queryObject) => {

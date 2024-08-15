@@ -6,6 +6,11 @@ import { reviewService } from "../../services/reviewService";
 import useQuery from "../../hooks/useQuery";
 import styled from "styled-components";
 import { Empty } from "antd";
+import { useDispatch } from "react-redux";
+import { handleAddCart } from "../../store/reducer/cartReducer";
+import { tokenMethod } from "../../utils/tokenMethod";
+import { handleShowModal } from "../../store/reducer/authReducer";
+import { MODAL } from "../../constants/modal";
 
 const ImageWrapper = styled.div`
   width: 100%;
@@ -23,19 +28,26 @@ const ProductItem = ({
   rating,
   id,
   name,
+  color,
   onSale,
   discount,
+  stock,
 }) => {
-  // const { data: reviewData } = useQuery(() =>
-  //   reviewService.getReviewById(`/${id}`)
-  // );
-  // const numReviews = reviewData?.length || 0;
+  const isOutOfStock = stock <= 0;
   const [mainImage, hoverImage, ...rest] = images;
   const priceFormated = formatCurrency(price) || 0;
   const isOnSale = (discount || 0) > 0;
   const productPath = `${PATHS.PRODUCT.INDEX}/${slug || ""}`;
+  const dispatch = useDispatch();
   const _onAddToCart = (e) => {
     e?.preventDefault();
+    const addPayload = {
+      addedId: id,
+      addedColor: color?.[0] || "",
+      addedQuantity: 1,
+      addedPrice: price - discount,
+    };
+    dispatch(handleAddCart(addPayload));
   };
   return (
     <div className="product product-2">
@@ -68,14 +80,20 @@ const ProductItem = ({
             <span>add to wishlist</span>
           </a>
         </div>
-        <div className="product-action product-action-dark">
+        <div
+          className="product-action product-action-dark"
+          style={{
+            pointerEvents: isOutOfStock ? "none" : "all",
+            backgroundColor: isOutOfStock ? "rgba(0,0,0, 0.1)" : "",
+          }}
+        >
           <a
             href="#"
             className="btn-product btn-cart"
             title="Add to cart"
             onClick={_onAddToCart}
           >
-            <span>add to cart</span>
+            <span>{isOutOfStock ? "Out of stock" : "add to cart"} </span>
           </a>
         </div>
       </figure>

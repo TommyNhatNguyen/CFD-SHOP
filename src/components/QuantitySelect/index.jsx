@@ -1,4 +1,9 @@
-import React, { forwardRef, useImperativeHandle, useState } from "react";
+import React, {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useState,
+} from "react";
 import styled from "styled-components";
 
 const InputWrapper = styled.input`
@@ -10,8 +15,11 @@ const InputWrapper = styled.input`
   -moz-appearance: textfield;
 `;
 
-const QuantitySelect = ({ min = 1, max = 10, step = 1 }, ref) => {
-  const [quantity, setQuantity] = useState(1);
+const QuantitySelect = (
+  { min = 1, max = 10, step = 1, onChange, disabled, defaultValue, ...props },
+  ref
+) => {
+  const [quantity, setQuantity] = useState(defaultValue ?? 1);
   const _onIncrease = (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -30,16 +38,23 @@ const QuantitySelect = ({ min = 1, max = 10, step = 1 }, ref) => {
       setQuantity(quantity - step);
     }
   };
-  const _onChange = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    const quantityInput = Number(e.target.value);
-    if (quantityInput > max) {
-      setQuantity(Number(max));
-    } else if (quantityInput < min) {
-      setQuantity(Number(min));
+  const _onChange = (value) => {
+    const quantityInput = Number(value);
+    if (value !== "") {
+      if (quantityInput > max) {
+        setQuantity(Number(max));
+      } else if (quantityInput < min) {
+        setQuantity(Number(min));
+      } else {
+        setQuantity(quantityInput);
+      }
     } else {
-      setQuantity(quantityInput);
+      setQuantity("");
+    }
+  };
+  const _onBlur = () => {
+    if (quantity === "") {
+      setQuantity(defaultValue);
     }
   };
   useImperativeHandle(
@@ -48,21 +63,25 @@ const QuantitySelect = ({ min = 1, max = 10, step = 1 }, ref) => {
       return {
         value: quantity,
         reset() {
-          setQuantity(1);
+          setQuantity(defaultValue ?? 1);
         },
       };
     },
     [quantity]
   );
+  useEffect(() => {
+    onChange?.(quantity);
+  }, [quantity]);
   return (
     <div className="product-details-quantity">
       <div className="input-group  input-spinner">
         <div className="input-group-prepend">
           <button
-            style={{ minWidth: 26 }}
             className="btn btn-decrement btn-spinner"
             type="button"
             onClick={_onDecrease}
+            disabled={disabled}
+            style={{ pointerEvents: !!disabled ? "none" : "all", minWidth: 26 }}
           >
             <i className="icon-minus" />
           </button>
@@ -77,14 +96,18 @@ const QuantitySelect = ({ min = 1, max = 10, step = 1 }, ref) => {
           value={quantity}
           data-decimals={0}
           required
-          onChange={_onChange}
+          disabled={disabled}
+          onChange={(e) => _onChange(e.target.value)}
+          onBlur={_onBlur}
+          {...props}
         />
         <div className="input-group-append">
           <button
-            style={{ minWidth: 26 }}
             className="btn btn-increment btn-spinner"
             type="button"
             onClick={_onIncrease}
+            disabled={disabled}
+            style={{ pointerEvents: !!disabled ? "none" : "all", minWidth: 26 }}
           >
             <i className="icon-plus" />
           </button>

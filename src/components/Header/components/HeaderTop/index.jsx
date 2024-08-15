@@ -8,6 +8,8 @@ import {
   handleLogout,
   handleShowModal,
 } from "../../../../store/reducer/authReducer";
+import { handleResetCart } from "../../../../store/reducer/cartReducer";
+
 const HeaderTop = () => {
   const navigate = useNavigate();
   const { profile } = useSelector((state) => state.auth);
@@ -20,6 +22,7 @@ const HeaderTop = () => {
   const _onSignOut = (e) => {
     e.preventDefault();
     dispatch(handleLogout());
+    dispatch(handleResetCart());
     navigate(PATHS.HOME);
   };
   return (
@@ -51,7 +54,7 @@ const HeaderTop = () => {
               <li>
                 <a href="#" className="top-link-menu">
                   <i className="icon-user"></i>
-                  {profile?.firstName || ""}
+                  {profile?.firstName || "User"}
                 </a>
                 <ul>
                   <li>

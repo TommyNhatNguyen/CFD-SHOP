@@ -5,8 +5,11 @@ import { useParams } from "react-router-dom";
 import { reviewService } from "../../services/reviewService";
 import { DETAIL_TABS } from "../../constants/general";
 import { message } from "antd";
+import { useDispatch, useSelector } from "react-redux";
+import { handleAddCart } from "../../store/reducer/cartReducer";
 
 function useProductDetailPage() {
+  const dispatch = useDispatch();
   const [selectedTab, setSelectedTab] = useState(DETAIL_TABS[0].id);
   const { productSlug } = useParams();
   const {
@@ -50,10 +53,22 @@ function useProductDetailPage() {
     } else if (isNaN(quantity) && quantity < 1) {
       message.warning("Quantity must be greater than 1");
     }
-    message.success("Item added to cart");
     // Call API
-    colorReset();
-    quantityReset();
+    const payload = {
+      addedId: productDetailData?.id || "",
+      addedColor: color || "",
+      addedQuantity: quantity || 0,
+      addedPrice: productDetailData?.price - productDetailData?.discount || 0,
+    };
+    try {
+      const res = dispatch(handleAddCart(payload)).unwrap();
+      if (res) {
+        colorReset();
+        quantityReset();
+      }
+    } catch (error) {
+      console.log("error", error);
+    }
   };
   const handleAddWishList = () => {
     message.success("Item added to wishlist");

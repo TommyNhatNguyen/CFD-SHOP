@@ -25,6 +25,7 @@ import { useDispatch } from "react-redux";
 import { tokenMethod } from "./utils/tokenMethod";
 import { handleGetProfile } from "./store/reducer/authReducer";
 import { message } from "antd";
+import { handleGetCart } from "./store/reducer/cartReducer";
 const App = () => {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -34,6 +35,7 @@ const App = () => {
     });
     if (tokenMethod.get()) {
       dispatch(handleGetProfile());
+      dispatch(handleGetCart());
     }
   }, []);
   return (

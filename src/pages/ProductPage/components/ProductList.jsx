@@ -11,15 +11,15 @@ const ProductSkeletonStyle = styled.div`
   padding-bottom: 5%;
 `;
 
-const ProductList = ({ isLoading, isError, products }) => {
-  if ((!isLoading && products?.length < 1) || isError) {
+const ProductList = ({ isLoading, isError, products, isSearch }) => {
+  if ((!isLoading && products?.length < 1 && isSearch) || isError) {
     return (
       <div className="products mb-3">
         <div className="row justify-content-center">There is no products</div>
       </div>
     );
   }
-  if (isLoading) {
+  if (isLoading || !isSearch) {
     return (
       <div className="products mb-3" style={{ minHeight: 827 }}>
         <div className="row justify-content-center">

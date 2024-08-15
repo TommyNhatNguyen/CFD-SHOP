@@ -77,24 +77,25 @@ const ProductFilter = ({
             <div className="widget-body">
               <div className="filter-items filter-items-count">
                 {categories?.map((category, index) => {
+                  const productCountByTab = productsAllFiltered?.filter(
+                    (product) => product?.category?.id === category?.id
+                  )?.length;
                   return (
                     <div key={category?.id || index} className="filter-item">
                       <CheckBox
                         id={category?.id || index}
                         name={category?.id || ""}
                         label={category.name || ""}
-                        checked={activeCategory.includes(category?.id || "")}
+                        checked={
+                          activeCategory.includes(category?.id || "") &&
+                          productCountByTab !== 0
+                        }
                         onChange={(value) => {
                           _onFilterChange(category?.id, value.target.checked);
                         }}
+                        disabled={productCountByTab === 0}
                       />
-                      <span className="item-count">
-                        {
-                          productsAllFiltered?.filter(
-                            (product) => product?.category?.id === category?.id
-                          )?.length
-                        }
-                      </span>
+                      <span className="item-count">{productCountByTab}</span>
                     </div>
                   );
                 })}

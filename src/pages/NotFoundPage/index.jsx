@@ -1,4 +1,6 @@
 import React from "react";
+import Button from "../../components/Button";
+import PATHS from "../../constants/paths";
 
 const NotFoundPage = () => {
   return (
@@ -6,19 +8,16 @@ const NotFoundPage = () => {
       <div
         className="error-content text-center"
         style={{
-          backgroundImage: "url(assets/images/backgrounds/error-bg.jpg)",
+          backgroundImage: "url(/assets/images/backgrounds/error-bg.jpg)",
         }}
       >
         <div className="container">
           <h1 className="error-title">Error 404</h1>
           <p>We are sorry, the page you've requested is not available.</p>
-          <a
-            href="index.html"
-            className="btn btn-outline-primary-2 btn-minwidth-lg"
-          >
+          <Button link={PATHS.HOME} className=" btn-minwidth-lg">
             <span>BACK TO HOMEPAGE</span>
             <i className="icon-long-arrow-right" />
-          </a>
+          </Button>
         </div>
       </div>
     </main>

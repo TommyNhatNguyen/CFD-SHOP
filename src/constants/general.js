@@ -3,6 +3,11 @@ export const MENU_TABS = {
   categories: "mobile-cats-link",
 };
 
+export const PAYMENT_METHODS = {
+  cash: "cash",
+  transfer: "transfer",
+};
+
 export const SORT_OPTIONS = {
   popularity: {
     value: "popularity",
@@ -40,4 +45,10 @@ export const DETAIL_TABS = [
       return `Reviews (${totalReview})`;
     },
   },
+];
+
+export const SHIPPING_OPTIONS = [
+  { value: "free", label: "Free Shipping", price: 0 },
+  { value: "standard", label: "Standard", price: 10 },
+  { value: "express", label: "Express", price: 20 },
 ];
