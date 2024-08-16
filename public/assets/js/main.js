@@ -479,70 +479,67 @@ $(document).ready(function () {
   // });
 
   // Masonry / Grid layout fnction
-  function layoutInit(container, selector) {
-    $(container).each(function () {
-      var $this = $(this);
+  // function layoutInit(container, selector) {
+  //   $(container).each(function () {
+  //     var $this = $(this);
 
-      $this.isotope({
-        itemSelector: selector,
-        layoutMode: $this.data("layout") ? $this.data("layout") : "masonry",
-      });
-    });
-  }
+  //     $this.isotope({
+  //       itemSelector: selector,
+  //       layoutMode: $this.data("layout") ? $this.data("layout") : "masonry",
+  //     });
+  //   });
+  // }
 
-  function isotopeFilter(filterNav, container) {
-    $(filterNav)
-      .find("a")
-      .on("click", function (e) {
-        var $this = $(this),
-          filter = $this.attr("data-filter");
+  // function isotopeFilter(filterNav, container) {
+  //   $(filterNav)
+  //     .find("a")
+  //     .on("click", function (e) {
+  //       var $this = $(this),
+  //         filter = $this.attr("data-filter");
 
-        // Remove active class
-        $(filterNav).find(".active").removeClass("active");
+  //       // Remove active class
+  //       $(filterNav).find(".active").removeClass("active");
 
-        // Init filter
-        $(container).isotope({
-          filter: filter,
-          transitionDuration: "0.7s",
-        });
+  //       // Init filter
+  //       $(container).isotope({
+  //         filter: filter,
+  //         transitionDuration: "0.7s",
+  //       });
 
-        // Add active class
-        $this.closest("li").addClass("active");
-        e.preventDefault();
-      });
-  }
+  //       // Add active class
+  //       $this.closest("li").addClass("active");
+  //       e.preventDefault();
+  //     });
+  // }
 
   /* Masonry / Grid Layout & Isotope Filter for blog/portfolio etc... */
   if (typeof imagesLoaded === "function" && $.fn.isotope) {
     // Portfolio
-    $(".portfolio-container").imagesLoaded(function () {
-      // Portfolio Grid/Masonry
-      layoutInit(".portfolio-container", ".portfolio-item"); // container - selector
-      // Portfolio Filter
-      isotopeFilter(".portfolio-filter", ".portfolio-container"); //filterNav - .container
-    });
-
+    // $(".portfolio-container").imagesLoaded(function () {
+    //   // Portfolio Grid/Masonry
+    //   layoutInit(".portfolio-container", ".portfolio-item"); // container - selector
+    //   // Portfolio Filter
+    //   isotopeFilter(".portfolio-filter", ".portfolio-container"); //filterNav - .container
+    // });
     // Blog
-    $(".entry-container").imagesLoaded(function () {
-      // Blog Grid/Masonry
-      layoutInit(".entry-container", ".entry-item"); // container - selector
-      // Blog Filter
-      isotopeFilter(".entry-filter", ".entry-container"); //filterNav - .container
-    });
-
+    // $(".entry-container").imagesLoaded(function () {
+    //   // Blog Grid/Masonry
+    //   layoutInit(".entry-container", ".entry-item"); // container - selector
+    //   // Blog Filter
+    //   isotopeFilter(".entry-filter", ".entry-container"); //filterNav - .container
+    // });
     // Product masonry product-masonry.html
-    $(".product-gallery-masonry").imagesLoaded(function () {
-      // Products Grid/Masonry
-      layoutInit(".product-gallery-masonry", ".product-gallery-item"); // container - selector
-    });
-
+    // $(".product-gallery-masonry").imagesLoaded(function () {
+    //   // Products Grid/Masonry
+    //   layoutInit(".product-gallery-masonry", ".product-gallery-item"); // container - selector
+    // });
     // Products - Demo 11
-    $(".products-container").imagesLoaded(function () {
-      // Products Grid/Masonry
-      layoutInit(".products-container", ".product-item"); // container - selector
-      // Product Filter
-      isotopeFilter(".product-filter", ".products-container"); //filterNav - .container
-    });
+    // $(".products-container").imagesLoaded(function () {
+    //   // Products Grid/Masonry
+    //   layoutInit(".products-container", ".product-item"); // container - selector
+    //   // Product Filter
+    //   isotopeFilter(".product-filter", ".products-container"); //filterNav - .container
+    // });
   }
 
   // Count
@@ -563,7 +560,7 @@ $(document).ready(function () {
     }
   } else {
     // fallback
-    // Get the data-to value and add it to element
+    // Get the `data-`to value and add it to element
     $countItem.each(function () {
       var $this = $(this),
         countValue = $this.data("to");

@@ -63,7 +63,7 @@ const Pagination = ({ page, limit = 0, total = 0, onPagiChange }) => {
           </span>
           Prev
         </PagiItem>
-        <PagiItem isDisabled={pageList[0] === 1} onClick={onFirst}>
+        <PagiItem isDisabled={page === 1} onClick={onFirst}>
           First
         </PagiItem>
         {pageList?.length > 0 &&
@@ -81,10 +81,7 @@ const Pagination = ({ page, limit = 0, total = 0, onPagiChange }) => {
             );
           })}
         <PagiItem className="page-item-total">of {totalPage}</PagiItem>
-        <PagiItem
-          isDisabled={pageList[pageList.length - 1] === totalPage}
-          onClick={onLast}
-        >
+        <PagiItem isDisabled={page === totalPage} onClick={onLast}>
           Last
         </PagiItem>
         <PagiItem
