@@ -1,7 +1,16 @@
 import React, { forwardRef } from "react";
 
 const InputUseForm = (
-  { label, required, error, inputGroup, renderInput, className, ...props },
+  {
+    label,
+    required,
+    error,
+    inputGroup,
+    renderInput,
+    className,
+    labelClassName,
+    ...props
+  },
   ref
 ) => {
   if (inputGroup) {
@@ -10,7 +19,7 @@ const InputUseForm = (
   return (
     <div className={`form-group ${className}`}>
       {label && (
-        <label>
+        <label className={labelClassName}>
           {label} {required && "*"}
         </label>
       )}

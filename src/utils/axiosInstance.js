@@ -44,7 +44,9 @@ axiosInstance.interceptors.response.use(
         console.log("error", error);
         tokenMethod.delete();
       }
-      return Promise.reject(error?.response?.data?.message);
+      return Promise.reject(
+        error?.response?.data?.message || "Something went wrong"
+      );
     }
     return Promise.reject(error);
   }

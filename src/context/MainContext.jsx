@@ -19,6 +19,25 @@ export const MainContextProvider = ({ children }) => {
   useEffect(() => {
     handleCloseMobileMenu();
     scrollTop();
+    // Show scroll top button
+    var $scrollTop = $("#scroll-top");
+    $(window).on("load scroll", function () {
+      if ($(window).scrollTop() >= 400) {
+        $scrollTop.addClass("show");
+      } else {
+        $scrollTop.removeClass("show");
+      }
+    });
+
+    $scrollTop.on("click", function (e) {
+      $("html, body").animate(
+        {
+          scrollTop: 0,
+        },
+        800
+      );
+      e.preventDefault();
+    });
   }, [currentPath]);
   return (
     <MainContext.Provider

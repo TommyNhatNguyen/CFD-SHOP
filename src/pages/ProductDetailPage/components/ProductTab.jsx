@@ -6,13 +6,13 @@ import ReviewItem from "../../../components/ReviewItem";
 const ProductTab = ({
   totalReview,
   reviews,
-  loading,
   shippingReturn,
   description,
   selectedTab,
   handleSelectTab,
 }) => {
-  const _onSelectTab = (tab) => {
+  const _onSelectTab = (e, tab) => {
+    e?.preventDefault();
     handleSelectTab(tab);
   };
   return (
@@ -26,7 +26,7 @@ const ProductTab = ({
                 className={classNames("nav-link", {
                   active: tab.id === selectedTab,
                 })}
-                onClick={() => _onSelectTab(tab.id)}
+                onClick={(e) => _onSelectTab(e, tab.id)}
               >
                 {typeof tab.name === "function"
                   ? tab.name(totalReview)
@@ -61,9 +61,13 @@ const ProductTab = ({
                     No reviews
                   </h3>
                 ) : (
-                  reviews?.map((review, index) => {
-                    return <ReviewItem key={review?.id || index} {...review} />;
-                  })
+                  <div className="reviews">
+                    {reviews?.map((review, index) => {
+                      return (
+                        <ReviewItem key={review?.id || index} {...review} />
+                      );
+                    })}
+                  </div>
                 )}
               </div>
             );

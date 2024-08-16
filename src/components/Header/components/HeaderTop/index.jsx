@@ -13,6 +13,8 @@ import { handleResetCart } from "../../../../store/reducer/cartReducer";
 const HeaderTop = () => {
   const navigate = useNavigate();
   const { profile } = useSelector((state) => state.auth);
+  const { whiteList } = profile || {};
+  const totalWhiteList = whiteList?.length || 0;
   const dispatch = useDispatch();
   const _onShowModal = (e) => {
     e.preventDefault();
@@ -60,14 +62,14 @@ const HeaderTop = () => {
                   <li>
                     <ul>
                       <li>
-                        <Link to={PATHS.DASHBOARD}>Account Details</Link>
+                        <Link to={PATHS.DASHBOARD.DETAIL}>Account Details</Link>
                       </li>
                       <li>
-                        <Link to={PATHS.DASHBOARD}>Your Orders</Link>
+                        <Link to={PATHS.DASHBOARD.ORDERS}>Your Orders</Link>
                       </li>
                       <li>
-                        <Link to={PATHS.DASHBOARD}>
-                          Wishlist <span>(3)</span>
+                        <Link to={PATHS.DASHBOARD.WISHLIST}>
+                          Wishlist <span>({totalWhiteList || 0})</span>
                         </Link>
                       </li>
                       <li>

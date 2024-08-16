@@ -1,28 +1,23 @@
 import React from "react";
+import BreadCrumb from "../../components/BreadCrumb";
+import PATHS from "../../constants/paths";
+import Button from "../../components/Button";
 
 const FaqPage = () => {
   return (
     <main className="main">
       <div
         className="page-header text-center"
-        style={{ backgroundImage: 'url("assets/images/page-header-bg.jpg")' }}
+        style={{ backgroundImage: 'url("/assets/images/page-header-bg.jpg")' }}
       >
         <div className="container">
           <h1 className="page-title">FAQs</h1>
         </div>
       </div>
-      <nav aria-label="breadcrumb" className="breadcrumb-nav">
-        <div className="container">
-          <ol className="breadcrumb">
-            <li className="breadcrumb-item">
-              <a href="index.html">Home</a>
-            </li>
-            <li className="breadcrumb-item active" aria-current="page">
-              FAQs
-            </li>
-          </ol>
-        </div>
-      </nav>
+      <BreadCrumb>
+        <BreadCrumb.Item link={PATHS.HOME}>Home</BreadCrumb.Item>
+        <BreadCrumb.Item isActive>FAQs</BreadCrumb.Item>
+      </BreadCrumb>
       <div className="page-content">
         <div className="container">
           <h2 className="title text-center mb-3">Shipping Information</h2>
@@ -37,8 +32,7 @@ const FaqPage = () => {
                     aria-expanded="true"
                     aria-controls="collapse-1"
                   >
-                    {" "}
-                    How will my parcel be delivered?{" "}
+                    How will my parcel be delivered?
                   </a>
                 </h2>
               </div>
@@ -49,7 +43,6 @@ const FaqPage = () => {
                 data-parent="#accordion-1"
               >
                 <div className="card-body">
-                  {" "}
                   Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
                   Donec odio. Quisque volutpat mattis eros. Nullam malesuada
                   erat ut turpis. Suspendisse urna nibh, viverra non, semper
@@ -58,7 +51,7 @@ const FaqPage = () => {
                   Aenean dignissim pellentesque felis. Phasellus ultrices nulla
                   quis nibh. Quisque a lectus. Donec consectetuer ligula
                   vulputate sem tristique cursus. Nam nulla quam, gravida non,
-                  commodo a, sodales sit amet, nisi.{" "}
+                  commodo a, sodales sit amet, nisi.
                 </div>
               </div>
             </div>
@@ -73,8 +66,7 @@ const FaqPage = () => {
                     aria-expanded="false"
                     aria-controls="collapse-2"
                   >
-                    {" "}
-                    Do I pay for delivery?{" "}
+                    Do I pay for delivery?
                   </a>
                 </h2>
               </div>
@@ -85,13 +77,12 @@ const FaqPage = () => {
                 data-parent="#accordion-1"
               >
                 <div className="card-body">
-                  {" "}
                   Ipsum dolor sit amet, consectetuer adipiscing elit. Donec
                   odio. Quisque volutpat mattis eros. Nullam malesuada erat ut
                   turpis. Suspendisse urna nibh, viverra non, semper suscipit,
                   posuere a, pede. Donec nec justo eget felis facilisis
                   fermentum.Lorem ipsum dolor sit amet, consectetuer adipiscing
-                  elit. Donec odio. Quisque volutpat mattis eros.{" "}
+                  elit. Donec odio. Quisque volutpat mattis eros.
                 </div>
               </div>
             </div>
@@ -106,8 +97,7 @@ const FaqPage = () => {
                     aria-expanded="false"
                     aria-controls="collapse-3"
                   >
-                    {" "}
-                    Will I be charged customs fees?{" "}
+                    Will I be charged customs fees?
                   </a>
                 </h2>
               </div>
@@ -118,13 +108,12 @@ const FaqPage = () => {
                 data-parent="#accordion-1"
               >
                 <div className="card-body">
-                  {" "}
                   Nullam malesuada erat ut turpis. Suspendisse urna nibh,
                   viverra non, semper suscipit, posuere a, pede. Donec nec justo
                   eget felis facilisis fermentum.Lorem ipsum dolor sit amet,
                   consectetuer adipiscing elit. Donec odio. Quisque volutpat
                   mattis eros. Lorem ipsum dolor sit amet, consectetuer
-                  adipiscing elit. Donec odio. Quisque volutpat mattis eros.{" "}
+                  adipiscing elit. Donec odio. Quisque volutpat mattis eros.
                 </div>
               </div>
             </div>
@@ -139,8 +128,7 @@ const FaqPage = () => {
                     aria-expanded="false"
                     aria-controls="collapse-4"
                   >
-                    {" "}
-                    My item has become faulty{" "}
+                    My item has become faulty
                   </a>
                 </h2>
               </div>
@@ -151,13 +139,12 @@ const FaqPage = () => {
                 data-parent="#accordion-1"
               >
                 <div className="card-body">
-                  {" "}
                   Nullam malesuada erat ut turpis. Suspendisse urna nibh,
                   viverra non, semper suscipit, posuere a, pede. Donec nec justo
                   eget felis facilisis fermentum.Lorem ipsum dolor sit amet,
                   consectetuer adipiscing elit. Donec odio. Quisque volutpat
                   mattis eros. Lorem ipsum dolor sit amet, consectetuer
-                  adipiscing elit. Donec odio. Quisque volutpat mattis eros.{" "}
+                  adipiscing elit. Donec odio. Quisque volutpat mattis eros.
                 </div>
               </div>
             </div>
@@ -175,8 +162,7 @@ const FaqPage = () => {
                     aria-expanded="false"
                     aria-controls="collapse2-1"
                   >
-                    {" "}
-                    Tracking my order{" "}
+                    Tracking my order
                   </a>
                 </h2>
               </div>
@@ -187,12 +173,11 @@ const FaqPage = () => {
                 data-parent="#accordion-2"
               >
                 <div className="card-body">
-                  {" "}
                   Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
                   Donec odio. Quisque volutpat mattis eros. Nullam malesuada
                   erat ut turpis. Suspendisse urna nibh, viverra non, semper
                   suscipit, posuere a, pede. Donec nec justo eget felis
-                  facilisis fermentum.{" "}
+                  facilisis fermentum.
                 </div>
               </div>
             </div>
@@ -207,8 +192,7 @@ const FaqPage = () => {
                     aria-expanded="false"
                     aria-controls="collapse2-2"
                   >
-                    {" "}
-                    I haven’t received my order{" "}
+                    I haven’t received my order
                   </a>
                 </h2>
               </div>
@@ -219,13 +203,12 @@ const FaqPage = () => {
                 data-parent="#accordion-2"
               >
                 <div className="card-body">
-                  {" "}
                   Ipsum dolor sit amet, consectetuer adipiscing elit. Donec
                   odio. Quisque volutpat mattis eros. Nullam malesuada erat ut
                   turpis. Suspendisse urna nibh, viverra non, semper suscipit,
                   posuere a, pede. Donec nec justo eget felis facilisis
                   fermentum.Lorem ipsum dolor sit amet, consectetuer adipiscing
-                  elit. Donec odio. Quisque volutpat mattis eros.{" "}
+                  elit. Donec odio. Quisque volutpat mattis eros.
                 </div>
               </div>
             </div>
@@ -240,8 +223,7 @@ const FaqPage = () => {
                     aria-expanded="false"
                     aria-controls="collapse2-3"
                   >
-                    {" "}
-                    How can I return an item?{" "}
+                    How can I return an item?
                   </a>
                 </h2>
               </div>
@@ -252,13 +234,12 @@ const FaqPage = () => {
                 data-parent="#accordion-2"
               >
                 <div className="card-body">
-                  {" "}
                   Nullam malesuada erat ut turpis. Suspendisse urna nibh,
                   viverra non, semper suscipit, posuere a, pede. Donec nec justo
                   eget felis facilisis fermentum.Lorem ipsum dolor sit amet,
                   consectetuer adipiscing elit. Donec odio. Quisque volutpat
                   mattis eros. Lorem ipsum dolor sit amet, consectetuer
-                  adipiscing elit. Donec odio. Quisque volutpat mattis eros.{" "}
+                  adipiscing elit. Donec odio. Quisque volutpat mattis eros.
                 </div>
               </div>
             </div>
@@ -276,8 +257,7 @@ const FaqPage = () => {
                     aria-expanded="false"
                     aria-controls="collapse3-1"
                   >
-                    {" "}
-                    What payment types can I use?{" "}
+                    What payment types can I use?
                   </a>
                 </h2>
               </div>
@@ -288,12 +268,11 @@ const FaqPage = () => {
                 data-parent="#accordion-3"
               >
                 <div className="card-body">
-                  {" "}
                   Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
                   Donec odio. Quisque volutpat mattis eros. Nullam malesuada
                   erat ut turpis. Suspendisse urna nibh, viverra non, semper
                   suscipit, posuere a, pede. Donec nec justo eget felis
-                  facilisis fermentum.{" "}
+                  facilisis fermentum.
                 </div>
               </div>
             </div>
@@ -308,8 +287,7 @@ const FaqPage = () => {
                     aria-expanded="false"
                     aria-controls="collapse3-2"
                   >
-                    {" "}
-                    Can I pay by Gift Card?{" "}
+                    Can I pay by Gift Card?
                   </a>
                 </h2>
               </div>
@@ -320,13 +298,12 @@ const FaqPage = () => {
                 data-parent="#accordion-3"
               >
                 <div className="card-body">
-                  {" "}
                   Ipsum dolor sit amet, consectetuer adipiscing elit. Donec
                   odio. Quisque volutpat mattis eros. Nullam malesuada erat ut
                   turpis. Suspendisse urna nibh, viverra non, semper suscipit,
                   posuere a, pede. Donec nec justo eget felis facilisis
                   fermentum.Lorem ipsum dolor sit amet, consectetuer adipiscing
-                  elit. Donec odio. Quisque volutpat mattis eros.{" "}
+                  elit. Donec odio. Quisque volutpat mattis eros.
                 </div>
               </div>
             </div>
@@ -341,8 +318,7 @@ const FaqPage = () => {
                     aria-expanded="false"
                     aria-controls="collapse3-3"
                   >
-                    {" "}
-                    I can't make a payment{" "}
+                    I can't make a payment
                   </a>
                 </h2>
               </div>
@@ -353,13 +329,12 @@ const FaqPage = () => {
                 data-parent="#accordion-3"
               >
                 <div className="card-body">
-                  {" "}
                   Nullam malesuada erat ut turpis. Suspendisse urna nibh,
                   viverra non, semper suscipit, posuere a, pede. Donec nec justo
                   eget felis facilisis fermentum.Lorem ipsum dolor sit amet,
                   consectetuer adipiscing elit. Donec odio. Quisque volutpat
                   mattis eros. Lorem ipsum dolor sit amet, consectetuer
-                  adipiscing elit. Donec odio. Quisque volutpat mattis eros.{" "}
+                  adipiscing elit. Donec odio. Quisque volutpat mattis eros.
                 </div>
               </div>
             </div>
@@ -374,8 +349,7 @@ const FaqPage = () => {
                     aria-expanded="false"
                     aria-controls="collapse3-4"
                   >
-                    {" "}
-                    Has my payment gone through?{" "}
+                    Has my payment gone through?
                   </a>
                 </h2>
               </div>
@@ -386,13 +360,12 @@ const FaqPage = () => {
                 data-parent="#accordion-3"
               >
                 <div className="card-body">
-                  {" "}
                   Nullam malesuada erat ut turpis. Suspendisse urna nibh,
                   viverra non, semper suscipit, posuere a, pede. Donec nec justo
                   eget felis facilisis fermentum.Lorem ipsum dolor sit amet,
                   consectetuer adipiscing elit. Donec odio. Quisque volutpat
                   mattis eros. Lorem ipsum dolor sit amet, consectetuer
-                  adipiscing elit. Donec odio. Quisque volutpat mattis eros.{" "}
+                  adipiscing elit. Donec odio. Quisque volutpat mattis eros.
                 </div>
               </div>
             </div>
@@ -402,7 +375,7 @@ const FaqPage = () => {
       <div
         className="cta cta-display bg-image pt-4 pb-4"
         style={{
-          backgroundImage: "url(assets/images/backgrounds/cta/bg-7.jpg)",
+          backgroundImage: "url(/assets/images/backgrounds/cta/bg-7.jpg)",
         }}
       >
         <div className="container">
@@ -418,10 +391,10 @@ const FaqPage = () => {
                   </p>
                 </div>
                 <div className="col-auto">
-                  <a href="contact.html" className="btn btn-outline-white">
+                  <Button variant="outline-white" link={PATHS.CONTACT}>
                     <span>CONTACT US</span>
                     <i className="icon-long-arrow-right" />
-                  </a>
+                  </Button>
                 </div>
               </div>
             </div>

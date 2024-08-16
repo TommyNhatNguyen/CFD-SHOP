@@ -19,3 +19,14 @@ export const FullSizeSkeleton = styled.div`
     }
   }
 `;
+
+export const SelectWrapper = styled.div`
+  .ant-select {
+    padding: initial;
+    margin: initial;
+    .ant-select-selector {
+      background: transparent !important;
+      border: none !important;
+    }
+  }
+`;

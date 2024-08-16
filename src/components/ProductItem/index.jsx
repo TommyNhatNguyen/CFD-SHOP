@@ -9,7 +9,10 @@ import { Empty } from "antd";
 import { useDispatch } from "react-redux";
 import { handleAddCart } from "../../store/reducer/cartReducer";
 import { tokenMethod } from "../../utils/tokenMethod";
-import { handleShowModal } from "../../store/reducer/authReducer";
+import {
+  handleAddWhiteList,
+  handleShowModal,
+} from "../../store/reducer/authReducer";
 import { MODAL } from "../../constants/modal";
 
 const ImageWrapper = styled.div`
@@ -49,6 +52,13 @@ const ProductItem = ({
     };
     dispatch(handleAddCart(addPayload));
   };
+  const _onAddToWishList = (e, id) => {
+    e?.preventDefault();
+    const addPayload = {
+      product: id,
+    };
+    dispatch(handleAddWhiteList(addPayload));
+  };
   return (
     <div className="product product-2">
       <figure className="product-media">
@@ -76,7 +86,11 @@ const ProductItem = ({
           )}
         </Link>
         <div className="product-action-vertical">
-          <a href="#" className="btn-product-icon btn-wishlist btn-expandable">
+          <a
+            href="#"
+            className="btn-product-icon btn-wishlist btn-expandable"
+            onClick={(e) => _onAddToWishList(e, id)}
+          >
             <span>add to wishlist</span>
           </a>
         </div>

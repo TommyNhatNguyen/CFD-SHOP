@@ -468,15 +468,15 @@ $(document).ready(function () {
   //   });
 
   // Dashboard Page Tab Trigger
-  $(".tab-trigger-link").on("click", function (e) {
-    var targetHref = $(this).attr("href");
+  // $(".tab-trigger-link").on("click", function (e) {
+  //   var targetHref = $(this).attr("href");
 
-    $(".nav-dashboard")
-      .find('a[href="' + targetHref + '"]')
-      .trigger("click");
+  //   $(".nav-dashboard")
+  //     .find('a[href="' + targetHref + '"]')
+  //     .trigger("click");
 
-    e.preventDefault();
-  });
+  //   e.preventDefault();
+  // });
 
   // Masonry / Grid layout fnction
   function layoutInit(container, selector) {
@@ -625,26 +625,26 @@ $(document).ready(function () {
   });
 
   // Scroll Top Button - Show
-  var $scrollTop = $("#scroll-top");
+  // var $scrollTop = $("#scroll-top");
 
-  $(window).on("load scroll", function () {
-    if ($(window).scrollTop() >= 400) {
-      $scrollTop.addClass("show");
-    } else {
-      $scrollTop.removeClass("show");
-    }
-  });
+  // $(window).on("load scroll", function () {
+  //   if ($(window).scrollTop() >= 400) {
+  //     $scrollTop.addClass("show");
+  //   } else {
+  //     $scrollTop.removeClass("show");
+  //   }
+  // });
 
   // On click animate to top
-  $scrollTop.on("click", function (e) {
-    $("html, body").animate(
-      {
-        scrollTop: 0,
-      },
-      800
-    );
-    e.preventDefault();
-  });
+  // $scrollTop.on("click", function (e) {
+  //   $("html, body").animate(
+  //     {
+  //       scrollTop: 0,
+  //     },
+  //     800
+  //   );
+  //   e.preventDefault();
+  // });
 
   var $viewAll = $(".view-all-demos");
   $viewAll.on("click", function (e) {
@@ -793,53 +793,53 @@ $(document).ready(function () {
   // }
 
   // SELECTOR CITY
-  var citis = document.getElementById("city");
-  var districts = document.getElementById("district");
-  var wards = document.getElementById("ward");
-  var Parameter = {
-    url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
-    method: "GET",
-    responseType: "application/json",
-  };
-  if (citis) {
-    var promise = axios(Parameter);
-    promise.then(function (result) {
-      renderCity(result.data);
-    });
+  // var citis = document.getElementById("city");
+  // var districts = document.getElementById("district");
+  // var wards = document.getElementById("ward");
+  // var Parameter = {
+  //   url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
+  //   method: "GET",
+  //   responseType: "application/json",
+  // };
+  // if (citis) {
+  //   var promise = axios(Parameter);
+  //   promise.then(function (result) {
+  //     renderCity(result.data);
+  //   });
 
-    function renderCity(data) {
-      for (const x of data) {
-        citis.options[citis.options.length] = new Option(x.Name, x.Id);
-      }
-      citis.onchange = function () {
-        district.length = 1;
-        ward.length = 1;
-        if (this.value != "") {
-          const result = data.filter((n) => n.Id === this.value);
+  //   function renderCity(data) {
+  //     for (const x of data) {
+  //       citis.options[citis.options.length] = new Option(x.Name, x.Id);
+  //     }
+  //     citis.onchange = function () {
+  //       district.length = 1;
+  //       ward.length = 1;
+  //       if (this.value != "") {
+  //         const result = data.filter((n) => n.Id === this.value);
 
-          for (const k of result[0].Districts) {
-            district.options[district.options.length] = new Option(
-              k.Name,
-              k.Id
-            );
-          }
-        }
-      };
-      district.onchange = function () {
-        ward.length = 1;
-        const dataCity = data.filter((n) => n.Id === citis.value);
-        if (this.value != "") {
-          const dataWards = dataCity[0].Districts.filter(
-            (n) => n.Id === this.value
-          )[0].Wards;
+  //         for (const k of result[0].Districts) {
+  //           district.options[district.options.length] = new Option(
+  //             k.Name,
+  //             k.Id
+  //           );
+  //         }
+  //       }
+  //     };
+  //     district.onchange = function () {
+  //       ward.length = 1;
+  //       const dataCity = data.filter((n) => n.Id === citis.value);
+  //       if (this.value != "") {
+  //         const dataWards = dataCity[0].Districts.filter(
+  //           (n) => n.Id === this.value
+  //         )[0].Wards;
 
-          for (const w of dataWards) {
-            wards.options[wards.options.length] = new Option(w.Name, w.Id);
-          }
-        }
-      };
-    }
-  }
+  //         for (const w of dataWards) {
+  //           wards.options[wards.options.length] = new Option(w.Name, w.Id);
+  //         }
+  //       }
+  //     };
+  //   }
+  // }
 
   // Select Colors
   // let itemColor = $(".product-nav-dots .product-nav-item");

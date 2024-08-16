@@ -15,7 +15,7 @@ const CheckOutSuccessPage = () => {
             Your order <strong>{orderSlug}</strong> has been completed. Your
             order details are shown for your personal accont.
           </p>
-          <Button link={PATHS.DASHBOARD} className="btn-minwidth-lg">
+          <Button link={PATHS.DASHBOARD.ORDERS} className="btn-minwidth-lg">
             <span>VIEW MY ORDERS</span>
             <i className="icon-long-arrow-right" />
           </Button>

@@ -2,6 +2,7 @@ import React from "react";
 import useQuery from "../../hooks/useQuery";
 import { pageService } from "../../services/pageService";
 import BreadCrumb from "../../components/BreadCrumb";
+import PATHS from "../../constants/paths";
 
 const AboutPage = () => {
   const { data: aboutPageData } = useQuery(() =>
@@ -11,7 +12,10 @@ const AboutPage = () => {
 
   return (
     <main className="main" style={{ position: "relative" }}>
-      <BreadCrumb />
+      <BreadCrumb>
+        <BreadCrumb.Item link={PATHS.HOME}>Home</BreadCrumb.Item>
+        <BreadCrumb.Item isActive>About us</BreadCrumb.Item>
+      </BreadCrumb>
       <div className="container">
         <div
           className="page-header page-header-big text-center"

@@ -1,4 +1,7 @@
 import React from "react";
+import BreadCrumb from "../../components/BreadCrumb";
+import PATHS from "../../constants/paths";
+import Button from "../../components/Button";
 
 const PaymentMethodsPage = () => {
   return (
@@ -11,18 +14,10 @@ const PaymentMethodsPage = () => {
           <h1 className="page-title">Payment Methods</h1>
         </div>
       </div>
-      <nav aria-label="breadcrumb" className="breadcrumb-nav">
-        <div className="container">
-          <ol className="breadcrumb">
-            <li className="breadcrumb-item">
-              <a href="index.html">Home</a>
-            </li>
-            <li className="breadcrumb-item active" aria-current="page">
-              Payment Methods
-            </li>
-          </ol>
-        </div>
-      </nav>
+      <BreadCrumb>
+        <BreadCrumb.Item link={PATHS.HOME}>Home</BreadCrumb.Item>
+        <BreadCrumb.Item isActive>Payment Methods</BreadCrumb.Item>
+      </BreadCrumb>
       <div className="page-content">
         <div className="container">
           <div className="entry-body">
@@ -121,10 +116,10 @@ const PaymentMethodsPage = () => {
                   </p>
                 </div>
                 <div className="col-auto">
-                  <a href="contact.html" className="btn btn-outline-white">
+                  <Button variant="outline-white" link={PATHS.CONTACT}>
                     <span>CONTACT US</span>
                     <i className="icon-long-arrow-right" />
-                  </a>
+                  </Button>
                 </div>
               </div>
             </div>

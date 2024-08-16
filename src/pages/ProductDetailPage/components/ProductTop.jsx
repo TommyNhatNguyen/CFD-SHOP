@@ -25,8 +25,17 @@ const ProductTop = ({
   quantityRef,
 }) => {
   const url = window.location.href;
-  const { images, title, rating, price, description, stock, color, category } =
-    productDetail || {};
+  const {
+    images,
+    title,
+    rating,
+    price,
+    description,
+    stock,
+    color,
+    category,
+    id,
+  } = productDetail || {};
   const isOutOfStock = stock <= 0;
   const [mainImage, ...otherImages] = images || [];
   const formatedPrice = formatCurrency(price || 0);
@@ -34,10 +43,11 @@ const ProductTop = ({
     e.preventDefault();
     handleAddToCart();
   };
-  const _onAddWishList = (e) => {
+  const _onAddWishList = (e, id) => {
     e.preventDefault();
-    handleAddWishList();
+    handleAddWishList?.(id);
   };
+
   if (loading) {
     return (
       <div className="product-details-top" style={{ height: 615 }}>
@@ -205,7 +215,7 @@ const ProductTop = ({
                   href="#"
                   className="btn-product btn-wishlist"
                   title="Wishlist"
-                  onClick={(e) => _onAddWishList(e)}
+                  onClick={(e) => _onAddWishList(e, id)}
                 >
                   <span>Add to Wishlist</span>
                 </a>

@@ -7,6 +7,7 @@ import { DETAIL_TABS } from "../../constants/general";
 import { message } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { handleAddCart } from "../../store/reducer/cartReducer";
+import { handleAddWhiteList } from "../../store/reducer/authReducer";
 
 function useProductDetailPage() {
   const dispatch = useDispatch();
@@ -30,7 +31,7 @@ function useProductDetailPage() {
     execute: getReview,
   } = useMutation(reviewService.getReviewById);
   useEffect(() => {
-    () => productDetailData?.id && getReview(`/${productDetailData?.id || ""}`);
+    productDetailData?.id && getReview(`/${productDetailData?.id || ""}`);
   }, [productSlug, productDetailData]);
   const productTabProps = {
     loading: reviewLoading,
@@ -70,8 +71,11 @@ function useProductDetailPage() {
       console.log("error", error);
     }
   };
-  const handleAddWishList = () => {
-    message.success("Item added to wishlist");
+  const handleAddWishList = (id) => {
+    const addPayload = {
+      product: id,
+    };
+    dispatch(handleAddWhiteList(addPayload));
   };
   const productTopProps = {
     productDetail: productDetailData || {},

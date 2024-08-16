@@ -69,16 +69,16 @@ const Footer = () => {
                 <h4 className="widget-title">My Account</h4>
                 <ul className="widget-list">
                   <li>
-                    <Link to={PATHS.DASHBOARD}>Account Details</Link>
+                    <Link to={PATHS.DASHBOARD.DETAIL}>Account Details</Link>
                   </li>
                   <li>
                     <Link to={PATHS.CART}>View Cart</Link>
                   </li>
                   <li>
-                    <Link to={PATHS.DASHBOARD}>My Wishlist</Link>
+                    <Link to={PATHS.DASHBOARD.WISHLIST}>My Wishlist</Link>
                   </li>
                   <li>
-                    <Link to={PATHS.DASHBOARD}>Track My Order</Link>
+                    <Link to={PATHS.DASHBOARD.ORDERS}>Track My Order</Link>
                   </li>
                 </ul>
               </div>

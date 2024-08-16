@@ -153,3 +153,47 @@ export const handleGetProfile = createAsyncThunk(
     }
   }
 );
+
+export const handleAddWhiteList = createAsyncThunk(
+  "auth/handleAddWhiteList",
+  async (payload, thunkApi) => {
+    try {
+      if (tokenMethod.get()) {
+        const res = await authService.addWhiteList(payload);
+        if (res?.data?.data) {
+          if (typeof res?.data?.data === "boolean") {
+            message.warning("Item already in wish list");
+            return;
+          }
+          message.success("Add to wish list successfully");
+          thunkApi.dispatch(handleGetProfile());
+          return res?.data?.data;
+        }
+      } else {
+        message.warning("Please login to add item to wish list");
+      }
+    } catch (error) {
+      console.log("error", error);
+      thunkApi.rejectWithValue(error?.response?.data);
+    }
+  }
+);
+
+export const handleRemoveWhiteList = createAsyncThunk(
+  "auth/handleRemoveWhiteList",
+  async (payload, thunkApi) => {
+    console.log(payload);
+    try {
+      if (tokenMethod.get()) {
+        const res = await authService.deleteWhiteList(payload);
+        thunkApi.dispatch(handleGetProfile());
+        if (res?.data?.data) {
+          return res?.data?.data;
+        }
+      }
+    } catch (error) {
+      console.log("error", error);
+      thunkApi.rejectWithValue(error?.response?.data);
+    }
+  }
+);

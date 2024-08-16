@@ -26,6 +26,11 @@ import { tokenMethod } from "./utils/tokenMethod";
 import { handleGetProfile } from "./store/reducer/authReducer";
 import { message } from "antd";
 import { handleGetCart } from "./store/reducer/cartReducer";
+import AccountDetailTab from "./pages/DashboardPage/components/AccountDetailTab";
+import OrderTab from "./pages/DashboardPage/components/OrderTab";
+import AdressesTab from "./pages/DashboardPage/components/AdressesTab";
+import WishlistTab from "./pages/DashboardPage/components/WishlistTab";
+import ChangePasswordTab from "./pages/DashboardPage/components/ChangePasswordTab";
 const App = () => {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -56,7 +61,26 @@ const App = () => {
                 element={<CheckOutSuccessPage />}
               />
               <Route path={PATHS.CART} element={<CartPage />} />
-              <Route path={PATHS.DASHBOARD} element={<DashBoardPage />} />
+              <Route path={PATHS.DASHBOARD.INDEX} element={<DashBoardPage />}>
+                <Route
+                  index
+                  path={PATHS.DASHBOARD.DETAIL}
+                  element={<AccountDetailTab />}
+                />
+                <Route path={PATHS.DASHBOARD.ORDERS} element={<OrderTab />} />
+                <Route
+                  path={PATHS.DASHBOARD.ADRESSES}
+                  element={<AdressesTab />}
+                />
+                <Route
+                  path={PATHS.DASHBOARD.WISHLIST}
+                  element={<WishlistTab />}
+                />
+                <Route
+                  path={PATHS.DASHBOARD.CHANGEPASSWORD}
+                  element={<ChangePasswordTab />}
+                />
+              </Route>
             </Route>
             <Route path={PATHS.CONTACT} element={<ContactPage />} />
             <Route path={PATHS.FAQ} element={<FaqPage />} />

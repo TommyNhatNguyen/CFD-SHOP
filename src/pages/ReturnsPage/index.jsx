@@ -1,28 +1,23 @@
 import React from "react";
+import Button from "../../components/Button";
+import PATHS from "../../constants/paths";
+import BreadCrumb from "../../components/BreadCrumb";
 
 const ReturnsPage = () => {
   return (
     <main className="main">
       <div
         className="page-header text-center"
-        style={{ backgroundImage: 'url("assets/images/page-header-bg.jpg")' }}
+        style={{ backgroundImage: 'url("/assets/images/page-header-bg.jpg")' }}
       >
         <div className="container">
           <h1 className="page-title">Returns</h1>
         </div>
       </div>
-      <nav aria-label="breadcrumb" className="breadcrumb-nav">
-        <div className="container">
-          <ol className="breadcrumb">
-            <li className="breadcrumb-item">
-              <a href="index.html">Home</a>
-            </li>
-            <li className="breadcrumb-item active" aria-current="page">
-              Returns
-            </li>
-          </ol>
-        </div>
-      </nav>
+      <BreadCrumb>
+        <BreadCrumb.Item link={PATHS.HOME}>Home</BreadCrumb.Item>
+        <BreadCrumb.Item isActive>Returns</BreadCrumb.Item>
+      </BreadCrumb>
       <div className="page-content">
         <div className="container">
           <div className="entry-body">
@@ -121,10 +116,10 @@ const ReturnsPage = () => {
                   </p>
                 </div>
                 <div className="col-auto">
-                  <a href="contact.html" className="btn btn-outline-white">
+                  <Button variant="outline-white" link={PATHS.CONTACT}>
                     <span>CONTACT US</span>
                     <i className="icon-long-arrow-right" />
-                  </a>
+                  </Button>
                 </div>
               </div>
             </div>
