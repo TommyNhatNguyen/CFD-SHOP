@@ -89,7 +89,11 @@ const BlogDetailContent = ({
                   {modTags?.map((tag, index) => {
                     const { name, id } = tag;
                     return (
-                      <a key={id || index} href="#">
+                      <a
+                        key={id || index}
+                        href="#"
+                        style={{ pointerEvents: "none" }}
+                      >
                         {name || ""}
                       </a>
                     );

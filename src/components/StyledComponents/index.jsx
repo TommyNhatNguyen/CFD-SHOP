@@ -34,6 +34,7 @@ export const SelectWrapper = styled.div`
         outline: none;
         border: none;
         .ant-select-selection-search-input {
+          z-index: 0s;
           width: initial !important;
           -webkit-appearance: initial !important;
         }

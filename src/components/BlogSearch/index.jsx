@@ -21,31 +21,29 @@ const BlogSearch = ({ options }) => {
     <div className="widget widget-search">
       <h3 className="widget-title">Search</h3>
       <SelectWrapper>
-        <AutoComplete
-          ref={autoCompleteRef}
-          value={value}
-          popupMatchSelectWidth={400}
-          style={{
-            width: 250,
-          }}
-          options={options}
-          size="large"
-          onChange={onChange}
-          onSelect={onSelect}
-          autoFocus={false}
-          placeholder="Search in blog"
-          notFoundContent="Blogs not found"
-          filterOption={(inputVal, option) => {
-            return option?.value?.[0]
-              .toLowerCase()
-              .includes(inputVal.toLowerCase());
-          }}
-          className="form-control"
-        >
+        <div style={{ position: "relative" }}>
+          <AutoComplete
+            ref={autoCompleteRef}
+            value={value}
+            popupMatchSelectWidth={400}
+            options={options}
+            size="large"
+            onChange={onChange}
+            onSelect={onSelect}
+            autoFocus={false}
+            placeholder="Search in blog"
+            notFoundContent="Blogs not found"
+            filterOption={(inputVal, option) => {
+              return option?.value?.[0]
+                .toLowerCase()
+                .includes(inputVal.toLowerCase());
+            }}
+            className="form-control"
+          ></AutoComplete>
           <button type="submit" className="btn">
             <i className="icon-search" />
           </button>
-        </AutoComplete>
+        </div>
       </SelectWrapper>
     </div>
   );
