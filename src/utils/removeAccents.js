@@ -9,10 +9,10 @@ function removeAccents(str) {
   }
 
   str = str
-    .toLowerCase()
-    .trim()
-    .replace(/[^a-z0-9\-]/g, "-")
-    .replace(/-+/g, "-");
+    ?.toLowerCase()
+    ?.trim()
+    ?.replace(/[^a-z0-9\-]/g, "-")
+    ?.replace(/-+/g, "-");
 
   return str;
 }

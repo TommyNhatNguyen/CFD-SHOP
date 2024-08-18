@@ -2,15 +2,21 @@ import React from "react";
 import PATHS from "../../constants/paths";
 import BreadCrumb from "../../components/BreadCrumb";
 import BlogList from "./components/BlogList";
-import BlogSearch from "./components/BlogSearch";
-import BlogCategory from "./components/BlogCategory";
-import BlogPopular from "./components/BlogPopular";
-import BlogAdBanner from "./components/BlogAdBanner";
-import BlogTag from "./components/BlogTag";
-import useBlog from "./useBlog";
+import BlogSearch from "../../components/BlogSearch";
+import BlogCategory from "../../components/BlogCategory";
+import BlogPopular from "../../components/BlogPopular";
+import BlogAdBanner from "../../components/BlogAdBanner";
+import BlogTag from "../../components/BlogTag";
+import useBlog from "../../hooks/useBlog";
 
 const BlogPage = () => {
-  const { blogListProps } = useBlog();
+  const {
+    blogListProps,
+    blogCategoryProps,
+    blogTagProps,
+    blogPopularProps,
+    blogSearchProps,
+  } = useBlog();
   return (
     <main className="main">
       <div
@@ -31,11 +37,11 @@ const BlogPage = () => {
             <BlogList {...blogListProps} />
             <aside className="col-lg-3">
               <div className="sidebar">
-                <BlogSearch />
-                <BlogCategory />
-                <BlogPopular />
+                <BlogSearch {...blogSearchProps} />
+                <BlogCategory {...blogCategoryProps} />
+                <BlogPopular {...blogPopularProps} />
                 <BlogAdBanner />
-                <BlogTag />
+                <BlogTag {...blogTagProps} />
               </div>
             </aside>
           </div>

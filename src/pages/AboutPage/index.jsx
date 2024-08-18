@@ -57,12 +57,12 @@ const AboutPage = () => {
                 <div className="about-images">
                   <img
                     src={aboutPage?.image1 || ""}
-                    alt
+                    alt="about image"
                     className="about-img-front"
                   />
                   <img
                     src={aboutPage?.image2 || ""}
-                    alt
+                    alt="about image"
                     className="about-img-back"
                   />
                 </div>

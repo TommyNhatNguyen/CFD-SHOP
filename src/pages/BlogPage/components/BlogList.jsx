@@ -1,10 +1,11 @@
 import { Skeleton, Empty } from "antd";
-import React from "react";
+import React, { useEffect } from "react";
 import { FullSizeSkeleton } from "../../../components/StyledComponents";
 import PATHS from "../../../constants/paths";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Pagination from "../../../components/Pagination";
+import { formatDate } from "../../../utils/format";
 
 const BlogItemWrapper = styled.div`
   .entry-content {
@@ -25,7 +26,15 @@ const BlogItemWrapper = styled.div`
   }
 `;
 
-const BlogList = ({ blogs, loading, pagiProps }) => {
+const BlogList = ({ blogs, loading, pagiProps, selectedTag }) => {
+  let renderBlogs;
+  if (selectedTag?.length > 0) {
+    renderBlogs = blogs?.filter((item) =>
+      item?.tags?.some((tag) => selectedTag?.includes(tag))
+    );
+  } else {
+    renderBlogs = blogs;
+  }
   if (loading) {
     return (
       <div className="col-lg-9">
@@ -53,12 +62,12 @@ const BlogList = ({ blogs, loading, pagiProps }) => {
   } else {
     return (
       <div className="col-lg-9">
-        {!loading && blogs?.length > 0 ? (
+        {!loading && renderBlogs?.length > 0 ? (
           <>
             <div className="entry-container max-col-2" data-layout="fitRows">
               {!loading &&
-                blogs?.length > 0 &&
-                blogs?.map((item, index) => {
+                renderBlogs?.length > 0 &&
+                renderBlogs?.map((item, index) => {
                   const {
                     id,
                     createdAt,
@@ -82,7 +91,7 @@ const BlogList = ({ blogs, loading, pagiProps }) => {
                         </figure>
                         <div className="entry-body">
                           <div className="entry-meta">
-                            <span>{createdAt}</span>
+                            <span>{formatDate(createdAt)}</span>
                             <span className="meta-separator">|</span>
                             <span className="entry-author">
                               by <a href="#">{author || ""}</a>
@@ -107,7 +116,7 @@ const BlogList = ({ blogs, loading, pagiProps }) => {
                   );
                 })}
             </div>
-            <Pagination {...pagiProps} />
+            {selectedTag?.length < 1 && <Pagination {...pagiProps} />}
           </>
         ) : (
           <Empty description="No blogs found" />
