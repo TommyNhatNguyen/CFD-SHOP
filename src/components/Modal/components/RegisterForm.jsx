@@ -44,7 +44,10 @@ const RegisterForm = ({ modal }) => {
       }
     }
   };
-  // const renderLoading = useDebounce(loading.register, 2000);
+  const _onSocialLogin = (e) => {
+    e.preventDefault();
+    message.warning("Feature not supported yet!");
+  };
   return (
     <div
       className={classNames("tab-pane fade active", {
@@ -95,14 +98,22 @@ const RegisterForm = ({ modal }) => {
         <p className="text-center">or sign in with</p>
         <div className="row">
           <div className="col-sm-6">
-            <a href="#" className="btn btn-login btn-g">
+            <a
+              href="#"
+              className="btn btn-login btn-g"
+              onClick={_onSocialLogin}
+            >
               <i className="icon-google" />
               Login With Google
             </a>
           </div>
           {/* End .col-6 */}
           <div className="col-sm-6">
-            <a href="#" className="btn btn-login  btn-f">
+            <a
+              href="#"
+              className="btn btn-login  btn-f"
+              onClick={_onSocialLogin}
+            >
               <i className="icon-facebook-f" />
               Login With Facebook
             </a>
