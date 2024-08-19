@@ -12,11 +12,10 @@ import { REGEX } from "../../../utils/regex";
 import InputUseForm from "../../InputUseForm";
 import { useDispatch, useSelector } from "react-redux";
 import { handleLogin } from "../../../store/reducer/authReducer";
+import { message } from "antd";
 
 const LoginForm = ({ modal }) => {
   const dispatch = useDispatch();
-  // const { handleLogin, handleCloseModal } = useAuthContext();
-  // const { loading } = useSelector((state) => state.auth);
   const {
     register,
     handleSubmit,
@@ -34,6 +33,10 @@ const LoginForm = ({ modal }) => {
         setLoading(false);
       }
     }
+  };
+  const _onSocialLogin = (e) => {
+    e.preventDefault();
+    message.warning("Feature not supported yet!");
   };
   return (
     <div
@@ -82,14 +85,22 @@ const LoginForm = ({ modal }) => {
         <p className="text-center">or sign in with</p>
         <div className="row">
           <div className="col-sm-6">
-            <a href="#" className="btn btn-login btn-g">
+            <a
+              href="#"
+              className="btn btn-login btn-g"
+              onClick={_onSocialLogin}
+            >
               <i className="icon-google" />
               Login With Google
             </a>
           </div>
           {/* End .col-6 */}
           <div className="col-sm-6">
-            <a href="#" className="btn btn-login btn-f">
+            <a
+              href="#"
+              className="btn btn-login btn-f"
+              onClick={_onSocialLogin}
+            >
               <i className="icon-facebook-f" />
               Login With Facebook
             </a>
