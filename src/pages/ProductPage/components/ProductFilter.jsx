@@ -1,7 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import CheckBox from "../../../components/CheckBox";
 import useQuery from "../../../hooks/useQuery";
 import { productService } from "../../../services/productService";
+import { useLocation } from "react-router-dom";
+import { useMainContext } from "../../../context/MainContext";
 
 const ProductFilter = ({
   productsAllFiltered,
@@ -11,9 +13,11 @@ const ProductFilter = ({
   onCateFilterChange,
   handlePriceFilterChange,
 }) => {
+  const { isResetPage } = useMainContext();
+  const priceSliderRef = useRef();
   useEffect(() => {
     if (typeof noUiSlider === "object") {
-      var priceSlider = document.getElementById("price-slider");
+      var priceSlider = priceSliderRef.current;
       // Check if #price-slider elem is exists if not return
       // to prevent error logs
       if (priceSlider == null) return;
@@ -33,18 +37,30 @@ const ProductFilter = ({
           prefix: "$",
         }),
       });
-
-      // Update Price Range
-      priceSlider.noUiSlider.on("update", function (values, handle) {
+    }
+    // Update Price Range
+    priceSliderRef.current.noUiSlider.on("update", function (values, handle) {
+      if (values) {
         $("#filter-price-range").text(values.join(" - "));
         handlePriceFilterChange?.(values);
-      });
-    }
+      }
+    });
   }, []);
 
+  useEffect(() => {
+    priceSliderRef.current.noUiSlider.reset();
+  }, [isResetPage]);
+
+  const { state } = useLocation();
   const _onFilterChange = (id, isChecked) => {
     onCateFilterChange(id, isChecked);
   };
+  useEffect(() => {
+    if (state?.category) {
+      _onFilterChange(state?.category, true);
+    }
+  }, [state]);
+
   return (
     <aside className="col-lg-3 order-lg-first">
       <div className="sidebar sidebar-shop">
@@ -56,6 +72,7 @@ const ProductFilter = ({
             onClick={(e) => {
               e.preventDefault();
               onCateFilterChange("");
+              priceSliderRef.current.noUiSlider.reset();
             }}
           >
             Clean All
@@ -121,7 +138,7 @@ const ProductFilter = ({
                 <div className="filter-price-text">
                   Price Range: <span id="filter-price-range" />
                 </div>
-                <div id="price-slider" />
+                <div id="price-slider" ref={priceSliderRef} />
               </div>
             </div>
           </div>

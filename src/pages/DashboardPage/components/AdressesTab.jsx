@@ -63,8 +63,9 @@ const AdressesTab = () => {
               <h3 className="card-title">Shipping Address</h3>
               <p>
                 <strong>Address: </strong>{" "}
-                {`${street}, ${wardName}, ${districtName}, ${provinceName}` ||
-                  ""}{" "}
+                {street && wardName && districtName && provinceName
+                  ? `${street}, ${wardName}, ${districtName}, ${provinceName}`
+                  : ""}
                 <br />
                 <strong>Province: </strong> {provinceName || ""} <br />
                 <strong>District: </strong> {districtName || ""} <br />

@@ -6,6 +6,7 @@ import { REGEX } from "../../../utils/regex";
 import { SelectWrapper } from "../../../components/StyledComponents";
 import { Select } from "antd";
 import removeAccents from "../../../utils/removeAccents";
+import classNames from "classnames";
 
 const CheckOutBilling = ({
   register,
@@ -52,6 +53,7 @@ const CheckOutBilling = ({
           label="Email address"
           required
           className="col-sm-4"
+          disabled
           {...register("email", {
             required: MESSAGE.required,
             pattern: {
@@ -62,7 +64,7 @@ const CheckOutBilling = ({
           error={errors?.email?.message}
         />
       </div>
-      <div className="row">
+      <div className="row form-group">
         <div className="col-sm-4">
           <label>Province/City *</label>
           <Controller
@@ -76,7 +78,9 @@ const CheckOutBilling = ({
                 <SelectWrapper>
                   <Select
                     showSearch
-                    className="form-control form-select"
+                    className={classNames("form-control form-select", {
+                      "input-error": errors?.province?.message,
+                    })}
                     suffixIcon={<></>}
                     placeholder="Please select Province/City"
                     options={provinces}
@@ -110,7 +114,9 @@ const CheckOutBilling = ({
                 <SelectWrapper>
                   <Select
                     showSearch
-                    className="form-control form-select"
+                    className={classNames("form-control form-select", {
+                      "input-error": errors?.district?.message,
+                    })}
                     suffixIcon={<></>}
                     placeholder="Please select a district"
                     options={districts}
@@ -144,7 +150,9 @@ const CheckOutBilling = ({
                 <SelectWrapper>
                   <Select
                     showSearch
-                    className="form-control form-select"
+                    className={classNames("form-control form-select", {
+                      "input-error": errors?.ward?.message,
+                    })}
                     suffixIcon={<></>}
                     placeholder="Please select a ward"
                     options={wards}

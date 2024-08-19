@@ -1,7 +1,6 @@
 import { Skeleton } from "antd";
 import React from "react";
 import styled from "styled-components";
-import useDebounce from "../../../hooks/useDebounce";
 import ProductItem from "../../../components/ProductItem";
 
 const ProductSkeletonStyle = styled.div`
@@ -11,15 +10,16 @@ const ProductSkeletonStyle = styled.div`
   padding-bottom: 5%;
 `;
 
-const ProductList = ({ isLoading, isError, products, isSearch }) => {
-  if ((!isLoading && products?.length < 1 && isSearch) || isError) {
+const ProductList = ({ isLoading, isError, products }) => {
+  if ((!isLoading && products?.length === 0) || isError) {
     return (
       <div className="products mb-3">
         <div className="row justify-content-center">There is no products</div>
       </div>
     );
   }
-  if (isLoading || !isSearch) {
+
+  if (isLoading) {
     return (
       <div className="products mb-3" style={{ minHeight: 827 }}>
         <div className="row justify-content-center">
@@ -44,6 +44,7 @@ const ProductList = ({ isLoading, isError, products, isSearch }) => {
       </div>
     );
   }
+
   return (
     <div className="products mb-3" style={{ minHeight: 827 }}>
       <div className="row justify-content-center">

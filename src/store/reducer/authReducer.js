@@ -30,8 +30,8 @@ export const authSlice = createSlice({
     handleLogout: (state) => {
       if (!!tokenMethod.get()) {
         message.success("Logout Successful");
+        tokenMethod.delete();
       }
-      tokenMethod.delete();
       state.profile = null;
       state.showModal = "";
     },

@@ -7,21 +7,11 @@ import styled from "styled-components";
 import ColorSelect from "../../../components/ColorSelect";
 import ComponentLoading from "../../../components/ComponentLoading";
 import { Modal } from "antd";
+import { ProductTitleWrapper } from "../../../components/StyledComponents";
 
 const QuantitySelectWrapper = styled.td`
   .product-details-quantity {
     max-width: 100px;
-  }
-`;
-
-const ProductTitleWrapper = styled.div`
-  .cart-product-color {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    .product-nav-dots {
-      margin: initial;
-    }
   }
 `;
 
@@ -151,33 +141,6 @@ const CartTable = ({
           </tbody>
         </table>
       )}
-      {/* <div className="cart-bottom">
-                  <div className="cart-discount">
-                    <form action="#">
-                      <div className="input-group">
-                        <input
-                          type="text"
-                          className="form-control input-error"
-                          required
-                          placeholder="Coupon code"
-                        />
-                        <div className="input-group-append">
-                          <button
-                            className="btn btn-outline-primary-2"
-                            type="submit"
-                          >
-                            <i className="icon-long-arrow-right" />
-                          </button>
-                        </div>
-                      </div>
-                      <p className="form-error">Please fill in this field</p>
-                    </form>
-                  </div>
-                  <a href="#" className="btn btn-outline-dark-2">
-                    <span>UPDATE CART</span>
-                    <i className="icon-refresh" />
-                  </a>
-                </div> */}
     </div>
   );
 };

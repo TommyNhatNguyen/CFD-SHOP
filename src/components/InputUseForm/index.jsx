@@ -17,9 +17,9 @@ const InputUseForm = (
     return inputGroup?.({ ...props, error, ref });
   }
   return (
-    <div className={`form-group ${className}`}>
+    <div className={`form-group ${className ? className : ""}`}>
       {label && (
-        <label className={labelClassName}>
+        <label className={labelClassName ? labelClassName : ""}>
           {label} {required && "*"}
         </label>
       )}

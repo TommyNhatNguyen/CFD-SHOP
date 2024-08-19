@@ -187,7 +187,11 @@ const ProductTop = ({
             <div className="details-filter-row details-row-size">
               <label>Color:</label>
               <div className="product-nav product-nav-dots">
-                <ColorSelect colors={color} ref={colorRef} />
+                <ColorSelect
+                  defaultColor={color?.[0]}
+                  colors={color}
+                  ref={colorRef}
+                />
               </div>
             </div>
             <div className="details-filter-row details-row-size">
@@ -225,7 +229,8 @@ const ProductTop = ({
               <div className="product-cat">
                 <span>Category:</span>
                 <Link
-                  to={`${PATHS.PRODUCT.INDEX}/?category=${category?.id || ""}`}
+                  to={`${PATHS.PRODUCT.INDEX}`}
+                  state={{ category: category?.id || "" }}
                 >
                   {category?.name || ""}
                 </Link>

@@ -2,7 +2,7 @@ import { useLocation, useSearchParams } from "react-router-dom";
 import queryString from "query-string";
 import useMutation from "../../hooks/useMutation";
 import { productService } from "../../services/productService";
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { SORT_OPTIONS } from "../../constants/general";
 import useQuery from "../../hooks/useQuery";
 function useProductPage() {
@@ -10,6 +10,7 @@ function useProductPage() {
   const { search } = useLocation();
   const queryObject = queryString.parse(search);
   const [_, setSearchParams] = useSearchParams();
+
   const {
     data: productsData,
     loading: productsLoading,
@@ -18,6 +19,7 @@ function useProductPage() {
   } = useMutation((query) =>
     productService.getProduct(query || `?limit=${PRODUCT_LIMITS}`)
   );
+
   const products = productsData?.products || [];
   const productsPagi = productsData?.pagination || {};
   const {
@@ -36,7 +38,6 @@ function useProductPage() {
     isLoading: productsLoading,
     isError: productsError,
     products,
-    isSearch: !!search,
   };
 
   const updateQueryString = (queryObject) => {
@@ -76,6 +77,7 @@ function useProductPage() {
     onSortChange,
     activeSort,
   };
+
   const onCateFilterChange = (cateId, isChecked) => {
     let newCategoryQuery = Array.isArray(queryObject.category)
       ? [...queryObject.category, cateId]
@@ -85,6 +87,7 @@ function useProductPage() {
         (category) => category !== cateId
       );
     }
+
     if (!cateId) {
       newCategoryQuery = [];
     }
@@ -107,7 +110,7 @@ function useProductPage() {
           maxPrice: priceRange[1].substring(1),
           page: 1,
         });
-      }, 500);
+      }, 300);
     }
   };
   const queryObjectCopy = { ...queryObject };
@@ -121,15 +124,19 @@ function useProductPage() {
     delete queryObjectCopy["category"];
   }
 
-  const { data: productsAllData, execute: getProductsAll } = useMutation(
-    (query) => productService.getProduct(query)
-  );
+  const {
+    data: productsAllData,
+    execute: getProductsAll,
+    loading: productAllLoading,
+  } = useMutation((query) => productService.getProduct(query));
+
   useEffect(() => {
-    getProductsAll(
-      `?${new URLSearchParams(queryString.stringify(queryObjectCopy))}`
-    );
-  }, [search]);
-  // const allProductsFiltered =
+    if (search) {
+      getProductsAll(
+        `?${new URLSearchParams(queryString.stringify(queryObjectCopy))}`
+      );
+    }
+  }, [queryObject?.minPrice, queryObject?.maxPrice]);
   const filterProps = {
     productsAllFiltered: productsAllData?.products || [],
     categories: categories || [],

@@ -12,6 +12,7 @@ import { handleGetProfile } from "../../../store/reducer/authReducer";
 import { SelectWrapper } from "../../../components/StyledComponents";
 import useAddress from "../../../hooks/useAddress";
 import removeAccents from "../../../utils/removeAccents";
+import classNames from "classnames";
 
 const AccountDetailTab = () => {
   const dispatch = useDispatch();
@@ -186,12 +187,15 @@ const AccountDetailTab = () => {
             <Controller
               name="province"
               control={control}
+              rules={{ required: MESSAGE.required }}
               render={({ formState: { errors } }) => {
                 return (
                   <SelectWrapper>
                     <Select
                       showSearch
-                      className="form-control form-select"
+                      className={classNames("form-control form-select", {
+                        "input-error": errors?.province?.message,
+                      })}
                       suffixIcon={<></>}
                       placeholder="Please select Province/City"
                       onChange={_onProvinceChange}
@@ -217,12 +221,15 @@ const AccountDetailTab = () => {
             <Controller
               name="district"
               control={control}
+              rules={{ required: MESSAGE.required }}
               render={({ formState: { errors } }) => {
                 return (
                   <SelectWrapper>
                     <Select
                       showSearch
-                      className="form-control form-select"
+                      className={classNames("form-control form-select", {
+                        "input-error": errors?.district?.message,
+                      })}
                       suffixIcon={<></>}
                       placeholder="Please select a district"
                       onChange={_onDistrictChange}
@@ -248,12 +255,15 @@ const AccountDetailTab = () => {
             <Controller
               name="ward"
               control={control}
+              rules={{ required: MESSAGE.required }}
               render={({ formState: { errors } }) => {
                 return (
                   <SelectWrapper>
                     <Select
                       showSearch
-                      className="form-control form-select"
+                      className={classNames("form-control form-select", {
+                        "input-error": errors?.ward?.message,
+                      })}
                       suffixIcon={<></>}
                       placeholder="Please select a ward"
                       onChange={_onWardChange}

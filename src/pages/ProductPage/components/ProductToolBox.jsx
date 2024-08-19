@@ -23,11 +23,11 @@ const ProductToolBox = ({ showNum, totalNum, onSortChange, activeSort }) => {
     <div className="toolbox">
       <div className="toolbox-left">
         <div className="toolbox-info">
-          Showing{" "}
+          Showing &nbsp;
           <span>
             {showNum || 0} of {totalNum || 0}
-          </span>{" "}
-          Products
+          </span>
+          &nbsp; Products
         </div>
       </div>
       <ToolboxRightWrapper className="toolbox-right">

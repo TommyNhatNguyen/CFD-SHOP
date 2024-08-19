@@ -11,6 +11,8 @@ import {
   handleRemoveWhiteList,
 } from "../../../store/reducer/authReducer";
 import { handleAddCart } from "../../../store/reducer/cartReducer";
+import { ProductTitleWrapper } from "../../../components/StyledComponents";
+import ColorSelect from "../../../components/ColorSelect";
 
 const WishlistTab = () => {
   const dispatch = useDispatch();
@@ -87,7 +89,8 @@ const WishlistTab = () => {
           </thead>
           <tbody>
             {whiteList?.map((item, index) => {
-              const { id, slug, images, price, stock, name } = item || {};
+              const { id, slug, images, price, stock, name, color } =
+                item || {};
               const productPath = `${PATHS.PRODUCT.INDEX}/${slug}`;
               let imgPath = images?.[0];
               if (imgPath?.split("https")?.length > 2) {
@@ -108,9 +111,15 @@ const WishlistTab = () => {
                           <img src={imgPath || ""} alt="Product image" />
                         </Link>
                       </figure>
-                      <h3 className="product-title">
-                        <Link to={productPath || ""}>{name || ""}</Link>
-                      </h3>
+                      <ProductTitleWrapper>
+                        <h3 className="product-title">
+                          <Link to={productPath || ""}>{name || ""}</Link>
+                        </h3>
+                        {/* <div className="cart-product-color">
+                          <span>Color: </span>
+                          <ColorSelect colors={color} />
+                        </div> */}
+                      </ProductTitleWrapper>
                     </div>
                   </td>
                   <td className="price-col text-center">
@@ -123,7 +132,6 @@ const WishlistTab = () => {
                         "out-of-stock": !isInStock,
                       })}
                     >
-                      {" "}
                       {isInStock ? "In stock" : "Out of stock"}
                     </span>
                   </td>
@@ -131,9 +139,13 @@ const WishlistTab = () => {
                     <Button
                       className="btn btn-block"
                       onClick={() => _onAddToCart(item)}
+                      style={{
+                        pointerEvents: !isInStock ? "none" : "all",
+                        backgroundColor: !isInStock ? "rgba(0,0,0, 0.1)" : "",
+                      }}
                     >
                       <i className="icon-cart-plus" />
-                      Add to Cart
+                      <span>{!isInStock ? "Out of stock" : "add to cart"}</span>
                     </Button>
                   </td>
                   <td className="remove-col">

@@ -48,6 +48,9 @@ export const SelectWrapper = styled.div`
       }
     }
   }
+  .form-error {
+    margin-top: 1.3rem;
+  }
 `;
 
 export const PopularPostWrapper = styled.li`
@@ -67,6 +70,17 @@ export const PopularPostWrapper = styled.li`
         white-space: normal;
         word-wrap: normal;
       }
+    }
+  }
+`;
+
+export const ProductTitleWrapper = styled.div`
+  .cart-product-color {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    .product-nav-dots {
+      margin: initial;
     }
   }
 `;

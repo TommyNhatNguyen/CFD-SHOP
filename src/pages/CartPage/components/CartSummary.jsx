@@ -16,6 +16,8 @@ const CartSummary = ({ total, subTotal, handleUpdateShipping, shipping }) => {
     if (!!shipping && !!shipping?.typeShip && subTotal > 0 && total > 0) {
       message.success("Checkout Success");
       navigate(`${PATHS.CHECKOUT.INDEX}`);
+    } else if (!!!shipping?.typeShip) {
+      message.warning("Please select a shipping method");
     } else {
       message.error("Checkout Failed");
     }
