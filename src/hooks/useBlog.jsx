@@ -15,6 +15,7 @@ import PATHS from "../constants/paths";
 import { PopularPostWrapper } from "../components/StyledComponents";
 import { message } from "antd";
 import { scrollTop } from "../utils/scrollTop";
+import { useSelector } from "react-redux";
 
 function useBlog() {
   const BLOG_LIMITS = 6;
@@ -22,6 +23,8 @@ function useBlog() {
   const { state } = useLocation();
   const [selectedTag, setSelectedTag] = useState([]);
   const [isFilterTag, setIsFilterTag] = useState(false);
+  const { profile } = useSelector((state) => state.auth);
+
   const {
     data: blogData,
     loading: blogLoading,
@@ -208,6 +211,7 @@ function useBlog() {
     blogsAll,
     handleReplyComment,
     handlePostComment,
+    profile,
   };
   const blogDetailBreadCrumProps = { blogName: blogDetail?.name || "" };
   return {

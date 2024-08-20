@@ -17,7 +17,14 @@ import InputUseForm from "../../../components/InputUseForm";
 import { MESSAGE } from "../../../constants/message";
 import { REGEX } from "../../../utils/regex";
 import { Skeleton } from "antd";
-import { FullSizeSkeleton } from "../../../components/StyledComponents";
+import {
+  FullSizeSkeleton,
+  ReplyFormWrapper,
+} from "../../../components/StyledComponents";
+import { MODAL } from "../../../constants/modal";
+import { tokenMethod } from "../../../utils/tokenMethod";
+import { useDispatch } from "react-redux";
+import { handleShowModal } from "../../../store/reducer/authReducer";
 
 const BlogDetailContent = ({
   blogDetail,
@@ -25,10 +32,12 @@ const BlogDetailContent = ({
   blogsAll,
   handleReplyComment,
   handlePostComment,
+  profile,
 }) => {
+  const dispatch = useDispatch();
+  const [isLogin, setIsLogin] = useState(false);
   const { image, name, createdAt, author, description, tags, id } = blogDetail;
   const url = window.location.href;
-
   const relatedBlogs = useMemo(
     () =>
       blogsAll?.filter(
@@ -37,9 +46,7 @@ const BlogDetailContent = ({
       ),
     [blogsAll, id, tags]
   );
-
   const modTags = blogTags?.filter((tag) => tags?.includes(tag?.id));
-
   const currentBlogIndex = useMemo(() => {
     return blogsAll?.findIndex((item) => item?.id === id);
   }, [blogsAll, blogDetail]);
@@ -56,12 +63,24 @@ const BlogDetailContent = ({
     reset,
     formState: { errors },
   } = useForm();
+
   const _onPostComment = (data) => {
     if (data) {
       handlePostComment(data);
       reset();
     }
   };
+  const _onShowModal = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    dispatch(handleShowModal(MODAL.login));
+  };
+
+  useEffect(() => {
+    if (tokenMethod.get()) {
+      setIsLogin(true);
+    }
+  }, [profile]);
   return (
     <div className="col-lg-9">
       {Object.keys(blogDetail)?.length > 1 ? (
@@ -359,7 +378,7 @@ const BlogDetailContent = ({
           </li>
         </ul>
       </div>
-      <div className="reply">
+      <ReplyFormWrapper className="reply">
         <div className="heading">
           <h3 className="title">Leave A Reply</h3>
           <p className="title-desc">
@@ -418,7 +437,23 @@ const BlogDetailContent = ({
             <i className="icon-long-arrow-right" />
           </button>
         </form>
-      </div>
+        {!isLogin && (
+          <div className="reply__login">
+            <p>
+              Please{" "}
+              <a
+                href="#"
+                className="top-menu-login"
+                id={MODAL.login}
+                onClick={_onShowModal}
+              >
+                Login | Resgister
+              </a>{" "}
+              to leave a reply
+            </p>
+          </div>
+        )}
+      </ReplyFormWrapper>
     </div>
   );
 };

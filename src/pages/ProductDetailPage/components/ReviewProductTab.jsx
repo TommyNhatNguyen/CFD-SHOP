@@ -13,6 +13,7 @@ import { MODAL } from "../../../constants/modal";
 import { handleShowModal } from "../../../store/reducer/authReducer";
 import { tokenMethod } from "../../../utils/tokenMethod";
 import PATHS from "../../../constants/paths";
+import { ReplyFormWrapper } from "../../../components/StyledComponents";
 
 const ReviewsWrapper = styled.div`
   max-height: 500px;
@@ -31,24 +32,6 @@ const StarWrapper = styled.div`
     &.active {
       stroke: #df9e29;
       fill: #df9e29;
-    }
-  }
-`;
-
-const ReviewFormWrapper = styled.div`
-  position: relative;
-  .reply__login {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    opacity: 0.8;
-    background-color: #000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    p {
     }
   }
 `;
@@ -127,7 +110,7 @@ const ReviewProductTab = ({ totalReview, reviews, handleReviewProduct }) => {
           </div>
         )}
       </ReviewsWrapper>
-      <ReviewFormWrapper className="reply">
+      <ReplyFormWrapper className="reply">
         {state?.order && state?.product && !isReview ? (
           <>
             <div className="heading">
@@ -241,7 +224,7 @@ const ReviewProductTab = ({ totalReview, reviews, handleReviewProduct }) => {
             </p>
           </div>
         )}
-      </ReviewFormWrapper>
+      </ReplyFormWrapper>
     </>
   );
 };

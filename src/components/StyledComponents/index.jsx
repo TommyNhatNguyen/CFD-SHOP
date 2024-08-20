@@ -84,3 +84,19 @@ export const ProductTitleWrapper = styled.div`
     }
   }
 `;
+
+export const ReplyFormWrapper = styled.div`
+  position: relative;
+  .reply__login {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0.8;
+    background-color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+`;
