@@ -9,7 +9,7 @@ function useProductPage() {
   const PRODUCT_LIMITS = 6;
   const { search } = useLocation();
   const queryObject = queryString.parse(search);
-  const [_, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const {
     data: productsData,
@@ -28,10 +28,9 @@ function useProductPage() {
     error: categoriesError,
   } = useQuery(productService.getProductCategories);
   const categories = categoriesData?.products || [];
+
   useEffect(() => {
-    if (search) {
-      fetchProducts(search);
-    }
+    fetchProducts(search);
   }, [search]);
 
   const productListProps = {
@@ -47,6 +46,7 @@ function useProductPage() {
     });
     setSearchParams(new URLSearchParams(newQueryString));
   };
+
   const onPagiChange = (page) => {
     updateQueryString({ ...queryObject, page: page });
   };
@@ -82,6 +82,7 @@ function useProductPage() {
     let newCategoryQuery = Array.isArray(queryObject.category)
       ? [...queryObject.category, cateId]
       : [queryObject.category, cateId];
+
     if (!isChecked) {
       newCategoryQuery = newCategoryQuery.filter(
         (category) => category !== cateId
@@ -91,12 +92,14 @@ function useProductPage() {
     if (!cateId) {
       newCategoryQuery = [];
     }
+
     updateQueryString({
       ...queryObject,
       category: newCategoryQuery,
       page: 1,
     });
   };
+
   const priceFilterTimeout = useRef();
   const handlePriceFilterChange = (priceRange) => {
     if (priceRange?.length === 2) {
@@ -113,6 +116,11 @@ function useProductPage() {
       }, 300);
     }
   };
+
+  const handleCleanAllFilter = () => {
+    updateQueryString({});
+  };
+
   const queryObjectCopy = { ...queryObject };
   if (queryObjectCopy["page"]) {
     delete queryObjectCopy["page"];
@@ -131,11 +139,9 @@ function useProductPage() {
   } = useMutation((query) => productService.getProduct(query));
 
   useEffect(() => {
-    if (search) {
-      getProductsAll(
-        `?${new URLSearchParams(queryString.stringify(queryObjectCopy))}`
-      );
-    }
+    getProductsAll(
+      `?${new URLSearchParams(queryString.stringify(queryObjectCopy))}`
+    );
   }, [queryObject?.minPrice, queryObject?.maxPrice]);
   const filterProps = {
     productsAllFiltered: productsAllData?.products || [],
@@ -151,6 +157,8 @@ function useProductPage() {
     ],
     onCateFilterChange,
     handlePriceFilterChange,
+    handleCleanAllFilter,
+    search: search,
   };
   return { toolboxProps, productListProps, pagiProps, filterProps };
 }

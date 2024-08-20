@@ -1,27 +1,25 @@
 import { Empty } from "antd";
 import classNames from "classnames";
 import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
+import PATHS from "../../constants/paths";
 
-const TagWrapper = styled.a`
-  cursor: pointer;
-  &.active {
-    color: #fcb941 !important;
-    background-color: #fff !important;
+const TagWrapper = styled.div`
+  a {
+    cursor: pointer;
+    &:focus {
+      color: #777;
+      background-color: #fafafa;
+    }
+    &.active {
+      color: #fcb941 !important;
+      background-color: #fff !important;
+    }
   }
 `;
 
-const BlogTag = ({ blogTags, handleSelectTag, selectedTag, blogDetail }) => {
-  const _onSelectTag = (e, tag) => {
-    e?.preventDefault();
-    handleSelectTag?.(tag);
-  };
-  useEffect(() => {
-    if (Object.keys(blogDetail)?.length > 0) {
-      handleSelectTag?.(blogDetail?.tags, true);
-    }
-  }, [blogDetail]);
-
+const BlogTag = ({ blogTags, selectedTag, handleUpdateFilterTag }) => {
   return (
     <div className="widget">
       <h3 className="widget-title">Browse Tags</h3>
@@ -30,12 +28,15 @@ const BlogTag = ({ blogTags, handleSelectTag, selectedTag, blogDetail }) => {
           blogTags?.map((tag, index) => {
             const { id, name } = tag || {};
             return (
-              <TagWrapper
-                key={id || index}
-                className={classNames({ active: selectedTag?.includes(id) })}
-                onClick={(e) => _onSelectTag(e, id)}
-              >
-                {name || ""}
+              <TagWrapper key={id || index}>
+                <Link
+                  className={classNames({ active: selectedTag?.includes(id) })}
+                  to={PATHS.BLOG.INDEX}
+                  state={{ selectedTag: id }}
+                  onClick={handleUpdateFilterTag}
+                >
+                  {name || ""}
+                </Link>
               </TagWrapper>
             );
           })

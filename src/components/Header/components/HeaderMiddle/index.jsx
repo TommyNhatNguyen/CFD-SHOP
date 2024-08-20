@@ -39,9 +39,7 @@ const HeaderMiddle = () => {
               <NavLink to={PATHS.ABOUT}>About Us</NavLink>
             </li>
             <li>
-              <NavLink to={PATHS.PRODUCT.INDEX} onClick={handleResetPage}>
-                Product
-              </NavLink>
+              <NavLink to={PATHS.PRODUCT.INDEX}>Product</NavLink>
             </li>
             <li>
               <NavLink to={PATHS.BLOG.INDEX}>Blog</NavLink>

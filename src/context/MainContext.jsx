@@ -40,18 +40,12 @@ export const MainContextProvider = ({ children }) => {
     });
   }, [currentPath]);
 
-  const [isResetPage, setIsResetPage] = useState(false);
-  const handleResetPage = () => {
-    setIsResetPage(!isResetPage);
-  };
   return (
     <MainContext.Provider
       value={{
         handleShowMobileMenu,
         handleCloseMobileMenu,
         isShowMobileMenu,
-        handleResetPage,
-        isResetPage,
       }}
     >
       {children}

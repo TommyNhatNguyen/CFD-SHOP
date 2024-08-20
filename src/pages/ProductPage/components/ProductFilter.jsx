@@ -12,15 +12,25 @@ const ProductFilter = ({
   activeCategory,
   onCateFilterChange,
   handlePriceFilterChange,
+  search,
+  handleCleanAllFilter,
 }) => {
-  const { isResetPage } = useMainContext();
   const priceSliderRef = useRef();
+  function destroyExistingSlider() {
+    if (priceSliderRef.current && priceSliderRef.current.noUiSlider) {
+      priceSliderRef.current.noUiSlider.destroy();
+    }
+  }
   useEffect(() => {
     if (typeof noUiSlider === "object") {
       var priceSlider = priceSliderRef.current;
       // Check if #price-slider elem is exists if not return
       // to prevent error logs
       if (priceSlider == null) return;
+      // if (noUiSliderRef.current) {
+      //   noUiSliderRef.current = null;
+      //   return;
+      // }
 
       noUiSlider.create(priceSlider, {
         start: currentPriceRange,
@@ -39,42 +49,39 @@ const ProductFilter = ({
       });
     }
     // Update Price Range
-    priceSliderRef.current.noUiSlider.on("update", function (values, handle) {
+    priceSliderRef.current.noUiSlider.on("slide", function (values, handle) {
       if (values) {
         $("#filter-price-range").text(values.join(" - "));
         handlePriceFilterChange?.(values);
       }
     });
-  }, []);
-
-  useEffect(() => {
-    priceSliderRef.current.noUiSlider.reset();
-  }, [isResetPage]);
+    return () => {
+      destroyExistingSlider();
+    };
+  }, [search]);
 
   const { state } = useLocation();
   const _onFilterChange = (id, isChecked) => {
     onCateFilterChange(id, isChecked);
   };
+
   useEffect(() => {
     if (state?.category) {
       _onFilterChange(state?.category, true);
     }
   }, [state]);
 
+  const _onCleanAll = () => {
+    $("#filter-price-range").text(["$0", "$1000"].join(" - "));
+    handleCleanAllFilter();
+  };
+
   return (
     <aside className="col-lg-3 order-lg-first">
       <div className="sidebar sidebar-shop">
         <div className="widget widget-clean">
           <label>Filters:</label>
-          <a
-            href="#"
-            className="sidebar-filter-clear"
-            onClick={(e) => {
-              e.preventDefault();
-              onCateFilterChange("");
-              priceSliderRef.current.noUiSlider.reset();
-            }}
-          >
+          <a href="#" className="sidebar-filter-clear" onClick={_onCleanAll}>
             Clean All
           </a>
         </div>

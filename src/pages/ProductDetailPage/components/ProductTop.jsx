@@ -228,10 +228,7 @@ const ProductTop = ({
             <div className="product-details-footer">
               <div className="product-cat">
                 <span>Category:</span>
-                <Link
-                  to={`${PATHS.PRODUCT.INDEX}`}
-                  state={{ category: category?.id || "" }}
-                >
+                <Link to={`${PATHS.PRODUCT.INDEX}?category=${category?.id}`}>
                   {category?.name || ""}
                 </Link>
               </div>

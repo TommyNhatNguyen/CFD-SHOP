@@ -14,11 +14,14 @@ import { formatDate } from "../utils/format";
 import PATHS from "../constants/paths";
 import { PopularPostWrapper } from "../components/StyledComponents";
 import { message } from "antd";
+import { scrollTop } from "../utils/scrollTop";
 
 function useBlog() {
   const BLOG_LIMITS = 6;
   const { blogSlug } = useParams();
+  const { state } = useLocation();
   const [selectedTag, setSelectedTag] = useState([]);
+  const [isFilterTag, setIsFilterTag] = useState(false);
   const {
     data: blogData,
     loading: blogLoading,
@@ -117,23 +120,21 @@ function useBlog() {
     onPagiChange,
   };
 
-  const handleSelectTag = (tag, reset = false) => {
-    if (reset) {
-      setSelectedTag([]);
-      if (tag) {
-        setSelectedTag(tag);
-        return;
-      }
-    } else {
-      if (!selectedTag?.includes(tag)) {
-        setSelectedTag([...selectedTag, tag]);
+  const handleUpdateFilterTag = () => {
+    setIsFilterTag((prev) => !prev);
+    scrollTop();
+  };
+  useEffect(() => {
+    if (state?.selectedTag) {
+      if (!selectedTag?.includes(state?.selectedTag)) {
+        setSelectedTag((prev) => [...prev, state?.selectedTag]);
       } else {
-        setSelectedTag((prev) => {
-          return [...prev.filter((item) => item !== tag)];
-        });
+        setSelectedTag((prev) => [
+          ...prev.filter((item) => item !== state?.selectedTag),
+        ]);
       }
     }
-  };
+  }, [state?.selectedTag, isFilterTag]);
 
   const renderItem = (name, image, blogPath, createdAt) => ({
     value: [name, blogPath],
@@ -191,8 +192,8 @@ function useBlog() {
   const blogTagProps = {
     blogDetail,
     blogTags,
-    handleSelectTag,
     selectedTag,
+    handleUpdateFilterTag,
   };
   const blogPopularProps = {
     blogsPopular: blogsAll?.filter((blog) => blog.isPopular),

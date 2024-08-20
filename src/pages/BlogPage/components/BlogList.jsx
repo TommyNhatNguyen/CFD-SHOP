@@ -35,6 +35,7 @@ const BlogList = ({ blogs, loading, pagiProps, selectedTag }) => {
   } else {
     renderBlogs = blogs;
   }
+
   if (loading) {
     return (
       <div className="col-lg-9">
