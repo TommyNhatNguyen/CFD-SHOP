@@ -8,6 +8,8 @@ import { message } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { handleAddCart } from "../../store/reducer/cartReducer";
 import { handleAddWhiteList } from "../../store/reducer/authReducer";
+import { orderService } from "../../services/orderService";
+import useQuery from "../../hooks/useQuery";
 
 function useProductDetailPage() {
   const dispatch = useDispatch();
@@ -33,6 +35,18 @@ function useProductDetailPage() {
   useEffect(() => {
     productDetailData?.id && getReview(`/${productDetailData?.id || ""}`);
   }, [productSlug, productDetailData]);
+  const handleReviewProduct = async (payload) => {
+    try {
+      const res = await reviewService.review(payload);
+      if (res?.data?.data) {
+        message.success("Thanks for your review!");
+        getReview(`/${productDetailData?.id || ""}`);
+      }
+    } catch (error) {
+      console.log(error);
+      message.error(error?.response?.data?.message);
+    }
+  };
   const productTabProps = {
     loading: reviewLoading,
     totalReview: reviewData?.length || 0,
@@ -41,6 +55,7 @@ function useProductDetailPage() {
     description: productDetailData?.description,
     selectedTab,
     handleSelectTab,
+    handleReviewProduct,
   };
   /** PRODUCT TOP */
   const colorRef = useRef();

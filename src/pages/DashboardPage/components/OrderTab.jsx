@@ -29,11 +29,13 @@ const OrderTab = () => {
           quantity: order?.quantity?.[productIndex],
           totalProduct: order?.totalProduct?.[productIndex],
           variant: order?.variant?.[productIndex],
+          isReview: order?.isReview?.[productIndex],
           orderId: order?.id,
         };
       }),
     ];
   });
+
   return (
     <div
       className="tab-pane fade show active"
@@ -49,6 +51,7 @@ const OrderTab = () => {
               <th className="text-center">Price</th>
               <th className="text-center">Quantity</th>
               <th className="text-center">Total</th>
+              <th className="text-center">Review</th>
             </tr>
           </thead>
           <tbody>
@@ -62,6 +65,7 @@ const OrderTab = () => {
                       images,
                       quantity,
                       variant,
+                      isReview,
                       totalProduct,
                       name,
                       price,
@@ -95,6 +99,32 @@ const OrderTab = () => {
                         <td className="total-col text-center">
                           {formatCurrency(totalProduct || 0)}
                         </td>
+                        <td style={{ textAlign: "center" }}>
+                          {isReview ? (
+                            <div
+                              style={{
+                                maxWidth: 20,
+                                textAlign: "center",
+                                margin: "auto",
+                              }}
+                            >
+                              <img src="/assets/images/check-icon.png" />
+                            </div>
+                          ) : (
+                            <>
+                              Please rate this product -{" "}
+                              <Link
+                                to={productPath}
+                                state={{
+                                  order: orders?.[orderIndex]?.id,
+                                  product: id,
+                                }}
+                              >
+                                Rate
+                              </Link>
+                            </>
+                          )}
+                        </td>
                       </RowWrapper>
                     );
                   })}
@@ -119,6 +149,7 @@ const OrderTab = () => {
                         {formatCurrency(orders?.[orderIndex]?.total || 0)}
                       </strong>
                     </td>
+                    <td></td>
                   </RowWrapper>
                 </Fragment>
               );

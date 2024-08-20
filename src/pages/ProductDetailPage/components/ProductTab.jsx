@@ -1,7 +1,8 @@
 import React from "react";
 import { DETAIL_TABS } from "../../../constants/general";
 import classNames from "classnames";
-import ReviewItem from "../../../components/ReviewItem";
+import ReviewProductTab from "./ReviewProductTab";
+import ContentProductTab from "./ContentProductTab";
 
 const ProductTab = ({
   totalReview,
@@ -10,6 +11,7 @@ const ProductTab = ({
   description,
   selectedTab,
   handleSelectTab,
+  handleReviewProduct,
 }) => {
   const _onSelectTab = (e, tab) => {
     e?.preventDefault();
@@ -37,67 +39,23 @@ const ProductTab = ({
         })}
       </ul>
       <div className="tab-content">
-        {DETAIL_TABS.map((tab, index) => {
-          if (tab.id === "review") {
-            return (
-              <div
-                key={tab.id || index}
-                className={classNames("tab-pane fade", {
-                  "show active": selectedTab === tab.id,
-                })}
-                id="product-review-tab"
-                role="tabpanel"
-                aria-labelledby="product-review-link"
-              >
-                {totalReview === 0 ? (
-                  <h3
-                    style={{
-                      fontWeight: 400,
-                      fontSize: "1.6rem",
-                      letterSpacing: "-0.01em",
-                      marginBottom: "1.8rem",
-                    }}
-                  >
-                    No reviews
-                  </h3>
-                ) : (
-                  <div className="reviews">
-                    {reviews?.map((review, index) => {
-                      return (
-                        <ReviewItem key={review?.id || index} {...review} />
-                      );
-                    })}
-                  </div>
-                )}
-              </div>
-            );
-          } else {
-            return (
-              <div
-                key={tab.id || index}
-                className={classNames("tab-pane fade", {
-                  "show active": selectedTab === tab.id,
-                })}
-                id="product-desc-tab"
-                role="tabpanel"
-                aria-labelledby="product-desc-link"
-              >
-                <div className="product-desc-content">
-                  {tab.id === "description" && (
-                    <div
-                      dangerouslySetInnerHTML={{ __html: description }}
-                    ></div>
-                  )}
-                  {tab.id === "shippingReturn" && (
-                    <div
-                      dangerouslySetInnerHTML={{ __html: shippingReturn }}
-                    ></div>
-                  )}
-                </div>
-              </div>
-            );
-          }
-        })}
+        {selectedTab === "review" && (
+          <ReviewProductTab
+            totalReview={totalReview}
+            reviews={reviews}
+            handleReviewProduct={handleReviewProduct}
+          />
+        )}
+        {selectedTab === "description" && (
+          <ContentProductTab>
+            <div dangerouslySetInnerHTML={{ __html: description }}></div>
+          </ContentProductTab>
+        )}
+        {selectedTab === "shippingReturn" && (
+          <ContentProductTab>
+            <div dangerouslySetInnerHTML={{ __html: shippingReturn }}></div>
+          </ContentProductTab>
+        )}
       </div>
     </div>
   );

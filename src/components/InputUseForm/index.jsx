@@ -24,7 +24,7 @@ const InputUseForm = (
         </label>
       )}
       {renderInput ? (
-        renderInput?.(props, ref)
+        renderInput?.(props, error, ref)
       ) : (
         <input
           className={`form-control ${error ? "input-error" : ""}`}
