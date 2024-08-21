@@ -161,7 +161,7 @@ const MobileMenuContainer = () => {
                         className={`${
                           item?.name === "TV" ? "mobile-cats-lead" : ""
                         }`}
-                        to={PATHS.PRODUCT.INDEX}
+                        to={`${PATHS.PRODUCT.INDEX}/?category=${item?.id}`}
                       >
                         {item?.name}
                       </Link>

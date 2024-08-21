@@ -10,7 +10,8 @@ export const MainContext = createContext({});
 export const MainContextProvider = ({ children }) => {
   const dispatch = useDispatch();
   const { profile } = useSelector((state) => state.auth);
-  const currentPath = useLocation().pathname;
+  const { pathname: currentPath, search } = useLocation();
+
   const [isShowMobileMenu, setIsShowMobileMenu] = useState(false);
   const handleShowMobileMenu = (e) => {
     setIsShowMobileMenu((prev) => !prev);
@@ -43,7 +44,7 @@ export const MainContextProvider = ({ children }) => {
       );
       e.preventDefault();
     });
-  }, [currentPath]);
+  }, [currentPath, search]);
 
   useEffect(() => {
     if (!tokenMethod?.get()) {
