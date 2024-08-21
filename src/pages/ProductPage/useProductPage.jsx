@@ -5,6 +5,7 @@ import { productService } from "../../services/productService";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { SORT_OPTIONS } from "../../constants/general";
 import useQuery from "../../hooks/useQuery";
+import { useSelector } from "react-redux";
 function useProductPage() {
   const PRODUCT_LIMITS = 6;
   const { search } = useLocation();
@@ -22,12 +23,9 @@ function useProductPage() {
 
   const products = productsData?.products || [];
   const productsPagi = productsData?.pagination || {};
-  const {
-    data: categoriesData,
-    loading: categoriesLoading,
-    error: categoriesError,
-  } = useQuery(productService.getProductCategories);
-  const categories = categoriesData?.products || [];
+  const { categories, categoriesLoading, categoriesError } = useSelector(
+    (state) => state.categories
+  );
 
   useEffect(() => {
     fetchProducts(search);

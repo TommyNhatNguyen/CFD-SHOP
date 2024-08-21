@@ -13,6 +13,7 @@ import { productService } from "../../services/productService";
 import SearchComponent from "../SearchComponent";
 import useMutation from "../../hooks/useMutation";
 import { renderProductDropDown } from "../../utils/renderDropDown";
+import { useDispatch, useSelector } from "react-redux";
 
 const MobileMenuContainer = () => {
   const [selectedMenuTab, setSelectedMenuTab] = useState(MENU_TABS.menu);
@@ -23,12 +24,10 @@ const MobileMenuContainer = () => {
     setSelectedMenuTab(e.target.id);
   };
   // Search
-  const { data: productsAllData, execute: getProductsAll } = useMutation(
-    (query) => productService.getProduct(query)
-  );
+  const { products } = useSelector((state) => state.product);
+  const { categories } = useSelector((state) => state.categories);
 
   const options = useMemo(() => {
-    const products = productsAllData?.products || [];
     return [
       {
         label: "Find product",
@@ -39,11 +38,7 @@ const MobileMenuContainer = () => {
         }),
       },
     ];
-  }, [productsAllData]);
-
-  useEffect(() => {
-    getProductsAll();
-  }, [isSearch]);
+  }, [products]);
 
   const autoCompleteRef = useRef();
   const onBlur = () => {
@@ -57,11 +52,6 @@ const MobileMenuContainer = () => {
     setIsSearch(true);
     autoCompleteRef?.current?.focus();
   };
-  // Product categories
-  const { data: productCategoriesData } = useQuery(
-    productService.getProductCategories
-  );
-  const categories = productCategoriesData?.products || [];
   return (
     <div className="mobile-menu-container">
       <div className="mobile-menu-wrapper">
@@ -77,7 +67,7 @@ const MobileMenuContainer = () => {
             onBlur={onBlur}
             ref={autoCompleteRef}
             open={isSearch ? true : false}
-            dropdownMatchSelectWidth
+            popupMatchSelectWidth={220}
             size="large"
             autoFocus={false}
             notFoundContent="Product not found"

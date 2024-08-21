@@ -13,12 +13,9 @@ const useHeaderMiddle = () => {
   const dispatch = useDispatch();
   const { handleShowMobileMenu, isShowMobileMenu } = useMainContext();
   const { cart } = useSelector((state) => state.cart);
-  const { data: productsAllData, execute: getProductsAll } = useMutation(
-    (query) => productService.getProduct(query)
-  );
+  const { products } = useSelector((state) => state.product);
 
   const options = useMemo(() => {
-    const products = productsAllData?.products || [];
     return [
       {
         label: "Find product",
@@ -29,11 +26,7 @@ const useHeaderMiddle = () => {
         }),
       },
     ];
-  }, [productsAllData]);
-
-  useEffect(() => {
-    getProductsAll();
-  }, []);
+  }, [products]);
 
   const { quantity, variant, totalProduct, total } = cart || {};
   const cartProducts = cart?.product?.map((product, index) => {

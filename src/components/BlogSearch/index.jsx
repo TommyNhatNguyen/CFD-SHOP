@@ -6,7 +6,6 @@ import useDebounce from "../../hooks/useDebounce";
 import SearchComponent from "../SearchComponent";
 
 const BlogSearch = ({ options }) => {
-  const navigate = useNavigate();
   const autoCompleteRef = useRef();
   const onSelect = (data) => {
     autoCompleteRef?.current.blur();

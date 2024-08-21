@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { pageService } from "../../services/pageService";
 import { productService } from "../../services/productService";
 import useQuery from "../../hooks/useQuery";
@@ -6,10 +6,14 @@ import useMutation from "../../hooks/useMutation";
 import { subscribeService } from "../../services/subscribeService";
 import { message } from "antd";
 import { GENERAL_MESSAGE, HOME_MESSAGE } from "../../constants/message";
+import { useDispatch, useSelector } from "react-redux";
+import { handleGetProduct } from "../../store/reducer/productReducer";
+import { handleGetCategories } from "../../store/reducer/categoriesReducer";
 
 function useHomePage() {
-  const { data: productsData } = useQuery(productService.getProduct);
-  const products = productsData?.products || [];
+  const dispatch = useDispatch();
+  const { products } = useSelector((state) => state.product);
+  const { categories } = useSelector((state) => state.categories);
   const featuredProducts =
     products?.filter((product) => product.featured) || [];
   const onSaleProducts = products?.filter((product) => product.onSale) || [];
@@ -43,10 +47,7 @@ function useHomePage() {
   const brandProps = { brands };
   // ---End
   /** FEATURE SECTION */
-  const { data: categoriesData } = useQuery(
-    productService.getProductCategories
-  );
-  const categories = categoriesData?.products || [];
+
   const featureProducts =
     selectedCategorySlug === "all"
       ? [...(products || [])]

@@ -15,10 +15,16 @@ import PATHS from "../constants/paths";
 import { PopularPostWrapper } from "../components/StyledComponents";
 import { message } from "antd";
 import { scrollTop } from "../utils/scrollTop";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { renderBlogDropDown } from "../utils/renderDropDown";
+import {
+  handleGetBlogCategories,
+  handleGetBlogTags,
+  handleGetBlogs,
+} from "../store/reducer/blogReducer";
 
 function useBlog() {
+  const dispatch = useDispatch();
   const BLOG_LIMITS = 6;
   const { blogSlug } = useParams();
   const { state } = useLocation();
@@ -33,18 +39,25 @@ function useBlog() {
   } = useMutation((query) =>
     blogService.getBlogs(query || `?limit=${BLOG_LIMITS}`)
   );
-  const { data: blogCategoryData } = useQuery(blogService.getBlogCategories);
-  const { data: blogTagData } = useQuery(blogService.getBlogTags);
-  const { data: blogsAllData } = useQuery(blogService.getBlogs);
   const { data: blogDetailData, execute: fetchBlogDetail } = useMutation(
     (slug) => blogService.getBlogsBySlug(`/${slug}`)
   );
 
   const blogs = blogData?.blogs || [];
   const blogsPagi = blogData?.pagination || [];
-  const blogCategories = blogCategoryData?.blogs || [];
-  const blogTags = blogTagData?.blogs || [];
-  const blogsAll = blogsAllData?.blogs || [];
+
+  useEffect(() => {
+    dispatch(handleGetBlogs());
+    dispatch(handleGetBlogTags());
+    dispatch(handleGetBlogCategories());
+  }, []);
+
+  const {
+    blogTags,
+    blogCategories,
+    blogs: blogsAll,
+  } = useSelector((state) => state.blogs);
+
   const blogDetail = blogDetailData || {};
 
   const [_, setSearchParams] = useSearchParams();
@@ -59,7 +72,7 @@ function useBlog() {
   };
 
   useEffect(() => {
-    fetchBlog(search);
+    if (!blogSlug) fetchBlog(search);
     setSelectedTag([]);
   }, [search]);
 

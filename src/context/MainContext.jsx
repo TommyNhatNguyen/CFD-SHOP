@@ -4,6 +4,8 @@ import { scrollTop } from "../utils/scrollTop";
 import { useDispatch, useSelector } from "react-redux";
 import { handleLogout } from "../store/reducer/authReducer";
 import { tokenMethod } from "../utils/tokenMethod";
+import { handleGetProduct } from "../store/reducer/productReducer";
+import { handleGetCategories } from "../store/reducer/categoriesReducer";
 
 export const MainContext = createContext({});
 
@@ -11,7 +13,6 @@ export const MainContextProvider = ({ children }) => {
   const dispatch = useDispatch();
   const { profile } = useSelector((state) => state.auth);
   const { pathname: currentPath, search } = useLocation();
-
   const [isShowMobileMenu, setIsShowMobileMenu] = useState(false);
   const handleShowMobileMenu = (e) => {
     setIsShowMobileMenu((prev) => !prev);
@@ -51,6 +52,11 @@ export const MainContextProvider = ({ children }) => {
       dispatch(handleLogout());
     }
   }, [profile]);
+
+  useEffect(() => {
+    dispatch(handleGetProduct());
+    dispatch(handleGetCategories());
+  }, []);
 
   return (
     <MainContext.Provider
