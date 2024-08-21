@@ -1,12 +1,39 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useMainContext } from "../../../../context/MainContext";
 import { useDispatch, useSelector } from "react-redux";
 import { handleRemoveFromCart } from "../../../../store/reducer/cartReducer";
+import { productService } from "../../../../services/productService";
+import useMutation from "../../../../hooks/useMutation";
+import PATHS from "../../../../constants/paths";
+import { PopularPostWrapper } from "../../../StyledComponents";
+import { Link } from "react-router-dom";
+import { renderProductDropDown } from "../../../../utils/renderDropDown";
 
 const useHeaderMiddle = () => {
   const dispatch = useDispatch();
   const { handleShowMobileMenu, isShowMobileMenu } = useMainContext();
   const { cart } = useSelector((state) => state.cart);
+  const { data: productsAllData, execute: getProductsAll } = useMutation(
+    (query) => productService.getProduct(query)
+  );
+
+  const options = useMemo(() => {
+    const products = productsAllData?.products || [];
+    return [
+      {
+        label: "Find product",
+        options: products?.map((product) => {
+          const { name, slug, images } = product || {};
+          const productPath = `${PATHS.PRODUCT.INDEX}/${slug || ""}`;
+          return renderProductDropDown(name, images, productPath);
+        }),
+      },
+    ];
+  }, [productsAllData]);
+
+  useEffect(() => {
+    getProductsAll();
+  }, []);
 
   const { quantity, variant, totalProduct, total } = cart || {};
   const cartProducts = cart?.product?.map((product, index) => {
@@ -71,6 +98,7 @@ const useHeaderMiddle = () => {
       });
     }
   }, []);
+
   const handleRemoveProduct = (itemId) => {
     dispatch(handleRemoveFromCart({ itemId }));
   };
@@ -80,6 +108,12 @@ const useHeaderMiddle = () => {
     itemsInCart: new Set(cartProducts?.map((item) => item?.id)).size,
     handleRemoveProduct,
   };
-  return { handleShowMobileMenu, isShowMobileMenu, cartDropdownProps };
+  const searchProps = { options };
+  return {
+    handleShowMobileMenu,
+    isShowMobileMenu,
+    cartDropdownProps,
+    searchProps,
+  };
 };
 export default useHeaderMiddle;

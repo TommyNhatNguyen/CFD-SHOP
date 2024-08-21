@@ -91,7 +91,7 @@ const CartTable = ({
               let imgPath = images?.[0];
               if (imgPath?.split("https")?.length > 2) {
                 imgPath = imgPath?.split("https");
-                imgPath = "https" + imgPath[2];
+                imgPath = "https" + imgPath?.slice(-1);
               }
               return (
                 <tr key={id + index}>

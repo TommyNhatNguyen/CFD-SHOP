@@ -53,10 +53,24 @@ export const SelectWrapper = styled.div`
   }
 `;
 
+export const MobileSelectWrapper = styled(SelectWrapper)`
+  .ant-select-selection-search {
+    color: #fff;
+  }
+
+  .ant-select-selection-placeholder {
+    font-weight: 300;
+    color: #777;
+  }
+`;
+
 export const PopularPostWrapper = styled.li`
   display: flex;
   align-items: flex-start;
   figure {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     max-width: 100px;
   }
   div {

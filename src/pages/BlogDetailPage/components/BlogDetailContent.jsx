@@ -36,6 +36,7 @@ const BlogDetailContent = ({
 }) => {
   const dispatch = useDispatch();
   const [isLogin, setIsLogin] = useState(false);
+  const [_, setForceUpdate] = useState({});
   const { image, name, createdAt, author, description, tags, id } = blogDetail;
   const url = window.location.href;
   const relatedBlogs = useMemo(
@@ -81,6 +82,11 @@ const BlogDetailContent = ({
       setIsLogin(true);
     }
   }, [profile]);
+
+  useEffect(() => {
+    setForceUpdate({});
+  }, [relatedBlogs]);
+
   return (
     <div className="col-lg-9">
       {Object.keys(blogDetail)?.length > 1 ? (

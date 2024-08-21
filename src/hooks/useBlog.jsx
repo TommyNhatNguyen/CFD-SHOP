@@ -16,6 +16,7 @@ import { PopularPostWrapper } from "../components/StyledComponents";
 import { message } from "antd";
 import { scrollTop } from "../utils/scrollTop";
 import { useSelector } from "react-redux";
+import { renderBlogDropDown } from "../utils/renderDropDown";
 
 function useBlog() {
   const BLOG_LIMITS = 6;
@@ -139,34 +140,13 @@ function useBlog() {
     }
   }, [state?.selectedTag, isFilterTag]);
 
-  const renderItem = (name, image, blogPath, createdAt) => ({
-    value: [name, blogPath],
-    label: (
-      <ul className="posts-list">
-        <PopularPostWrapper>
-          <figure>
-            <Link to={blogPath || ""}>
-              <img src={image || ""} alt="post" />
-            </Link>
-          </figure>
-          <div>
-            <span>{formatDate(createdAt || "")}</span>
-            <h4>
-              <Link to={blogPath || ""}>{name || ""}</Link>
-            </h4>
-          </div>
-        </PopularPostWrapper>
-      </ul>
-    ),
-  });
-
   const options = [
     {
       label: "Find your blog",
       options: blogsAll?.map((blog) => {
         const { name, slug, image, createdAt } = blog || {};
         const blogPath = `${PATHS.BLOG.INDEX}/${slug || ""}`;
-        return renderItem(name, image, blogPath, createdAt);
+        return renderBlogDropDown(name, image, blogPath, createdAt);
       }),
     },
   ];

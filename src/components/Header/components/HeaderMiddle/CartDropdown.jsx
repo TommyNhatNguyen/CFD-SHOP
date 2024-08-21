@@ -61,7 +61,7 @@ const CartDropdown = ({
               let imgPath = images?.[0];
               if (imgPath?.split("https")?.length > 2) {
                 imgPath = imgPath?.split("https");
-                imgPath = "https" + imgPath[2];
+                imgPath = "https" + imgPath?.slice(-1);
               }
               return (
                 <div key={id + index} className="product">
@@ -105,13 +105,17 @@ const CartDropdown = ({
               </span>
             </div>
             <div className="dropdown-cart-action">
-              <Button link={PATHS.CART} variant="primmary2">
+              <Button
+                link={PATHS.CART}
+                variant="primmary2"
+                style={{ width: "100%" }}
+              >
                 View Cart
               </Button>
-              <Button link={PATHS.CHECKOUT} variant="outline-primary">
+              {/* <Button link={PATHS.CHECKOUT} variant="outline-primary">
                 <span>Checkout</span>
                 <i className="icon-long-arrow-right" />
-              </Button>
+              </Button> */}
             </div>
           </>
         )}

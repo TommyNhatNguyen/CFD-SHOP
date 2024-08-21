@@ -2,47 +2,35 @@ import { AutoComplete } from "antd";
 import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { SelectWrapper } from "../StyledComponents";
+import useDebounce from "../../hooks/useDebounce";
+import SearchComponent from "../SearchComponent";
 
 const BlogSearch = ({ options }) => {
-  const [value, setValue] = useState("");
   const navigate = useNavigate();
   const autoCompleteRef = useRef();
-  const onChange = (data) => {
-    setValue(data);
-  };
-
   const onSelect = (data) => {
-    const blogPath = data?.[1];
-    navigate(blogPath);
     autoCompleteRef?.current.blur();
   };
-
   return (
     <div className="widget widget-search">
       <h3 className="widget-title">Search</h3>
       <SelectWrapper>
         <div style={{ position: "relative" }}>
-          <AutoComplete
-            ref={autoCompleteRef}
-            value={value}
-            popupMatchSelectWidth={400}
+          <SearchComponent
             options={options}
-            size="large"
-            onChange={onChange}
+            ref={autoCompleteRef}
             onSelect={onSelect}
+            popupMatchSelectWidth={400}
+            size="large"
             autoFocus={false}
             placeholder="Search in blog"
             notFoundContent="Blogs not found"
-            filterOption={(inputVal, option) => {
-              return option?.value?.[0]
-                .toLowerCase()
-                .includes(inputVal.toLowerCase());
-            }}
             className="form-control"
-          ></AutoComplete>
-          <button type="submit" className="btn">
-            <i className="icon-search" />
-          </button>
+          >
+            <button type="submit" className="btn">
+              <i className="icon-search" />
+            </button>
+          </SearchComponent>
         </div>
       </SelectWrapper>
     </div>

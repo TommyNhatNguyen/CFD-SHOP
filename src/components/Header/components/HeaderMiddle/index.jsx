@@ -8,9 +8,12 @@ import Search from "./Search";
 import useHeaderMiddle from "./useHeaderMiddle";
 
 const HeaderMiddle = () => {
-  const { handleShowMobileMenu, isShowMobileMenu, cartDropdownProps } =
-    useHeaderMiddle();
-  const { handleResetPage } = useMainContext();
+  const {
+    handleShowMobileMenu,
+    isShowMobileMenu,
+    cartDropdownProps,
+    searchProps,
+  } = useHeaderMiddle();
   return (
     <div className="header-middle sticky-header">
       <div className="container">
@@ -50,7 +53,7 @@ const HeaderMiddle = () => {
           </MenuStyled>
         </nav>
         <div className="header-right">
-          <Search />
+          <Search {...searchProps} />
           <CartDropdown {...cartDropdownProps} />
         </div>
       </div>

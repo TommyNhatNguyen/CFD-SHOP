@@ -2,6 +2,7 @@ import axios from "axios";
 import { tokenMethod } from "./tokenMethod";
 import { ENV } from "../constants/environments";
 import { authService } from "../services/authService";
+import { useDispatch } from "react-redux";
 
 export const axiosInstance = axios.create({
   baseURL: ENV.BASE_URL,

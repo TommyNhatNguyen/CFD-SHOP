@@ -43,7 +43,7 @@ const OrderTab = () => {
       role="tabpanel"
       aria-labelledby="tab-orders-link"
     >
-      {orders ? (
+      {orders?.length > 0 ? (
         <table className="table table-cart table-mobile">
           <thead>
             <tr>

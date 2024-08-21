@@ -1,10 +1,15 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { scrollTop } from "../utils/scrollTop";
+import { useDispatch, useSelector } from "react-redux";
+import { handleLogout } from "../store/reducer/authReducer";
+import { tokenMethod } from "../utils/tokenMethod";
 
 export const MainContext = createContext({});
 
 export const MainContextProvider = ({ children }) => {
+  const dispatch = useDispatch();
+  const { profile } = useSelector((state) => state.auth);
   const currentPath = useLocation().pathname;
   const [isShowMobileMenu, setIsShowMobileMenu] = useState(false);
   const handleShowMobileMenu = (e) => {
@@ -39,6 +44,12 @@ export const MainContextProvider = ({ children }) => {
       e.preventDefault();
     });
   }, [currentPath]);
+
+  useEffect(() => {
+    if (!tokenMethod?.get()) {
+      dispatch(handleLogout());
+    }
+  }, [profile]);
 
   return (
     <MainContext.Provider
