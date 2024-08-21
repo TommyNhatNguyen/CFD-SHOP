@@ -6,7 +6,7 @@ import Button from "../../Button";
 import CheckBox from "../../CheckBox";
 import { Link } from "react-router-dom";
 import PATHS from "../../../constants/paths";
-import { useAuthContext } from "../../../context/AuthContext";
+
 import classNames from "classnames";
 import { useForm } from "react-hook-form";
 import useDebounce from "../../../hooks/useDebounce";

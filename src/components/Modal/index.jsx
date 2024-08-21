@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import LoginForm from "./components/LoginForm";
 import RegisterForm from "./components/RegisterForm";
 import styled from "styled-components";
-import { useAuthContext } from "../../context/AuthContext";
+
 import { MODAL } from "../../constants/modal";
 import classNames from "classnames";
 import { useDispatch, useSelector } from "react-redux";

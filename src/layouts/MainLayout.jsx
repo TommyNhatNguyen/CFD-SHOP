@@ -7,7 +7,6 @@ import MobileMenuContainer from "../components/MobileMenuContainer";
 import Modal from "../components/Modal";
 import Button from "../components/Button";
 import { createPortal } from "react-dom";
-import { AuthContextProvider } from "../context/AuthContext";
 import ModalBackDrop from "../components/ModalBackDrop";
 import { MainContextProvider } from "../context/MainContext";
 import ScrollTop from "../components/ScrollTop";

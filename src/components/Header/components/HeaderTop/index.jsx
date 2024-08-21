@@ -1,5 +1,5 @@
 import React from "react";
-import { useAuthContext } from "../../../../context/AuthContext";
+
 import { MODAL } from "../../../../constants/modal";
 import { Link, useNavigate } from "react-router-dom";
 import PATHS from "../../../../constants/paths";
