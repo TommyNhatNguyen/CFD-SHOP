@@ -29,11 +29,12 @@ export const authSlice = createSlice({
     },
     handleLogout: (state) => {
       if (!!tokenMethod.get()) {
-        message.success("Logout Successful");
         tokenMethod.delete();
+        message.success("Logout Successful");
       }
       state.profile = null;
       state.showModal = "";
+      document.body.classList.remove("modal-open");
     },
   },
   extraReducers: (builder) => {
@@ -80,20 +81,22 @@ export default authReducer;
 
 export const handleLogin = createAsyncThunk(
   "auth/handleLogin",
-  async (payload, { dispatch, getState, rejectWithValue }) => {
+  async (payload, { dispatch, rejectWithValue }) => {
     try {
-      const data = {
-        email: payload?.email,
-        password: payload?.password,
-      };
-      const res = await authService.login(data);
-      if (res?.data?.data) {
-        const { token: accessToken, refreshToken } = res.data.data || {};
-        tokenMethod.set({ accessToken, refreshToken });
-        dispatch(handleGetProfile());
-        dispatch(handleGetCart());
-        message.success("Login Successful");
-        return res?.data?.data;
+      if (!!!tokenMethod?.get()) {
+        const data = {
+          email: payload?.email,
+          password: payload?.password,
+        };
+        const res = await authService.login(data);
+        if (res?.data?.data) {
+          const { token: accessToken, refreshToken } = res.data.data || {};
+          tokenMethod.set({ accessToken, refreshToken });
+          dispatch(handleGetProfile());
+          dispatch(handleGetCart());
+          message.success("Login Successful");
+          return res?.data?.data;
+        }
       }
     } catch (error) {
       message.error(error?.response?.data?.message);
