@@ -1,8 +1,5 @@
-import { AutoComplete } from "antd";
-import React, { useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useRef } from "react";
 import { SelectWrapper } from "../StyledComponents";
-import useDebounce from "../../hooks/useDebounce";
 import SearchComponent from "../SearchComponent";
 
 const BlogSearch = ({ options }) => {

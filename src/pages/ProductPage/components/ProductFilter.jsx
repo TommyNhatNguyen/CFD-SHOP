@@ -1,9 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import CheckBox from "../../../components/CheckBox";
-import useQuery from "../../../hooks/useQuery";
-import { productService } from "../../../services/productService";
 import { useLocation } from "react-router-dom";
-import { useMainContext } from "../../../context/MainContext";
 
 const ProductFilter = ({
   productsAllFiltered,

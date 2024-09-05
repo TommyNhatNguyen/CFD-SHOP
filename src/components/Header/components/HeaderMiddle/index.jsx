@@ -1,8 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { MenuStyled } from "../../../StyledComponents";
 import { Link, NavLink } from "react-router-dom";
 import PATHS from "../../../../constants/paths";
-import { useMainContext } from "../../../../context/MainContext";
 import CartDropdown from "./CartDropdown";
 import Search from "./Search";
 import useHeaderMiddle from "./useHeaderMiddle";

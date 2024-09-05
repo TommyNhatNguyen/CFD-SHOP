@@ -2,11 +2,7 @@ import { useEffect, useMemo } from "react";
 import { useMainContext } from "../../../../context/MainContext";
 import { useDispatch, useSelector } from "react-redux";
 import { handleRemoveFromCart } from "../../../../store/reducer/cartReducer";
-import { productService } from "../../../../services/productService";
-import useMutation from "../../../../hooks/useMutation";
 import PATHS from "../../../../constants/paths";
-import { PopularPostWrapper } from "../../../StyledComponents";
-import { Link } from "react-router-dom";
 import { renderProductDropDown } from "../../../../utils/renderDropDown";
 
 const useHeaderMiddle = () => {

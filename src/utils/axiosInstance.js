@@ -20,8 +20,8 @@ axiosInstance.interceptors.request.use(
 );
 
 axiosInstance.interceptors.response.use(
-  function (config) {
-    return config;
+  function (response) {
+    return response;
   },
   async function (error) {
     const originalRequest = error.config;

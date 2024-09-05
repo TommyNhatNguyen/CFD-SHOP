@@ -1,19 +1,12 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import {
-  MenuStyled,
-  MobileSelectWrapper,
-  SelectWrapper,
-} from "../StyledComponents";
+import { MenuStyled, MobileSelectWrapper } from "../StyledComponents";
 import { Link, NavLink } from "react-router-dom";
 import PATHS from "../../constants/paths";
 import { useMainContext } from "../../context/MainContext";
 import { MENU_TABS } from "../../constants/general";
-import useQuery from "../../hooks/useQuery";
-import { productService } from "../../services/productService";
 import SearchComponent from "../SearchComponent";
-import useMutation from "../../hooks/useMutation";
 import { renderProductDropDown } from "../../utils/renderDropDown";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 const MobileMenuContainer = () => {
   const [selectedMenuTab, setSelectedMenuTab] = useState(MENU_TABS.menu);

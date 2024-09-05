@@ -1,5 +1,5 @@
 import { Skeleton, Empty } from "antd";
-import React, { useEffect } from "react";
+import React from "react";
 import { FullSizeSkeleton } from "../../../components/StyledComponents";
 import PATHS from "../../../constants/paths";
 import { Link } from "react-router-dom";

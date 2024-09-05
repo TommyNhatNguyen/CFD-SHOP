@@ -1,8 +1,7 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { formatDate } from "../../../utils/format";
-import { owlCarousels } from "../../../utils/owlCarousels";
 import OwlCarousel from "react-owl-carousel";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import PATHS from "../../../constants/paths";
 import ComponentLoading from "../../../components/ComponentLoading";
 import ShareLink from "../../../components/ShareLink";

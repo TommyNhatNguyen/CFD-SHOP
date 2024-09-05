@@ -4,7 +4,6 @@ import useMutation from "../../hooks/useMutation";
 import { productService } from "../../services/productService";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { SORT_OPTIONS } from "../../constants/general";
-import useQuery from "../../hooks/useQuery";
 import { useSelector } from "react-redux";
 function useProductPage() {
   const PRODUCT_LIMITS = 6;

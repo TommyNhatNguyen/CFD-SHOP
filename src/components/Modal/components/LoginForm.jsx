@@ -1,16 +1,14 @@
 import React, { useState } from "react";
-import Input from "../../Input";
 import Button from "../../Button";
 import CheckBox from "../../CheckBox";
 
 import ComponentLoading from "../../ComponentLoading";
 import classNames from "classnames";
-import useDebounce from "../../../hooks/useDebounce";
 import { useForm } from "react-hook-form";
 import { MESSAGE } from "../../../constants/message";
 import { REGEX } from "../../../utils/regex";
 import InputUseForm from "../../InputUseForm";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { handleLogin } from "../../../store/reducer/authReducer";
 import { message } from "antd";
 

@@ -1,14 +1,11 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { pageService } from "../../services/pageService";
-import { productService } from "../../services/productService";
 import useQuery from "../../hooks/useQuery";
 import useMutation from "../../hooks/useMutation";
 import { subscribeService } from "../../services/subscribeService";
 import { message } from "antd";
 import { GENERAL_MESSAGE, HOME_MESSAGE } from "../../constants/message";
 import { useDispatch, useSelector } from "react-redux";
-import { handleGetProduct } from "../../store/reducer/productReducer";
-import { handleGetCategories } from "../../store/reducer/categoriesReducer";
 
 function useHomePage() {
   const dispatch = useDispatch();

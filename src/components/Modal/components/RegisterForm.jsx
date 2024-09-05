@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { MODAL, MODAL_FORM } from "../../../constants/modal";
-import Input from "../../Input";
 import { REGEX } from "../../../utils/regex";
 import Button from "../../Button";
 import CheckBox from "../../CheckBox";
@@ -9,21 +7,18 @@ import PATHS from "../../../constants/paths";
 
 import classNames from "classnames";
 import { useForm } from "react-hook-form";
-import useDebounce from "../../../hooks/useDebounce";
 import { MESSAGE } from "../../../constants/message";
 import InputUseForm from "../../InputUseForm";
 import ComponentLoading from "../../ComponentLoading";
 import { message } from "antd";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { handleRegister } from "../../../store/reducer/authReducer";
 const RegisterForm = ({ modal }) => {
-  // const { handleRegister, messageApi } = useAuthContext();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  // const { loading } = useSelector((state) => state.auth);
   useEffect(() => {
     if (errors?.isAgree) {
       message.warning("Please agree with our policy to continue");

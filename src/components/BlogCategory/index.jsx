@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import PATHS from "../../constants/paths";
 
 const BlogCategory = ({ blogCategories, blogsAll }) => {

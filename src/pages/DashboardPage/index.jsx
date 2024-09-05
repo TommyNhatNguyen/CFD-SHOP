@@ -1,8 +1,4 @@
 import React from "react";
-import AccountDetailTab from "./components/AccountDetailTab";
-import OrderTab from "./components/OrderTab";
-import AdressesTab from "./components/AdressesTab";
-import WishlistTab from "./components/WishlistTab";
 import { Outlet } from "react-router-dom";
 import BreadCrumb from "../../components/BreadCrumb";
 import PATHS from "../../constants/paths";

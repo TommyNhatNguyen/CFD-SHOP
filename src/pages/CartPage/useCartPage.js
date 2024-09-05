@@ -4,12 +4,9 @@ import {
   handleRemoveFromCart,
   handleUpdateCart,
 } from "../../store/reducer/cartReducer";
-import { Children, useRef, useState } from "react";
-import { cartService } from "../../services/cartService";
+import { useRef } from "react";
 import { SHIPPING_OPTIONS } from "../../constants/general";
 import { message } from "antd";
-import { Navigate, useNavigate } from "react-router-dom";
-import PATHS from "../../constants/paths";
 
 function useCartPage() {
   const dispatch = useDispatch();

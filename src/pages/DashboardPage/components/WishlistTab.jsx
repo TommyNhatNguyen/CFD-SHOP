@@ -6,13 +6,9 @@ import { Link } from "react-router-dom";
 import { formatCurrency } from "../../../utils/format";
 import classNames from "classnames";
 import { Modal, message } from "antd";
-import {
-  handleGetProfile,
-  handleRemoveWhiteList,
-} from "../../../store/reducer/authReducer";
+import { handleRemoveWhiteList } from "../../../store/reducer/authReducer";
 import { handleAddCart } from "../../../store/reducer/cartReducer";
 import { ProductTitleWrapper } from "../../../components/StyledComponents";
-import ColorSelect from "../../../components/ColorSelect";
 
 const WishlistTab = () => {
   const dispatch = useDispatch();

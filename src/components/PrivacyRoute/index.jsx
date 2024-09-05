@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Navigate, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { tokenMethod } from "../../utils/tokenMethod";
 import PATHS from "../../constants/paths";
 import { useDispatch, useSelector } from "react-redux";

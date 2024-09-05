@@ -5,8 +5,6 @@ import { formatCurrency } from "../../../../utils/format";
 import Button from "../../../Button";
 import ColorSelect from "../../../ColorSelect";
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
-import { handleRemoveFromCart } from "../../../../store/reducer/cartReducer";
 
 const DropdownContainer = styled.div`
   max-height: 30vh;

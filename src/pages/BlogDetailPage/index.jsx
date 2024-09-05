@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React from "react";
 import useBlog from "../../hooks/useBlog";
 import BreadCrumb from "../../components/BreadCrumb";
 import PATHS from "../../constants/paths";
@@ -8,8 +8,6 @@ import BlogPopular from "../../components/BlogPopular";
 import BlogAdBanner from "../../components/BlogAdBanner";
 import BlogTag from "../../components/BlogTag";
 import BlogDetailContent from "./components/BlogDetailContent";
-import { useNavigate, useParams } from "react-router-dom";
-import { owlCarousels } from "../../utils/owlCarousels";
 
 const BlogDetailPage = () => {
   const {

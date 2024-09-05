@@ -6,8 +6,6 @@ import InputUseForm from "../../../components/InputUseForm";
 import { MESSAGE } from "../../../constants/message";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { orderService } from "../../../services/orderService";
-import useQuery from "../../../hooks/useQuery";
 import classNames from "classnames";
 import { MODAL } from "../../../constants/modal";
 import { handleShowModal } from "../../../store/reducer/authReducer";

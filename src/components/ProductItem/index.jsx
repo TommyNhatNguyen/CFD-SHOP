@@ -2,18 +2,11 @@ import React from "react";
 import { Link } from "react-router-dom";
 import PATHS from "../../constants/paths";
 import { formatCurrency } from "../../utils/format";
-import { reviewService } from "../../services/reviewService";
-import useQuery from "../../hooks/useQuery";
 import styled from "styled-components";
 import { Empty } from "antd";
 import { useDispatch } from "react-redux";
 import { handleAddCart } from "../../store/reducer/cartReducer";
-import { tokenMethod } from "../../utils/tokenMethod";
-import {
-  handleAddWhiteList,
-  handleShowModal,
-} from "../../store/reducer/authReducer";
-import { MODAL } from "../../constants/modal";
+import { handleAddWhiteList } from "../../store/reducer/authReducer";
 
 const ImageWrapper = styled.div`
   width: 100%;
